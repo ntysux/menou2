@@ -1,4 +1,5 @@
 import Signin from "@/components/signin"
+import Signup from "@/components/signup"
 
 export default function InitPage() {
   return (
@@ -7,7 +8,7 @@ export default function InitPage() {
         <div className="space-y-3">
           <h2>Menoú</h2>
           <Signin />
-          <button>Tạo tài khoản</button>
+          <Signup />
         </div>
       </div>
     </>    
