@@ -1,7 +1,9 @@
 'use client'
 
 import { Dialog, Transition } from '@headlessui/react'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { Fragment, useState } from 'react'
+import { object, string } from 'yup'
 
 export default function Signin() {
   let [isOpen, setIsOpen] = useState(false)
@@ -13,6 +15,11 @@ export default function Signin() {
   function openModal() {
     setIsOpen(true)
   }
+
+  const schema = object({
+    username: string().required('Trống'),
+    password: string().required('Trống')
+  })
 
   return (
     <>
@@ -46,7 +53,38 @@ export default function Signin() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  
+                  <Formik
+                    initialValues={{ username: '', password: '' }}
+                    validationSchema={schema}
+                    onSubmit={(values, { setSubmitting }) => {
+                      console.log(values)
+                      setSubmitting(false)
+                    }}
+                  >
+                    {({values}) => (
+                      <Form>
+                        <div className='flex space-x-3'>
+                          <Field 
+                            type="text" 
+                            name="username" 
+                            placeholder="Tên đăng nhập"
+                          />
+                          <ErrorMessage name='username' component="div" className='text-xs text-pink-400 font-medium' />
+                        </div>
+                        <div className='flex space-x-3'>
+                          <Field 
+                            type="password" 
+                            name="password" 
+                            placeholder="Mật khẩu"
+                          />
+                          <ErrorMessage name='password' component="div" className='text-xs text-pink-400 font-medium' />
+                        </div>
+                        <button type='submit'>
+                          Đăng nhập
+                        </button>
+                      </Form>
+                    )}
+                  </Formik>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
