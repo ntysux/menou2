@@ -10,15 +10,11 @@ async function allMenuPagesById() {
   })
   const rs = await res.json()
 
-  if (rs.menuPages) {
-    return rs.menuPages
-  }
-
-  return undefined
+  return rs
 }
 
 export default async function MenuPage() {
   const rs = await allMenuPagesById()
 
-  return <MenuContent />
+  return !rs.error ? <MenuContent pages={rs.menuPages} /> : <>{rs.error}</>
 }

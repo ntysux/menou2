@@ -1,9 +1,15 @@
 'use client'
 import Link from 'next/link'
-import { useAppSelector } from '@/redux/hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { useEffect } from 'react'
+import { initMenu } from '@/redux/menu/slice'
 
-export default function MenuContent() {
-  const pages = useAppSelector(state => state.menu)
+export default function MenuContent({pages}: {pages: any}) {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(initMenu(pages))
+  }, [])
+  const menu = useAppSelector(state => state.menu)
   
   return (
     <div className="w-screen max-w-5xl mx-auto">
@@ -15,7 +21,7 @@ export default function MenuContent() {
 
       <div className='mt-9'>
         {
-          pages.map((page: any, index: number) =>
+          menu.map((page: any, index: number) =>
             !page.deleted &&
             <div key={index} className='flex space-x-3'>
               <h2>{page.name}</h2>
