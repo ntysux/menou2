@@ -11,7 +11,11 @@ async function allMenuPagesById(cookie: any) {
   })
   const rs = await res.json()
 
-  return rs
+  if (rs.menuPages) {
+    return rs.menuPages
+  }
+
+  return undefined
 }
 
 export default async function MenuLayout({
