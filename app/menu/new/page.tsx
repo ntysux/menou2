@@ -17,9 +17,11 @@ export default function NewPageMenu() {
   return (
     <>
       <Formik
-        initialValues={{name: '', status: false, currents: Array(3).fill(''), library: Array(3).fill([])}}
+        initialValues={{name: '', status: false, currents: Array(3).fill(''), library: Array(3).fill([]), errors: ''}}
         validationSchema={schema}
-        onSubmit={async (values, {setSubmitting}) => {
+        onSubmit={async (values, {setSubmitting, setFieldError}) => {
+          setSubmitting(true)
+
           const res = await fetch(`${url}/menu/new/api`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -27,8 +29,14 @@ export default function NewPageMenu() {
           })
 
           const rs = await res.json()
-          console.log(rs)
-
+          
+          if (rs.id) {
+            router.push('/menu')
+            return
+          } else {
+            setFieldError('errors', rs.error)
+          }
+          
           setSubmitting(false)
         }}
       >
@@ -97,6 +105,7 @@ export default function NewPageMenu() {
             <button type="button" onClick={submitForm}>
               Tạo
             </button>
+            <ErrorMessage name='errors' component="div" className='text-xs text-pink-400 font-medium' />
           </Form>
         )}
       </Formik>
