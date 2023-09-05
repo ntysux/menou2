@@ -32,6 +32,6 @@ export default async function MenuPage() {
       </div>
     </>
   ) : (
-    <>Lỗi: không xác định</>
+    <>Lỗi: {pages.error}</>
   )
 }
