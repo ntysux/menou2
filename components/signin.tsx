@@ -2,11 +2,15 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { useRouter } from 'next/navigation'
 import { Fragment, useState } from 'react'
 import { object, string } from 'yup'
 
+const url = process.env.NEXT_PUBLIC_APP_URL
+
 export default function Signin() {
-  let [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   function closeModal() {
     setIsOpen(false)
@@ -56,8 +60,23 @@ export default function Signin() {
                   <Formik
                     initialValues={{ username: '', password: '' }}
                     validationSchema={schema}
-                    onSubmit={(values, { setSubmitting }) => {
-                      console.log(values)
+                    onSubmit={async(values, { setSubmitting, setFieldError }) => {
+                      setSubmitting(true)
+                      const res = await fetch(`${url}/auth/api/signin`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({values})
+                      })
+
+                      const rs = await res.json()
+                      
+                      if(rs.id) {
+                        router.replace('/menu')
+                      } else {
+                        setFieldError('username', rs.error)
+                        return
+                      }
+                      
                       setSubmitting(false)
                     }}
                   >
