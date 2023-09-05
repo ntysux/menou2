@@ -1,4 +1,5 @@
 import Signin from "@/components/signin"
+import ReduxProviders from "@/redux/providers"
 import SetInitMenuPages from "@/utils/menu/set.init"
 import { cookies } from "next/headers"
 
@@ -25,9 +26,11 @@ export default async function MenuLayout({
     <>
       {!cookie && <Signin />}
 
-      <SetInitMenuPages pages={rs}>
-        {children}
-      </SetInitMenuPages>
+      <ReduxProviders>
+        <SetInitMenuPages pages={rs}>
+          {children}
+        </SetInitMenuPages>
+      </ReduxProviders>
     </>
   )
 }
