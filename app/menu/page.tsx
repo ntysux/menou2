@@ -15,9 +15,9 @@ async function getData() {
 }
 
 export default async function MenuPage() {
-  const pages = await getData()
+  const rs = await getData()
 
-  return !pages.error ? (
+  return !rs.error ? (
     <>
       <div className="w-screen max-w-5xl mx-auto">
         <div>
@@ -27,11 +27,19 @@ export default async function MenuPage() {
         </div>
 
         <div className='mt-9'>
-          data here
+          {
+            rs.menuPages.map((page: any, index: number) =>
+              <div key={index} className='flex space-x-3'>
+                <h2>{page.name}</h2>
+                <button>Xóa</button>
+                <button>Sửa</button>
+              </div>
+            )
+          }
         </div>
       </div>
     </>
   ) : (
-    <>Lỗi: {pages.error}</>
+    <>Lỗi: {rs.error}</>
   )
 }
