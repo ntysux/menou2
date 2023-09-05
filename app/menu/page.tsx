@@ -34,6 +34,9 @@ export default async function MenuPage() {
                 <h2>{page.name}</h2>
                 <button>Xóa</button>
                 <button>Sửa</button>
+                <Link href={`/menu/${page.id}`}>
+                  <button>Đầy đủ</button>
+                </Link>
               </div>
             )
           }
