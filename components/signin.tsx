@@ -8,16 +8,14 @@ import { object, string } from 'yup'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
-export default function Signin() {
-  const [isOpen, setIsOpen] = useState(false)
+export default function Signin({children} : {children?: (setState: any) => React.ReactNode}) {
+  const [isOpen, setOpen] = useState(children ? false : true)
   const router = useRouter()
 
   function closeModal() {
-    setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
+    if (children) {
+      setOpen(false)
+    }
   }
 
   const schema = object({
@@ -27,9 +25,7 @@ export default function Signin() {
 
   return (
     <>
-      <button onClick={openModal}>
-        Đăng nhập
-      </button>
+      {children && children(setOpen)}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -71,7 +67,11 @@ export default function Signin() {
                       const rs = await res.json()
                       
                       if(rs.id) {
-                        router.replace('/menu')
+                        if (children) {
+                          router.replace('/menu')
+                        } else {
+                          router.refresh()
+                        }
                       } else {
                         setFieldError('username', rs.error)
                         return
