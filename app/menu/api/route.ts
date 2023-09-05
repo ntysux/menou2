@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
-import { Client as NotionClient } from "@notionhq/client"
+import { Client } from "@notionhq/client"
 import { JwtPayload, decode } from 'jsonwebtoken'
 
-const notion = new NotionClient({auth: process.env.NOTION_KEY})
+const notion = new Client({auth: process.env.NOTION_KEY})
 const notionMenouId = process.env.NOTION_MENOU
 
 export async function GET(request: NextRequest) {
