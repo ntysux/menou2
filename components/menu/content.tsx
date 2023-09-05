@@ -6,10 +6,12 @@ import { initMenu } from '@/redux/menu/slice'
 
 export default function MenuContent({pages}: {pages: any}) {
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(initMenu(pages))
-  }, [])
   const menu = useAppSelector(state => state.menu)
+  useEffect(() => {
+    if (!menu.length && pages.length) {
+      dispatch(initMenu(pages))
+    }
+  }, [])
   
   return (
     <div className="w-screen max-w-5xl mx-auto">
