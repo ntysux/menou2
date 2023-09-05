@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers'
+import Link from 'next/link'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -13,14 +14,16 @@ async function getData() {
   return rs
 }
 
-export default async function Page() {
+export default async function MenuPage() {
   const pages = await getData()
 
   return !pages.error ? (
     <>
       <div className="w-screen max-w-5xl mx-auto">
         <div>
-          <button>Thêm mới</button>
+          <Link href='/menu/new'>
+            <button>Thêm mới</button>
+          </Link>
         </div>
 
         <div className='mt-9'>
