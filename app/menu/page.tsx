@@ -29,6 +29,7 @@ export default async function MenuPage() {
         <div className='mt-9'>
           {
             rs.menuPages.map((page: any, index: number) =>
+              !page.deleted &&
               <div key={index} className='flex space-x-3'>
                 <h2>{page.name}</h2>
                 <button>Xóa</button>
