@@ -26,7 +26,7 @@ export default function NewPageMenu() {
         onSubmit={async (values, {setSubmitting, setFieldError}) => {
           setSubmitting(true)
 
-          const res = await fetch(`${url}/menu/new/api`, {
+          const res = await fetch(`${url}/menu/current/api`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({values})
