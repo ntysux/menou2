@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppDispatch } from '@/redux/hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { addMenu } from '@/redux/menu/slice'
 import { IconX } from '@tabler/icons-react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
@@ -15,6 +15,7 @@ const schema = object({
 
 export default function NewPageMenu() {
   const dispatch = useAppDispatch()
+  const menu = useAppSelector(state => state.menu)
   const router = useRouter()
 
   return (
@@ -34,7 +35,10 @@ export default function NewPageMenu() {
           const rs = await res.json()
           
           if (!rs.error) {
-            dispatch(addMenu(rs))
+            if (menu.length) {
+              dispatch(addMenu(rs))
+            }
+            
             router.push('/menu')
             return
           } else {
