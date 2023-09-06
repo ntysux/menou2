@@ -52,3 +52,20 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({error: 'An unknown error'})
 }
+
+export async function POST(request: NextRequest) {
+  const {id} = await request.json()
+
+  console.log(id)
+
+  const pageUpdated = await notion.pages.update({
+    page_id: id,
+    properties: {
+      deleted: {
+        checkbox: true
+      }
+    }
+  })
+  
+  return NextResponse.json({id: pageUpdated.id})
+}
