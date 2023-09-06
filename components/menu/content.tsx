@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
 import { initMenu, removeMenu } from '@/redux/menu/slice'
+import CUDialog from './crud/c.u.dialog'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -19,7 +20,7 @@ export default function MenuContent({pages}: {pages: any}) {
   async function handleDelete(index: number, id: string) {
     dispatch(removeMenu(index))
     
-    await fetch(`${url}/menu/api`, {
+    await fetch(`${url}/menu/api/delete`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({id})
@@ -29,7 +30,13 @@ export default function MenuContent({pages}: {pages: any}) {
   return (
     <div className="w-screen max-w-5xl mx-auto">
       <div>
-        <button>Thêm mới</button>
+        <CUDialog>
+          {setOpen => 
+            <button onClick={() => setOpen(true)}>
+              Thêm mới
+            </button>
+          }
+        </CUDialog>
       </div>
 
       <div className='mt-9'>
@@ -39,7 +46,13 @@ export default function MenuContent({pages}: {pages: any}) {
             <div key={index} className='flex space-x-3'>
               <h2>{page.name}</h2>
               <button onClick={() => handleDelete(index, page.id)}>Xóa</button>
-              <button>Sửa</button>
+              <CUDialog index={index}>
+                {setOpen => 
+                  <button onClick={() => setOpen(true)}>
+                    Sửa
+                  </button>
+                }
+              </CUDialog>
               <Link href={`/menu/${page.id}`}>
                 <button>Đầy đủ</button>
               </Link>
