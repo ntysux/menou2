@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     if(typeof tokenDecoded !== 'string' && tokenDecoded !== null) {
       const uid: string = tokenDecoded['id']
 
-      const newPageResponse = await notion.pages.create({
+      const newPageResponse: any = await notion.pages.create({
         parent: {
           database_id: notionMenouId!
         },
@@ -74,9 +74,18 @@ export async function POST(request: NextRequest) {
         }
       })
 
-      const id = newPageResponse.id
+      const {id} = newPageResponse
 
-      return NextResponse.json({id})
+      return NextResponse.json({
+        id, 
+        uid, 
+        name,
+        deleted: false,
+        materials: materials.length ? materials : undefined,
+        required: required.length ? required : undefined,
+        steps: steps.length ? steps : undefined,
+        status
+      })
     }
   }
 
