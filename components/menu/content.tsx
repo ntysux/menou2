@@ -29,9 +29,7 @@ export default function MenuContent({pages}: {pages: any}) {
   return (
     <div className="w-screen max-w-5xl mx-auto">
       <div>
-        <Link href='/menu/current?type=new'>
-          <button>Thêm mới</button>
-        </Link>
+        <button>Thêm mới</button>
       </div>
 
       <div className='mt-9'>
