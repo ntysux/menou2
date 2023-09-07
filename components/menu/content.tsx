@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { initMenu, removeMenu } from '@/redux/menu/slice'
+import { checkedMenu, initMenu, removeMenu, removeMultiMenu } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
@@ -37,7 +37,7 @@ export default function MenuContent({pages}: {pages: any}) {
             </button>
           }
         </CUDialog>
-        <button>
+        <button onClick={() => dispatch(removeMultiMenu())}>
           Xóa
         </button>
         <button>
@@ -52,8 +52,9 @@ export default function MenuContent({pages}: {pages: any}) {
             <div key={index} className='flex items-center space-x-3'>
 
               <input 
-                type="checkbox" 
+                type="checkbox"
                 className='appearance-none w-6 h-6 ring-1 ring-neutral-300 rounded-lg checked:ring-2 checked:ring-neutral-800' 
+                onChange={e => dispatch(checkedMenu({checked: e.target.checked, index}))}
               />
               
               <h2>{page.name}</h2>
