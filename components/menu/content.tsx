@@ -15,9 +15,18 @@ async function handleDelete(id: string) {
   })
 }
 
+async function handleDeleteMulti(idList: string[]) {
+  await fetch(`${url}/menu/api/delete/multi`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({idList})
+  })
+}
+
 export default function MenuContent({pages}: {pages: any}) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
+  const idList = menu.filter(menu => menu.checked).map(menuChecked => menuChecked.id)
   
   useEffect(() => {
     if (!menu.length && pages.length) {
@@ -35,7 +44,10 @@ export default function MenuContent({pages}: {pages: any}) {
             </button>
           }
         </CUDialog>
-        <button onClick={() => dispatch(removeMultiMenu())}>
+        <button onClick={() => {
+          dispatch(removeMultiMenu())
+          handleDeleteMulti(idList)
+        }}>
           Xóa
         </button>
         <button>
