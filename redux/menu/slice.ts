@@ -29,7 +29,14 @@ export const menuSlice = createSlice({
         })
       ]
     },
+    changeColorMultiMenu: (state, action: PayloadAction<string>) => {
+      return [
+        ...state.map(menu => {
+          return menu.checked ? {...menu, color: action.payload} : menu
+        })
+      ]
+    },
   }
 })
 
-export const {initMenu, addMenu, removeMenu, updateMenu, checkedMenu, removeMultiMenu} = menuSlice.actions
+export const {initMenu, addMenu, removeMenu, updateMenu, checkedMenu, removeMultiMenu, changeColorMultiMenu} = menuSlice.actions
