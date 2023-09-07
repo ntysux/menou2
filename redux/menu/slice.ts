@@ -29,6 +29,9 @@ export const menuSlice = createSlice({
         })
       ]
     },
+    changeColorSingleMenu: (state, action: PayloadAction<{color: string, index: number}>) => {
+      state.fill({...state[action.payload.index], color: action.payload.color}, action.payload.index, action.payload.index + 1)
+    },
     changeColorMultiMenu: (state, action: PayloadAction<string>) => {
       return [
         ...state.map(menu => {
@@ -39,4 +42,13 @@ export const menuSlice = createSlice({
   }
 })
 
-export const {initMenu, addMenu, removeMenu, updateMenu, checkedMenu, removeMultiMenu, changeColorMultiMenu} = menuSlice.actions
+export const {
+  initMenu, 
+  addMenu, 
+  updateMenu, 
+  checkedMenu, 
+  removeMenu, 
+  removeMultiMenu,
+  changeColorSingleMenu,
+  changeColorMultiMenu
+} = menuSlice.actions

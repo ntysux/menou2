@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { changeColorMultiMenu, checkedMenu, initMenu, removeMenu, removeMultiMenu } from '@/redux/menu/slice'
+import { changeColorMultiMenu, changeColorSingleMenu, checkedMenu, initMenu, removeMenu, removeMultiMenu } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
@@ -20,6 +20,14 @@ async function handleDeleteMulti(idList: string[]) {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({idList})
+  })
+}
+
+async function handleChangeColorSingle(id: string, color: string) {
+  await fetch(`${url}/menu/api/update/single/color`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({id, color})
   })
 }
 
@@ -100,6 +108,17 @@ export default function MenuContent({pages}: {pages: any}) {
               <Link href={`/menu/${page.id}`}>
                 <button>Đầy đủ</button>
               </Link>
+
+              {
+                ['bg-rose-400', 'bg-teal-400', 'bg-purple-400'].map((color, colorIndex) =>
+                  <button key={colorIndex} onClick={() => {
+                    dispatch(changeColorSingleMenu({color, index}))
+                    handleChangeColorSingle(page.id, color)
+                  }}>
+                    <div className={`p-2 rounded-full ${color}`} />  
+                  </button>
+                )
+              }
             </div>
           )
         }
