@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         const {
           id, 
           properties: {
-            uid, name, deleted, materials, required, steps, status
+            uid, name, deleted, materials, required, steps, status, color
           }
         } = page
   
@@ -42,7 +42,8 @@ export async function GET(request: NextRequest) {
           materials: materials.rich_text[0]?.plain_text,
           required: required.rich_text[0]?.plain_text,
           steps: steps.rich_text[0]?.plain_text,
-          status: status.checkbox
+          status: status.checkbox,
+          color: color.rich_text[0]?.plain_text
         }
       })]
 
