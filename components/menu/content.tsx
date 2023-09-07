@@ -68,12 +68,12 @@ export default function MenuContent({pages}: {pages: any}) {
         </button>
         <div className='flex space-x-3'>
           {
-            ['bg-rose-400', 'bg-teal-400', 'bg-purple-400'].map((color, index) =>
+            ['bg-rose-400', 'bg-teal-400', 'bg-purple-400', 'bg-white'].map((color, index) =>
               <button key={index} onClick={() => {
                 dispatch(changeColorMultiMenu(color))
                 handleChangeColorMulti(idList, color)
               }}>
-                <div className={`p-2 rounded-full ${color}`} />  
+                <div className={`p-2 rounded-full ${color} ring-1 ring-neutral-800`} />  
               </button>
             )
           }
@@ -110,12 +110,12 @@ export default function MenuContent({pages}: {pages: any}) {
               </Link>
 
               {
-                ['bg-rose-400', 'bg-teal-400', 'bg-purple-400'].map((color, colorIndex) =>
+                ['bg-rose-400', 'bg-teal-400', 'bg-purple-400', 'bg-white'].map((color, colorIndex) =>
                   <button key={colorIndex} onClick={() => {
                     dispatch(changeColorSingleMenu({color, index}))
                     handleChangeColorSingle(page.id, color)
                   }}>
-                    <div className={`p-2 rounded-full ${color}`} />  
+                    <div className={`p-2 rounded-full ${color} ring-1 ring-neutral-800`} />  
                   </button>
                 )
               }
