@@ -7,4 +7,5 @@ export interface Menu {
   required?: string
   steps?: string
   status: boolean
+  checked?: boolean
 } 
