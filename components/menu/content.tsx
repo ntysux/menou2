@@ -7,6 +7,14 @@ import CUDialog from './crud/c.u.dialog'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
+async function handleDelete(id: string) {
+  await fetch(`${url}/menu/api/delete`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({id})
+  })
+}
+
 export default function MenuContent({pages}: {pages: any}) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
@@ -16,16 +24,6 @@ export default function MenuContent({pages}: {pages: any}) {
       dispatch(initMenu(pages))
     }
   }, [])
-
-  async function handleDelete(index: number, id: string) {
-    dispatch(removeMenu(index))
-    
-    await fetch(`${url}/menu/api/delete`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({id})
-    })
-  }
 
   return (
     <div className="w-screen max-w-5xl mx-auto">
@@ -58,7 +56,12 @@ export default function MenuContent({pages}: {pages: any}) {
               />
               
               <h2>{page.name}</h2>
-              <button onClick={() => handleDelete(index, page.id)}>Xóa</button>
+              <button onClick={() => {
+                dispatch(removeMenu(index))
+                handleDelete(page.id)
+              }}>
+                Xóa
+              </button>
               <CUDialog index={index}>
                 {setOpen => 
                   <button onClick={() => setOpen(true)}>
