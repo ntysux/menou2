@@ -1,7 +1,7 @@
 const url = process.env.NEXT_PUBLIC_APP_URL
 
 async function getPage(id: string) {
-  const res = await fetch(`${url}/menu/${id}/api`, {next: {revalidate: 300}})
+  const res = await fetch(`${url}/menu/${id}/api`, {next: {revalidate: 0}})
   const rs = await res.json()
 
   return rs
