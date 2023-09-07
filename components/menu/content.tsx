@@ -26,10 +26,10 @@ export default function MenuContent({pages}: {pages: any}) {
       body: JSON.stringify({id})
     })
   }
-  
+
   return (
     <div className="w-screen max-w-5xl mx-auto">
-      <div>
+      <div className='space-x-3'>
         <CUDialog>
           {setOpen => 
             <button onClick={() => setOpen(true)}>
@@ -37,13 +37,25 @@ export default function MenuContent({pages}: {pages: any}) {
             </button>
           }
         </CUDialog>
+        <button>
+          Xóa
+        </button>
+        <button>
+          Đổi màu
+        </button>
       </div>
 
       <div className='mt-9'>
         {
           menu.map((page: any, index: number) =>
             !page.deleted &&
-            <div key={index} className='flex space-x-3'>
+            <div key={index} className='flex items-center space-x-3'>
+
+              <input 
+                type="checkbox" 
+                className='appearance-none w-6 h-6 ring-1 ring-neutral-300 rounded-lg checked:ring-2 checked:ring-neutral-800' 
+              />
+              
               <h2>{page.name}</h2>
               <button onClick={() => handleDelete(index, page.id)}>Xóa</button>
               <CUDialog index={index}>
