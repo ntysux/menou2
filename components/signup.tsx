@@ -17,10 +17,29 @@ export default function Signup() {
   }
 
   const schema = object({
-    username: string().required('Trống'),
-    password: string().required('Trống'),
-    passwordConfirm: string().required('Trống')
+    username: string()
+      .required('Thông tin trống')
+      .matches(/^[a-zA-Z0-9]+$/, 'Tên đăng nhập không hợp lệ.'),
+    password: string()
+      .required('Thông tin trống')
+      .max(24, 'Mật khẩu không quá 24 kí tự')
+      .min(8, 'Mật khẩu chứa tối thiểu 8 kí tự'),
+    passwordConfirm: string()
+      .required('Thông tin trống'),
+    name: string()
+      .required('Thông tin trống')
+      .max(35, 'Tên người dùng không quá 35 kí tự')
+      .matches(/^[a-zA-Z0-9\s]+$/, 'Tên người dùng không hợp lệ.')
   })
+
+  function handleMatchPassword(values: any) {
+    const errors: {passwordConfirm?: string} = {}
+    if(values.password !== values.passwordConfirm) {
+      errors.passwordConfirm = 'Mật khẩu không khớp.'  
+    }
+
+    return errors
+  }
 
   return (
     <>
@@ -55,8 +74,9 @@ export default function Signup() {
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Formik
-                    initialValues={{ username: '', password: '', passwordConfirm: '' }}
+                    initialValues={{name: '', username: '', password: '', passwordConfirm: '' }}
                     validationSchema={schema}
+                    validate={values => handleMatchPassword(values)}
                     onSubmit={(values, { setSubmitting }) => {
                       console.log(values)
                       setSubmitting(false)
@@ -87,6 +107,14 @@ export default function Signup() {
                             placeholder="Mật khẩu"
                           />
                           <ErrorMessage name='passwordConfirm' component="div" className='text-xs text-pink-400 font-medium' />
+                        </div>
+                        <div className='flex space-x-3'>
+                          <Field 
+                            type="text" 
+                            name="name" 
+                            placeholder="Tên người dùng"
+                          />
+                          <ErrorMessage name='name' component="div" className='text-xs text-pink-400 font-medium' />
                         </div>
                         <button type='submit'>
                           Đăng nhập
