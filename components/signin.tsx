@@ -75,7 +75,8 @@ export default function Signin({
                       setSubmitting(false)
                     }}
                   >
-                    <Form className='space-y-3'>
+                    <Form>
+                      <ErrorMessageBox name='error' />
                       <div className='relative'>
                         <Field 
                           type="text" 
@@ -83,11 +84,11 @@ export default function Signin({
                           placeholder="Tên đăng nhập"
                           autoComplete="username"
                           className="
-                            p-3 w-full outline-none rounded-sm ring-1 ring-neutral-300
-                            text-sm text-neutral-800 font-medium focus:ring-2 focus:ring-neutral-800
+                            py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
+                            text-sm text-neutral-800 font-medium
                           "
                         />
-                        <div className='absolute inset-y-0 right-1 flex items-center'>
+                        <div className='absolute inset-y-0 right-0 flex items-center'>
                           <ErrorMessageBox name='username' />
                         </div>
                       </div>
@@ -98,20 +99,19 @@ export default function Signin({
                           placeholder="Mật khẩu"
                           autoComplete="current-password"
                           className="
-                            p-3 w-full outline-none rounded-sm ring-1 ring-neutral-300
-                            text-sm text-neutral-800 font-medium focus:ring-2 focus:ring-neutral-800
+                            py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
+                            text-sm text-neutral-800 font-medium
                           "
                         />
-                        <div className='absolute inset-y-0 right-1 flex items-center'>
+                        <div className='absolute inset-y-0 right-0 flex items-center'>
                           <ErrorMessageBox name='password' />
                         </div>
                       </div>
-                      <div className='flex justify-end'>
-                        <button type='submit' className='outline-none mt-9 text-sm text-neutral-800 font-bold'>
+                      <div className='mt-9 text-center'>
+                        <button type='submit' className='outline-none text-sm text-neutral-800 font-bold'>
                           Đăng nhập
                         </button>
                       </div>
-                      <ErrorMessageBox name='error' />
                     </Form>
                   </Formik>
                 </Dialog.Panel>
