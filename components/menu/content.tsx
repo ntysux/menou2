@@ -45,7 +45,8 @@ export default function MenuContent({pages}: {pages: any}) {
   
   const idList = menu.filter(menu => menu.checked).map(menu => menu.id)
 
-  const allChecked = menu.every(item => item.checked)
+  const allChecked = menu.filter(item => !item.deleted).every(item => item.checked)
+  const isIndeterminate = menu.some(item => item.checked) && !allChecked
 
   useEffect(() => {
     if (!menu.length && pages.length) {
@@ -56,13 +57,17 @@ export default function MenuContent({pages}: {pages: any}) {
   return (
     <div className="w-screen max-w-5xl mx-auto">
       <div className='flex space-x-3 items-center'>
-        {allChecked && 'checked all'}
-        <input 
-          checked={allChecked}
-          type="checkbox" 
-          className='w-5 h-5 accent-neutral-800'
-          onChange={e => dispatch(checkedMultiMenu(e.target.checked))}
-        />
+        <div className='relative bg-sky-200 p-3'>
+
+          {isIndeterminate && <div className='absolute inset-0 p-1 px-3 rounded-full bg-neutral-500' />}
+          
+          <input 
+            checked={allChecked}
+            type="checkbox" 
+            className='w-5 h-5 accent-neutral-800 absolute z-10 inset-0'
+            onChange={e => dispatch(checkedMultiMenu(e.target.checked))}
+          />
+        </div>
         <CUDialog>
           {setOpen => 
             <button onClick={() => setOpen(true)}>
@@ -95,7 +100,7 @@ export default function MenuContent({pages}: {pages: any}) {
           menu.map((page: any, index: number) =>
             !page.deleted &&
             <div key={index} className={`flex items-center space-x-3 ${page.color}`}>
-
+              <div>{index}</div>
               <input 
                 type="checkbox" 
                 checked={page.checked ?? false}
