@@ -1,34 +1,31 @@
 'use client'
-
 import { Dialog, Transition } from '@headlessui/react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useRouter } from 'next/navigation'
-import { Fragment, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { object, string } from 'yup'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
+const schema = object({
+  username: string().required('Trống'),
+  password: string().required('Trống')
+})
 
-export default function Signin({children} : {children?: (setState: any) => React.ReactNode}) {
-  const [isOpen, setOpen] = useState(children ? false : true)
+export default function Signin({
+  children
+} : {
+  children?: (setState: Dispatch<SetStateAction<boolean>>) => React.ReactNode
+}) {
   const router = useRouter()
-
-  function closeModal() {
-    if (children) {
-      setOpen(false)
-    }
-  }
-
-  const schema = object({
-    username: string().required('Trống'),
-    password: string().required('Trống')
-  })
+  const [open, setOpen] = useState(children ? false : true)
+  const onClose = () => children && setOpen(false)
 
   return (
     <>
       {children && children(setOpen)}
 
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Transition show={open} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={onClose}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -38,11 +35,11 @@ export default function Signin({children} : {children?: (setState: any) => React
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-neutral-950/20" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="fixed inset-0">
+            <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -52,59 +49,70 @@ export default function Signin({children} : {children?: (setState: any) => React
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-lg rounded-2xl bg-white p-7">
                   <Formik
-                    initialValues={{ username: '', password: '' }}
+                    initialValues={{username: '', password: '', error: ''}}
                     validationSchema={schema}
-                    onSubmit={async(values, { setSubmitting, setFieldError }) => {
+                    onSubmit={async(values, {setSubmitting, setFieldError}) => {
                       setSubmitting(true)
-                      const res = await fetch(`${url}/auth/api/signin`, {
+                      const response = await fetch(`${url}/auth/api/signin`, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({values})
                       })
-
-                      const rs = await res.json()
+                      const result = await response.json()
                       
-                      if(rs.id) {
+                      if(result.id) {
                         if (children) {
                           router.replace('/menu')
                         } else {
                           router.refresh()
                         }
-                      } else {
-                        setFieldError('username', rs.error)
                         return
+                      } else {
+                        setFieldError('error', result.error)
                       }
-                      
                       setSubmitting(false)
                     }}
                   >
-                    {({values}) => (
-                      <Form>
-                        <div className='flex space-x-3'>
-                          <Field 
-                            type="text" 
-                            name="username" 
-                            placeholder="Tên đăng nhập"
-                            autoComplete="username"
-                          />
-                          <ErrorMessage name='username' component="div" className='text-xs text-pink-400 font-medium' />
+                    <Form className='space-y-3'>
+                      <div className='relative'>
+                        <Field 
+                          type="text" 
+                          name="username" 
+                          placeholder="Tên đăng nhập"
+                          autoComplete="username"
+                          className="
+                            p-3 w-full outline-none rounded-sm ring-1 ring-neutral-300
+                            text-sm text-neutral-800 font-medium focus:ring-2 focus:ring-neutral-800
+                          "
+                        />
+                        <div className='absolute inset-y-0 right-1 flex items-center'>
+                          <ErrorMessageBox name='username' />
                         </div>
-                        <div className='flex space-x-3'>
-                          <Field 
-                            type="password" 
-                            name="password" 
-                            placeholder="Mật khẩu"
-                            autoComplete="current-password"
-                          />
-                          <ErrorMessage name='password' component="div" className='text-xs text-pink-400 font-medium' />
+                      </div>
+                      <div className='relative'>
+                        <Field 
+                          type="password" 
+                          name="password" 
+                          placeholder="Mật khẩu"
+                          autoComplete="current-password"
+                          className="
+                            p-3 w-full outline-none rounded-sm ring-1 ring-neutral-300
+                            text-sm text-neutral-800 font-medium focus:ring-2 focus:ring-neutral-800
+                          "
+                        />
+                        <div className='absolute inset-y-0 right-1 flex items-center'>
+                          <ErrorMessageBox name='password' />
                         </div>
-                        <button type='submit'>
+                      </div>
+                      <div className='flex justify-end'>
+                        <button type='submit' className='outline-none mt-9 text-sm text-neutral-800 font-bold'>
                           Đăng nhập
                         </button>
-                      </Form>
-                    )}
+                      </div>
+                      <ErrorMessageBox name='error' />
+                    </Form>
                   </Formik>
                 </Dialog.Panel>
               </Transition.Child>
@@ -114,4 +122,12 @@ export default function Signin({children} : {children?: (setState: any) => React
       </Transition>
     </>
   )
+}
+
+function ErrorMessageBox({name}: {name: string}) {
+  return <ErrorMessage 
+    name={name}
+    component="div" 
+    className='px-3 py-1 rounded-md bg-pink-100 text-xs text-neutral-700 font-bold' 
+  />
 }
