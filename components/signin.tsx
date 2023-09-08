@@ -35,7 +35,7 @@ export default function Signin({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-neutral-950/20" />
+            <div className="fixed inset-0 bg-neutral-300/75" />
           </Transition.Child>
 
           <div className="fixed inset-0">
@@ -49,7 +49,7 @@ export default function Signin({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg rounded-2xl bg-white p-7">
+                <Dialog.Panel className="w-full max-w-sm rounded-2xl bg-white p-7">
                   <Formik
                     initialValues={{username: '', password: '', error: ''}}
                     validationSchema={schema}
