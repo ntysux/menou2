@@ -96,6 +96,7 @@ export default function Signin({children} : {children?: (setState: any) => React
                             type="password" 
                             name="password" 
                             placeholder="Mật khẩu"
+                            autoComplete="current-password"
                           />
                           <ErrorMessage name='password' component="div" className='text-xs text-pink-400 font-medium' />
                         </div>
