@@ -25,7 +25,7 @@ export const menuSlice = createSlice({
     checkedMultiMenu: (state, action: PayloadAction<boolean>) => {
       return [
         ...state.map(menu => {
-          return {...menu, checked: action.payload}
+          return !menu.deleted ? {...menu, checked: action.payload} : menu
         })
       ]
     },
