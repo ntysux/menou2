@@ -22,6 +22,13 @@ export const menuSlice = createSlice({
     checkedMenu: (state, action: PayloadAction<{checked: boolean, index: number}>) => {
       state.fill({...state[action.payload.index], checked: action.payload.checked}, action.payload.index, action.payload.index + 1)
     },
+    checkedMultiMenu: (state, action: PayloadAction<boolean>) => {
+      return [
+        ...state.map(menu => {
+          return {...menu, checked: action.payload}
+        })
+      ]
+    },
     removeMultiMenu: (state) => {
       return [
         ...state.map(menu => {
@@ -46,7 +53,8 @@ export const {
   initMenu, 
   addMenu, 
   updateMenu, 
-  checkedMenu, 
+  checkedMenu,
+  checkedMultiMenu, 
   removeMenu, 
   removeMultiMenu,
   changeColorSingleMenu,

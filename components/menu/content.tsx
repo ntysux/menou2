@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { changeColorMultiMenu, changeColorSingleMenu, checkedMenu, initMenu, removeMenu, removeMultiMenu } from '@/redux/menu/slice'
+import { changeColorMultiMenu, changeColorSingleMenu, checkedMenu, checkedMultiMenu, initMenu, removeMenu, removeMultiMenu } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
@@ -42,8 +42,11 @@ async function handleChangeColorMulti(idList: string[], color: string) {
 export default function MenuContent({pages}: {pages: any}) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
-  const idList = menu.filter(menu => menu.checked).map(menuChecked => menuChecked.id)
   
+  const idList = menu.filter(menu => menu.checked).map(menu => menu.id)
+
+  const allChecked = menu.every(item => item.checked)
+
   useEffect(() => {
     if (!menu.length && pages.length) {
       dispatch(initMenu(pages))
@@ -52,7 +55,14 @@ export default function MenuContent({pages}: {pages: any}) {
 
   return (
     <div className="w-screen max-w-5xl mx-auto">
-      <div className='flex space-x-3'>
+      <div className='flex space-x-3 items-center'>
+        {allChecked && 'checked all'}
+        <input 
+          checked={allChecked}
+          type="checkbox" 
+          className='w-5 h-5 accent-neutral-800'
+          onChange={e => dispatch(checkedMultiMenu(e.target.checked))}
+        />
         <CUDialog>
           {setOpen => 
             <button onClick={() => setOpen(true)}>
@@ -85,9 +95,11 @@ export default function MenuContent({pages}: {pages: any}) {
           menu.map((page: any, index: number) =>
             !page.deleted &&
             <div key={index} className={`flex items-center space-x-3 ${page.color}`}>
+
               <input 
-                type="checkbox"
-                className='appearance-none w-6 h-6 ring-1 ring-neutral-300 rounded-lg checked:ring-2 checked:ring-neutral-800' 
+                type="checkbox" 
+                checked={page.checked ?? false}
+                className='w-5 h-5 accent-neutral-800'
                 onChange={e => dispatch(checkedMenu({checked: e.target.checked, index}))}
               />
               
