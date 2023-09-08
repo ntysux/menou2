@@ -87,6 +87,7 @@ export default function Signin({children} : {children?: (setState: any) => React
                             type="text" 
                             name="username" 
                             placeholder="Tên đăng nhập"
+                            autoComplete="username"
                           />
                           <ErrorMessage name='username' component="div" className='text-xs text-pink-400 font-medium' />
                         </div>
