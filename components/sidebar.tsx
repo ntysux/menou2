@@ -23,7 +23,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <div className="min-h-screen space-y-9">
+    <div className="h-screen space-y-9 sticky top-0 bg-sky-200">
       <div className="py-[13px]">
         <h1 className='text-xl text-neutral-800 tracking-widest'>
           Menoú
