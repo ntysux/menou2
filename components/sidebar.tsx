@@ -23,13 +23,13 @@ export default function Sidebar() {
   ]
 
   return (
-    <div className="h-screen space-y-9 sticky top-0 bg-sky-200">
+    <div className="h-screen sticky top-0">
       <div className="py-[13px]">
         <h1 className='text-xl text-neutral-800 tracking-widest'>
           Menoú
         </h1>
       </div>
-      <ul className='list-none p-3 rounded-xl bg-white shadow shadow-neutral-200'>
+      <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
         {features.map((feature, index) =>  
           <Link
             key={index}
