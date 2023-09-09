@@ -1,4 +1,4 @@
-export default function Nav() {
+export default function Nav({children}: {children: React.ReactNode}) {
   return (
     <header className="sticky top-0 z-10 bg-white">
       <nav className="flex justify-end items-center space-x-9 py-5">
@@ -9,6 +9,7 @@ export default function Nav() {
           Cộng đồng
         </h3>
       </nav>
+      {children}
     </header>
   )
 }
