@@ -1,5 +1,4 @@
 'use client'
-
 import { Dialog, Transition } from '@headlessui/react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useRouter } from 'next/navigation'
@@ -7,136 +6,172 @@ import { Fragment, useState } from 'react'
 import { object, string } from 'yup'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
+const schema = object({
+  username: string()
+    .required('Trống')
+    .matches(/^[a-zA-Z0-9]+$/, 'Tên đăng nhập không hợp lệ.'),
+  password: string()
+    .required('Trống')
+    .max(24, 'Mật khẩu không quá 24 kí tự')
+    .min(8, 'Mật khẩu chứa tối thiểu 8 kí tự'),
+  passwordConfirm: string()
+    .required('Trống'),
+  name: string()
+    .required('Trống')
+    .max(35, 'Tên người dùng không quá 35 kí tự')
+    .matches(/^[a-zA-Z0-9\sđĐà-ỹÀ-Ỹ]+$/, 'Tên người dùng không hợp lệ.')
+})
+
+const transition = {
+  overlay: {
+    enter: "ease-out duration-300",
+    enterFrom: "opacity-0",
+    enterTo: "opacity-100",
+    leave: "ease-in duration-200",
+    leaveFrom: "opacity-100",
+    leaveTo: "opacity-0"
+  },
+  panel: {
+    enter: "ease-out duration-300",
+    enterFrom: "opacity-0 scale-95",
+    enterTo: "opacity-100 scale-100",
+    leave: "ease-in duration-200",
+    leaveFrom: "opacity-100 scale-100",
+    leaveTo: "opacity-0 scale-95"
+  }
+}
 
 export default function Signup() {
-  let [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-
-  function closeModal() {
-    setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
-  }
-
-  const schema = object({
-    username: string()
-      .required('Thông tin trống')
-      .matches(/^[a-zA-Z0-9]+$/, 'Tên đăng nhập không hợp lệ.'),
-    password: string()
-      .required('Thông tin trống')
-      .max(24, 'Mật khẩu không quá 24 kí tự')
-      .min(8, 'Mật khẩu chứa tối thiểu 8 kí tự'),
-    passwordConfirm: string()
-      .required('Thông tin trống'),
-    name: string()
-      .required('Thông tin trống')
-      .max(35, 'Tên người dùng không quá 35 kí tự')
-      .matches(/^[a-zA-Z0-9\s]+$/, 'Tên người dùng không hợp lệ.')
-  })
+  const [open, setOpen] = useState(false)
+  const onClose = () => setOpen(false)
+  const isOpen = () => setOpen(true)
 
   function handleMatchPassword(values: any) {
-    const errors: {passwordConfirm?: string} = {}
+    const error: {passwordConfirm?: string} = {}
     if(values.password !== values.passwordConfirm) {
-      errors.passwordConfirm = 'Mật khẩu không khớp.'  
+      error.passwordConfirm = 'Mật khẩu không khớp.'  
     }
 
-    return errors
+    return error
   }
 
   return (
     <>
-      <button onClick={openModal}>
+      <button
+        onClick={isOpen}
+        className="px-5 py-3 rounded-lg text-sm text-neutral-800 shadow-custombox hover:shadow transition-all"
+      >
         Tạo tài khoản
       </button>
 
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+      <Transition show={open} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={onClose}>
+          <Transition.Child as={Fragment} {...transition.overlay}>
+            <div className="fixed inset-0 bg-neutral-300/75" />
           </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+          <div className="fixed inset-0">
+            <div className="flex min-h-full items-center justify-center p-3">
+              <Transition.Child as={Fragment} {...transition.panel}>
+                <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-9">
                   <Formik
                     initialValues={{name: '', username: '', password: '', passwordConfirm: '' }}
                     validationSchema={schema}
                     validate={values => handleMatchPassword(values)}
-                    onSubmit={async(values, { setSubmitting, setFieldError }) => {
+                    onSubmit={async(values, {setSubmitting, setFieldError}) => {
                       setSubmitting(true)
 
-                      const res = await fetch(`${url}/auth/api/signup`, {
+                      const response = await fetch(`${url}/auth/api/signup`, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({values})
                       })
-
-                      const rs = await res.json()
-                      
-                      if (rs.id) {
+                      const result = await response.json()
+                      if (result.id) {
                         router.replace('/menu')
+                      } else {
+                        setFieldError('username', result.username)
                       }
-                      
-                      setFieldError('username', rs.username)
                       setSubmitting(false)
                     }}
                   >
-                    {({values}) => (
+                    {({isSubmitting}) => (
                       <Form>
-                        <div className='flex space-x-3'>
+                        <div className='relative'>
                           <Field 
                             type="text" 
                             name="username" 
+                            autoComplete="username"
                             placeholder="Tên đăng nhập"
+                            className="
+                              py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
+                              text-sm text-neutral-800 font-medium
+                            "
                           />
-                          <ErrorMessage name='username' component="div" className='text-xs text-pink-400 font-medium' />
+                          <div className='absolute inset-y-0 right-0 flex items-center'>
+                            <ErrorMessageBox name='username' />
+                          </div>
                         </div>
-                        <div className='flex space-x-3'>
+                        <div className='relative'>
                           <Field 
                             type="password" 
                             name="password" 
+                            autoComplete="current-password"
                             placeholder="Mật khẩu"
+                            className="
+                              py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
+                              text-sm text-neutral-800 font-medium
+                            "
                           />
-                          <ErrorMessage name='password' component="div" className='text-xs text-pink-400 font-medium' />
+                          <div className='absolute inset-y-0 right-0 flex items-center'>
+                            <ErrorMessageBox name='password' />
+                          </div>
                         </div>
-                        <div className='flex space-x-3'>
+                        <div className='relative'>
                           <Field 
                             type="password" 
                             name="passwordConfirm" 
-                            placeholder="Mật khẩu"
+                            autoComplete="current-passwordConfirm"
+                            placeholder="Nhập lại mật khẩu"
+                            className="
+                              py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
+                              text-sm text-neutral-800 font-medium
+                            "
                           />
-                          <ErrorMessage name='passwordConfirm' component="div" className='text-xs text-pink-400 font-medium' />
+                          <div className='absolute inset-y-0 right-0 flex items-center'>
+                            <ErrorMessageBox name='passwordConfirm' />
+                          </div>
                         </div>
-                        <div className='flex space-x-3'>
+                        <div className='relative'>
                           <Field 
                             type="text" 
                             name="name" 
+                            autoComplete="name"
                             placeholder="Tên người dùng"
+                            className="
+                              py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
+                              text-sm text-neutral-800 font-medium
+                            "
                           />
-                          <ErrorMessage name='name' component="div" className='text-xs text-pink-400 font-medium' />
+                          <div className='absolute inset-y-0 right-0 flex items-center'>
+                            <ErrorMessageBox name='name' />
+                          </div>
                         </div>
-                        <button type='submit'>
-                          Tạo tài khoản
-                        </button>
+                        <div className='mt-9 text-center'>
+                          <button 
+                            type='submit' 
+                            className='outline-none text-sm text-neutral-800 font-bold disabled:opacity-40'
+                            disabled={isSubmitting}
+                          >
+                            {
+                              isSubmitting 
+                              ?
+                              <div className="h-5 w-5 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
+                              :
+                              <>Đăng kí</>
+                            }
+                          </button>
+                        </div>
                       </Form>
                     )}
                   </Formik>
@@ -148,4 +183,12 @@ export default function Signup() {
       </Transition>
     </>
   )
+}
+
+function ErrorMessageBox({name}: {name: string}) {
+  return <ErrorMessage 
+    name={name}
+    component="div" 
+    className='px-3 py-1 rounded-md bg-pink-100 text-xs text-neutral-700 font-bold' 
+  />
 }
