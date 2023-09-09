@@ -1,5 +1,5 @@
 'use client'
-import Signin from "@/components/auth/signin/signin"
+import SigninDialog from "@/components/auth/signin/signin.dialog"
 import Signup from "@/components/auth/signup/signup"
 
 export default function InitPage() {
@@ -10,16 +10,7 @@ export default function InitPage() {
           Menoú
         </h1>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Signin>
-            {setOpen => 
-              <button 
-                className="px-5 py-3 rounded-lg text-sm text-neutral-800 shadow-custombox hover:shadow transition-all"
-                onClick={() => setOpen(true)}
-              >
-                Đăng nhập
-              </button>
-            }
-          </Signin>
+          <SigninDialog />
           <Signup />
         </div>
       </div>
