@@ -1,4 +1,5 @@
 import Signin from "@/components/auth/signin/signin"
+import MenuBase from "@/components/menu/base"
 import ReduxProviders from "@/redux/providers"
 import { cookies } from "next/headers"
 
@@ -12,9 +13,10 @@ export default async function MenuLayout({
   return (
     <>
       {!cookie && <Signin />}
-
       <ReduxProviders>
-        {children}
+        <MenuBase>
+          {children}
+        </MenuBase>
       </ReduxProviders>
     </>
   )
