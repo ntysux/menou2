@@ -1,6 +1,6 @@
 'use client'
 import SigninDialog from "@/components/auth/signin/signin.dialog"
-import Signup from "@/components/auth/signup/signup"
+import SignupDialog from "@/components/auth/signup/signup.dialog"
 
 export default function InitPage() {
   return (
@@ -11,7 +11,7 @@ export default function InitPage() {
         </h1>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <SigninDialog />
-          <Signup />
+          <SignupDialog />
         </div>
       </div>
     </div> 
