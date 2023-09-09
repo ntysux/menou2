@@ -1,4 +1,4 @@
-import Signin from "@/components/signin"
+import Signin from "@/components/auth/signin/signin"
 import ReduxProviders from "@/redux/providers"
 import { cookies } from "next/headers"
 

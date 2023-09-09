@@ -1,6 +1,6 @@
 'use client'
-import Signin from "@/components/signin"
-import Signup from "@/components/signup"
+import Signin from "@/components/auth/signin/signin"
+import Signup from "@/components/auth/signup/signup"
 
 export default function InitPage() {
   return (
