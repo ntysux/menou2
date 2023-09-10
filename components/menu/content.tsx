@@ -1,29 +1,9 @@
 'use client'
-import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { Fragment, useEffect } from 'react'
-import { changeColorSingleMenu, checkedMenu, initMenu, removeMenu } from '@/redux/menu/slice'
-import CUDialog from './crud/c.u.dialog'
+import { useEffect } from 'react'
+import { initMenu } from '@/redux/menu/slice'
 import Card from './card'
 import CardDialog from './card.dialog'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
-
-async function handleDelete(id: string) {
-  await fetch(`${url}/menu/api/delete`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({id})
-  })
-}
-
-async function handleChangeColorSingle(id: string, color: string) {
-  await fetch(`${url}/menu/api/update/single/color`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({id, color})
-  })
-}
 
 export default function MenuContent({pages}: {pages: any}) {
   const dispatch = useAppDispatch()
@@ -34,12 +14,12 @@ export default function MenuContent({pages}: {pages: any}) {
     }
   }, [])
 
-  return (
+  return menu.length ? (
     <div className='mt-7 mb-20 grid grid-cols-1 gap-3 sm:mb-0 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'>
       {
-        menu.map((page: any, index: number) =>
+        menu.map((page, index) =>
           !page.deleted &&
-          <CardDialog key={index}>
+          <CardDialog key={index} page={page} index={index}>
             {setOpen =>
               <Card
                 index={index}
@@ -48,36 +28,10 @@ export default function MenuContent({pages}: {pages: any}) {
               />
             }
           </CardDialog>
-            
-            // <button onClick={() => {
-            //   dispatch(removeMenu(index))
-            //   handleDelete(page.id)
-            // }}>
-            //   Xóa
-            // </button>
-            // <CUDialog index={index}>
-            //   {setOpen => 
-            //     <button onClick={() => setOpen(true)}>
-            //       Sửa
-            //     </button>
-            //   }
-            // </CUDialog>
-            // <Link href={`/menu/${page.id}`}>
-            //   <button>Đầy đủ</button>
-            // </Link>
-
-            // {
-            //   ['bg-rose-400', 'bg-teal-400', 'bg-purple-400', 'bg-white'].map((color, colorIndex) =>
-            //     <button key={colorIndex} onClick={() => {
-            //       dispatch(changeColorSingleMenu({color, index}))
-            //       handleChangeColorSingle(page.id, color)
-            //     }}>
-            //       <div className={`p-2 rounded-full ${color} ring-1 ring-neutral-800`} />  
-            //     </button>
-            //   )
-            // }
         )
       }
     </div>
+  ) : (
+    <>Trống</>
   )
 }
