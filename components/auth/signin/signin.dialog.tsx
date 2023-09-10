@@ -43,7 +43,7 @@ export default function SigninDialog() {
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={onClose}>
           <Transition.Child as={Fragment} {...transition.overlay}>
-            <div className="fixed inset-0 bg-neutral-300/75" />
+            <div className="fixed inset-0 bg-neutral-950/25" />
           </Transition.Child>
 
           <div className="fixed inset-0">
