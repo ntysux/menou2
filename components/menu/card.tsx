@@ -1,15 +1,9 @@
 'use client'
-import { Menu } from '@/redux/menu/types'
 import Checkbox from '../checkbox'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { checkedMenu } from '@/redux/menu/slice'
 
-interface Props {
-  index: number
-  onClick: () => void
-}
-
-export default function Card({index, onClick}: Props) {
+export default function Card({index, onClick}: {index: number, onClick: () => void}) {
   const page = useAppSelector(state => state.menu)[index]
   const dispatch = useAppDispatch()
 
