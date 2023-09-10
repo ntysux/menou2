@@ -20,14 +20,8 @@ export default function MenuContent({pages}: {pages: any}) {
       {
         menu.map((page, index) =>
           !page.deleted &&
-          <CardDialog key={index} page={page} index={index}>
-            {setOpen =>
-              <Card
-                index={index}
-                page={page} 
-                onClick={() => setOpen(true)} 
-              />
-            }
+          <CardDialog key={index} index={index}>
+            {setOpen => <Card index={index} onClick={() => setOpen(true)} />}
           </CardDialog>
         )
       }
