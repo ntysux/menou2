@@ -31,7 +31,7 @@ export default function Checkbox({
         onChange={onChange}
         className='
           absolute z-10 appearance-none rounded-[4px] h-4 w-4 
-          ring-1 ring-neutral-500/30 checked:ring-2 checked:ring-neutral-950/75
+          ring-2 ring-neutral-300 checked:ring-2 checked:ring-neutral-950/75
         '
       />
       {
@@ -59,9 +59,9 @@ export default function Checkbox({
         <motion.svg 
           xmlns="http://www.w3.org/2000/svg"
           viewBox='0 0 24 24'
-          className='w-[14px] h-[14px] stroke-neutral-900/75 absolute inset-[1px]'
+          className='w-[14px] h-[14px] stroke-neutral-300 absolute inset-[1px]'
           fill='none'
-          strokeWidth='2'
+          strokeWidth='4'
           strokeLinejoin='round'
           strokeLinecap='round'
         >
