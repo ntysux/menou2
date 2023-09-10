@@ -7,14 +7,15 @@ import { checkedMenu } from '@/redux/menu/slice'
 interface Props {
   page: Menu
   index: number
+  onClick: () => void
 }
 
-export default function Card({page, index}: Props) {
+export default function Card({page, index, onClick}: Props) {
   const dispatch = useAppDispatch()
 
   return (
     <div className={`relative p-3 rounded-xl ${page.checked ? 'ring-2 ring-neutral-800' : 'shadow shadow-neutral-200 hover:ring-1 hover:ring-neutral-200'}`}>
-      <div className='space-y-9'>
+      <div className='space-y-9' onClick={onClick}>
         <h3 className="truncate max-w-[150px] leading-3 text-xs font-bold text-neutral-800">
           {page.name}
         </h3>

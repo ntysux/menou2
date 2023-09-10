@@ -1,10 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { changeColorSingleMenu, checkedMenu, initMenu, removeMenu } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 import Card from './card'
+import CardDialog from './card.dialog'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -38,7 +39,15 @@ export default function MenuContent({pages}: {pages: any}) {
       {
         menu.map((page: any, index: number) =>
           !page.deleted &&
-          <Card key={index} page={page} index={index} />
+          <CardDialog key={index}>
+            {setOpen =>
+              <Card
+                index={index}
+                page={page} 
+                onClick={() => setOpen(true)} 
+              />
+            }
+          </CardDialog>
             
             // <button onClick={() => {
             //   dispatch(removeMenu(index))
