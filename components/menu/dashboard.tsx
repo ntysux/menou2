@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { changeColorMultiMenu, checkedMultiMenu, removeMultiMenu } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 import Checkbox from '../checkbox'
+import { IconTrash } from '@tabler/icons-react'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 async function handleDeleteMulti(idList: string[]) {
@@ -44,32 +45,37 @@ export default function Dashboard() {
             </button>
           }
         </CUDialog>
-        <div className='flex items-center space-x-3 p-2.5 px-5 rounded-lg shadow shadow-neutral-200'>
+        <div className='flex items-center space-x-7 p-2.5 px-5 rounded-lg shadow shadow-neutral-200'>
           <Checkbox
             indeterminate={indeterminate}
             checked={allChecked}
             onChange={e => dispatch(checkedMultiMenu(e.target.checked))}
           />
-          <button 
-            onClick={() => {
-              dispatch(removeMultiMenu())
-              handleDeleteMulti(idList)
-            }}
-            className='text-sm text-neutral-800 font-medium'
-          >
-            Xóa
-          </button>
-          <div className='flex space-x-3 p-1 bg-neutral-950/75 rounded-full'>
-            {
-              ['bg-rose-400', 'bg-teal-400', 'bg-purple-400', 'bg-white'].map((color, index) =>
+          <div className='flex items-center space-x-3'>
+            <button 
+              onClick={() => {
+                dispatch(removeMultiMenu())
+                handleDeleteMulti(idList)
+              }}
+              className='text-neutral-300 hover:text-neutral-400'
+            >
+              <IconTrash size='17px' strokeWidth='2.7' />
+            </button>
+            <div className='flex space-x-2'>
+              {[
+                {color: 'bg-rose-100', face: 'bg-rose-400'}, 
+                {color: 'bg-teal-100', face: 'bg-teal-400'}, 
+                {color: 'bg-purple-100', face: 'bg-purple-400'},
+                {color: 'bg-white', face: 'bg-white'}
+              ].map((colorTheme, index) =>
                 <button key={index} onClick={() => {
-                  dispatch(changeColorMultiMenu(color))
-                  handleChangeColorMulti(idList, color)
+                  dispatch(changeColorMultiMenu(colorTheme.color))
+                  handleChangeColorMulti(idList, colorTheme.color)
                 }}>
-                  <div className={`p-2 rounded-full ${color}`} />  
+                  <div className={`p-2 rounded-full ring-2 ring-neutral-600 ${colorTheme.face}`} />  
                 </button>
-              )
-            }
+              )}
+            </div>
           </div>
         </div>
       </div>
