@@ -1,10 +1,11 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { changeColorMultiMenu, checkedMultiDeletedMenu, checkedMultiMenu, removeMultiMenu, restoreMultiMenu } from '@/redux/menu/slice'
+import { checkedMultiDeletedMenu, checkedMultiMenu, removeMultiMenu, restoreMultiMenu } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 import Checkbox from '../checkbox'
 import { IconTrash } from '@tabler/icons-react'
 import { usePathname } from 'next/navigation'
+import Colors from './colors'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 async function handleDeleteMulti(idList: string[]) {
@@ -12,13 +13,6 @@ async function handleDeleteMulti(idList: string[]) {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({idList})
-  })
-}
-async function handleChangeColorMulti(idList: string[], color: string) {
-  await fetch(`${url}/menu/api/update/multi/color`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({idList, color})
   })
 }
 async function handleRestoreMulti(idList: string[]) {
@@ -72,25 +66,11 @@ export default function Dashboard() {
                   dispatch(removeMultiMenu())
                   handleDeleteMulti(idList)
                 }}
-                className='text-neutral-300 hover:text-neutral-400'
+                className='outline-none text-neutral-300 hover:text-neutral-400'
               >
                 <IconTrash size='17px' strokeWidth='2.7' />
               </button>
-              <div className='flex space-x-2'>
-                {[
-                  {color: 'bg-rose-100', face: 'bg-rose-400'}, 
-                  {color: 'bg-teal-100', face: 'bg-teal-400'}, 
-                  {color: 'bg-purple-100', face: 'bg-purple-400'},
-                  {color: 'bg-white', face: 'bg-white'}
-                ].map((colorTheme, index) =>
-                  <button key={index} onClick={() => {
-                    dispatch(changeColorMultiMenu(colorTheme.color))
-                    handleChangeColorMulti(idList, colorTheme.color)
-                  }}>
-                    <div className={`p-2 rounded-full ring-2 ring-neutral-600 ${colorTheme.face}`} />  
-                  </button>
-                )}
-              </div>
+              <Colors />
             </div>
           </div>
           :
@@ -107,7 +87,7 @@ export default function Dashboard() {
               }}
               className='text-sm text-neutral-800 font-medium'
             >
-              khôi phục toàn bộ
+              Khôi phục
             </button>
           </div>
         }
