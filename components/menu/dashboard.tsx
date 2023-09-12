@@ -21,6 +21,13 @@ async function handleChangeColorMulti(idList: string[], color: string) {
     body: JSON.stringify({idList, color})
   })
 }
+async function handleRestoreMulti(idList: string[]) {
+  await fetch(`${url}/menu/api/update/multi/restore`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({idList})
+  })
+}
 
 export default function Dashboard() {
   const pathname = usePathname()
@@ -93,8 +100,14 @@ export default function Dashboard() {
               checked={allChecked}
               onChange={e => dispatch(checkedMultiDeletedMenu(e.target.checked))}
             />
-            <button onClick={e => dispatch(restoreMultiMenu())}>
-              khôi phục
+            <button 
+              onClick={e => {
+                dispatch(restoreMultiMenu())
+                handleRestoreMulti(idList)
+              }}
+              className='text-sm text-neutral-800 font-medium'
+            >
+              khôi phục toàn bộ
             </button>
           </div>
         }
