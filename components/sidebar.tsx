@@ -18,8 +18,8 @@ export default function Sidebar() {
 
   const features: Feature[] = [
     {name: 'Menu', href: '/menu', icon: <IconSwipe size='17px' strokeWidth='2.7' />, color: 'text-sky-400', command: menuNotDeleted},
-    {name: 'Thùng rác', href: '/trash', icon: <IconTrash size='17px' strokeWidth='2.7' />, color: 'text-rose-400', command: menuDeleted},
-    {name: 'Premium', href: '/premium', icon: <IconDiamonds size='17px' strokeWidth='2.7' />, color: 'text-purple-400'}
+    {name: 'Thùng rác', href: '/menu/trash', icon: <IconTrash size='17px' strokeWidth='2.7' />, color: 'text-rose-400', command: menuDeleted},
+    {name: 'Premium', href: '/menu/premium', icon: <IconDiamonds size='17px' strokeWidth='2.7' />, color: 'text-purple-400'}
   ]
 
   return (
