@@ -46,6 +46,20 @@ export const menuSlice = createSlice({
         })
       ]
     },
+    checkedMultiDeletedMenu: (state, action: PayloadAction<boolean>) => {
+      return [
+        ...state.map(menu => {
+          return menu.deleted ? {...menu, checked: action.payload} : menu
+        })
+      ]
+    },
+    restoreMultiMenu: (state) => {
+      return [
+        ...state.map(menu => {
+          return menu.checked ? {...menu, deleted: false, checked: undefined} : menu
+        })
+      ]
+    },
   }
 })
 
@@ -58,5 +72,7 @@ export const {
   removeMenu, 
   removeMultiMenu,
   changeColorSingleMenu,
-  changeColorMultiMenu
+  changeColorMultiMenu,
+  checkedMultiDeletedMenu,
+  restoreMultiMenu
 } = menuSlice.actions
