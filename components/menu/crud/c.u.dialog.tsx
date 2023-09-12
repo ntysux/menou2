@@ -2,7 +2,7 @@
 import { Dispatch, Fragment, KeyboardEvent, SetStateAction, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { addMenu, updateMenu } from '@/redux/menu/slice'
+import { add, update } from '@/redux/menu/slice'
 import { IconX } from '@tabler/icons-react'
 import { ErrorMessage, Field, Form, Formik, FormikErrors } from 'formik'
 import { object, string } from 'yup'
@@ -147,7 +147,7 @@ export default function CUDialog({
                             const rs = await res.json()
 
                             if (rs.id) {
-                              dispatch(updateMenu({page: {
+                              dispatch(update({page: {
                                 ...menu[index],
                                 name: values.name,
                                 materials: values.library[0].length ? values.library[0].join('|') : undefined,
@@ -168,7 +168,7 @@ export default function CUDialog({
                             const rs = await res.json()
 
                             if (!rs.error) {
-                              dispatch(addMenu(rs))
+                              dispatch(add(rs))
                               setOpen(false)
                               return
                             } else {

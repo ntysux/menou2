@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { Variants, motion } from "framer-motion"
 import { IconColorSwatch, IconMaximize, IconPencil, IconTrash } from '@tabler/icons-react'
-import { changeColorSingleMenu, removeMenu } from "@/redux/menu/slice"
+import { changeColor, remove } from "@/redux/menu/slice"
 import CUDialog from "./crud/c.u.dialog"
 
 const container: Variants = {
@@ -62,7 +62,7 @@ export default function CardActions({index}: {index: number}) {
         </CUDialog>
         <li
           onClick={() => {
-            dispatch(removeMenu(index))
+            dispatch(remove(index))
             handleDelete(page.id)
           }} 
           className="cursor-pointer flex justify-center rounded-xl p-1 text-neutral-600 hover:bg-neutral-700 hover:text-neutral-400"
@@ -92,7 +92,7 @@ export default function CardActions({index}: {index: number}) {
             key={colorKey}
             variants={item}
             onClick={() => {
-              dispatch(changeColorSingleMenu({color: colorOption.color, index}))
+              dispatch(changeColor({color: colorOption.color, index}))
               handleChangeColor(page.id, colorOption.color)
             }}
             className="flex items-center rounded-md cursor-pointer p-3 space-x-5 hover:bg-neutral-950/10"

@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { initMenu } from '@/redux/menu/slice'
+import { init } from '@/redux/menu/slice'
 import Card from './card'
 import CardDialog from './card.dialog'
 import { IconSoup } from '@tabler/icons-react'
@@ -11,7 +11,7 @@ export default function MenuContent({pages}: {pages: any}) {
   const menu = useAppSelector(state => state.menu)
   useEffect(() => {
     if (!menu.length && pages.length) {
-      dispatch(initMenu(pages))
+      dispatch(init(pages))
     }
   }, [])
 

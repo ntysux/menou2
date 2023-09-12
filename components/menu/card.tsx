@@ -1,7 +1,7 @@
 'use client'
 import Checkbox from '../checkbox'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { checkedMenu } from '@/redux/menu/slice'
+import { check } from '@/redux/menu/slice'
 
 export default function Card({index, onClick}: {index: number, onClick?: () => void}) {
   const {color, checked, name, status} = useAppSelector(state => state.menu)[index]
@@ -21,7 +21,7 @@ export default function Card({index, onClick}: {index: number, onClick?: () => v
       <div className='absolute top-3 right-3'>
         <Checkbox 
           checked={checked ?? false} 
-          onChange={e => dispatch(checkedMenu({checked: e.target.checked, index}))} 
+          onChange={e => dispatch(check({checked: e.target.checked, index}))} 
         />
       </div>
     </div>

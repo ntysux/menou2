@@ -1,6 +1,6 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { checkedMultiDeletedMenu, checkedMultiMenu, removeMultiMenu, restoreMultiMenu } from '@/redux/menu/slice'
+import { checkAllDeleted, checkAll, removeMulti, restoreMulti } from '@/redux/menu/slice'
 import CUDialog from './crud/c.u.dialog'
 import Checkbox from '../checkbox'
 import { IconTrash } from '@tabler/icons-react'
@@ -58,12 +58,12 @@ export default function Dashboard() {
             <Checkbox
               indeterminate={indeterminate}
               checked={allChecked}
-              onChange={e => dispatch(checkedMultiMenu(e.target.checked))}
+              onChange={e => dispatch(checkAll(e.target.checked))}
             />
             <div className='flex items-center space-x-3'>
               <button 
                 onClick={() => {
-                  dispatch(removeMultiMenu())
+                  dispatch(removeMulti())
                   handleDeleteMulti(idList)
                 }}
                 className='outline-none text-neutral-300 hover:text-neutral-400'
@@ -78,11 +78,11 @@ export default function Dashboard() {
             <Checkbox
               indeterminate={indeterminate}
               checked={allChecked}
-              onChange={e => dispatch(checkedMultiDeletedMenu(e.target.checked))}
+              onChange={e => dispatch(checkAllDeleted(e.target.checked))}
             />
             <button 
               onClick={e => {
-                dispatch(restoreMultiMenu())
+                dispatch(restoreMulti())
                 handleRestoreMulti(idList)
               }}
               className='text-sm text-neutral-800 font-medium'

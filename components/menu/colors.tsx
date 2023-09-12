@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { changeColorMultiMenu } from '@/redux/menu/slice'
+import { changeColorMulti } from '@/redux/menu/slice'
 import { Popover, Transition } from '@headlessui/react'
 import { IconColorSwatch } from '@tabler/icons-react'
 import { Fragment } from 'react'
@@ -46,7 +46,7 @@ export default function Colors() {
                   <button 
                     key={index} 
                     onClick={() => {
-                      dispatch(changeColorMultiMenu(colorTheme.color))
+                      dispatch(changeColorMulti(colorTheme.color))
                       handleChangeColorMulti(idList, colorTheme.color)
                     }}
                     className='hover:bg-neutral-600 rounded-full p-1'
