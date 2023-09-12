@@ -3,7 +3,7 @@ import Checkbox from '../checkbox'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { checkedMenu } from '@/redux/menu/slice'
 
-export default function Card({index, onClick}: {index: number, onClick: () => void}) {
+export default function Card({index, onClick}: {index: number, onClick?: () => void}) {
   const {color, checked, name, status} = useAppSelector(state => state.menu)[index]
   const dispatch = useAppDispatch()
 
