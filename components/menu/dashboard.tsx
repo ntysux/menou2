@@ -54,7 +54,7 @@ export default function Dashboard() {
         </CUDialog>
         {pathname === '/menu' 
           ?
-          <div className='flex items-center space-x-7 p-2.5 px-5 rounded-lg shadow shadow-neutral-200'>
+          <div className='flex items-center space-x-7 p-3 px-5 rounded-lg shadow shadow-neutral-200'>
             <Checkbox
               indeterminate={indeterminate}
               checked={allChecked}
