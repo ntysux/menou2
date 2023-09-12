@@ -17,7 +17,7 @@ export default async function MenuPage() {
   const cookie = cookies().get('token')
   const rs = await allMenuPagesById(cookie)
 
-  return rs.menuPages.length ? (
+  return rs.menuPages ? (
     <MenuContent pages={rs.menuPages} />
   ) : (
     <>{rs.error}</>
