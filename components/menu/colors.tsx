@@ -35,7 +35,7 @@ export default function Colors() {
             <IconColorSwatch size='17px' strokeWidth='2.7' />
           </Popover.Button>
           <Transition as={Fragment} {...scale}>
-            <Popover.Panel className="absolute left-0 top-7 z-10">
+            <Popover.Panel className="absolute top-7 z-10 right-0 sm:left-0">
               <div className='flex space-x-1 p-1.5 w-fit rounded-sm bg-neutral-950/75'>
                 {[
                   {color: 'bg-rose-100', face: 'bg-rose-400'}, 

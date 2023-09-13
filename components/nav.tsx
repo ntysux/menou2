@@ -1,13 +1,18 @@
 export default function Nav({children}: {children: React.ReactNode}) {
   return (
     <header className="sticky top-0 z-10 bg-white">
-      <nav className="flex justify-end items-center space-x-9 py-5">
-        <h3 className="text-sm text-neutral-800 font-medium leading-none">
-          Cá nhân
-        </h3>
-        <h3 className="text-sm text-neutral-800 font-medium leading-none">
-          Cộng đồng
-        </h3>
+      <nav className="flex justify-between sm:justify-end items-center py-5 px-3 sm:px-0">
+        <h1 className='text-xl text-neutral-800 tracking-widest block sm:hidden'>
+          Menoú
+        </h1>
+        <div className="flex space-x-9">
+          <h3 className="text-sm text-neutral-800 font-medium leading-none">
+            Cá nhân
+          </h3>
+          <h3 className="text-sm text-neutral-800 font-medium leading-none">
+            Cộng đồng
+          </h3>
+        </div>
       </nav>
       {children}
     </header>

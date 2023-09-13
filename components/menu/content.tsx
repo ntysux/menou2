@@ -16,7 +16,7 @@ export default function MenuContent({pages}: {pages: any}) {
   }, [])
 
   return menu.filter(page => !page.deleted).length ? (
-    <div className='mt-7 mb-20 grid grid-cols-1 gap-3 sm:mb-0 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'>
+    <div className='mt-7 gap-3 mx-3 mb-20 grid grid-cols-1 sm:mx-0 sm:mb-0 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'>
       {
         menu.map((page, index) =>
           !page.deleted &&

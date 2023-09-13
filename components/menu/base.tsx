@@ -4,9 +4,9 @@ import Dashboard from "./dashboard"
 
 export default function MenuBase({children}: {children: React.ReactNode}) {
   return (
-    <div className="flex space-x-5 w-screen max-w-6xl mx-auto">
+    <div className="sm:flex sm:space-x-5 sm:w-screen sm:max-w-6xl sm:mx-auto">
       <Sidebar />
-      <div className="flex-1">
+      <div className="sm:flex-1">
         <Nav>
           <Dashboard />
         </Nav>

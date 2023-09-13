@@ -23,7 +23,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <div className="h-screen sticky top-0">
+    <div className="h-screen sticky top-0 hidden sm:block">
       <div className="py-[13px]">
         <h1 className='text-xl text-neutral-800 tracking-widest'>
           Menoú
