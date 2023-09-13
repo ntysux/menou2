@@ -1,4 +1,9 @@
+'use client'
+import { usePathname } from "next/navigation"
+
 export default function Nav({children}: {children: React.ReactNode}) {
+  const pathname = usePathname()
+
   return (
     <header className="sticky top-0 z-10 bg-white">
       <nav className="flex justify-between sm:justify-end items-center py-5 px-3 sm:px-0">
@@ -14,7 +19,7 @@ export default function Nav({children}: {children: React.ReactNode}) {
           </h3>
         </div>
       </nav>
-      {children}
+      {['/menu', '/menu/trash'].some(url => url === pathname) && children}
     </header>
   )
 }
