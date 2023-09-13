@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className='flex space-x-3 items-center'>
+      <div className='flex space-x-3 items-center px-3 sm:px-0'>
         <CUDialog>
           {setOpen => 
             <button
