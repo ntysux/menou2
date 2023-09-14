@@ -149,7 +149,7 @@ export default function CardDialog({
                       </Tab.Panels>
                     </Tab.Group>
                   </div>
-                  {actions && <CardActions index={index} />}
+                  {actions && <CardActions setActions={setActions} index={index} />}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
