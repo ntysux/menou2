@@ -1,78 +1,112 @@
 'use client'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { usePathname, useRouter } from 'next/navigation'
-import { object, string } from 'yup'
+import { useState } from 'react'
+import { schema } from './schema'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
-const schema = object({
-  username: string().required('Trống'),
-  password: string().required('Trống')
-})
+
+interface Init {
+  username: string
+  password: string
+  error: string
+}
 
 export default function Signin() {
-  const pathname = usePathname()
-  const router = useRouter()
+  const pathname = usePathname(),
+    router = useRouter(),
+    [focus, setFocus] = useState<boolean[]>([false, false])
 
+  async function handleForm(
+    values: Init, 
+    setSubmitting: (isSubmitting: boolean) => void, 
+    setFieldError: (field: string, message: string | undefined) => void
+  ) {
+    setSubmitting(true)
+
+    const response = await fetch(`${url}/auth/api/signin`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({values})
+    })
+    const result = await response.json()
+    if(result.id) {
+      if (pathname === '/') router.replace('/menu') 
+      else router.refresh()
+      return
+    } else {
+      setFieldError('error', result.error)
+      setSubmitting(false)
+    }
+  }
+  
   return (
     <Formik
       initialValues={{username: '', password: '', error: ''}}
       validationSchema={schema}
-      onSubmit={async(values, {setSubmitting, setFieldError}) => {
-        setSubmitting(true)
-        const response = await fetch(`${url}/auth/api/signin`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({values})
-        })
-        const result = await response.json()
-        
-        if(result.id) {
-          if (pathname === '/') {
-            router.replace('/menu')
-          } else {
-            router.refresh()
-          }
-          return
-        } else {
-          setFieldError('error', result.error)
-        }
-        setSubmitting(false)
-      }}
+      onSubmit={(values, {setSubmitting, setFieldError}) => handleForm(values, setSubmitting, setFieldError)}
     >
-      {({isSubmitting}) => (
-        <Form>
-          <ErrorMessageBox name='error' />
+      {({values, isSubmitting}) => (
+        <Form className='space-y-3'>
+          <ErrorMessage 
+            name='error' 
+            component='div' 
+            className='w-fit p-1 px-3 rounded-md text-rose-800 bg-rose-100 text-xs font-bold' 
+          />
           <div className='relative'>
-            <Field 
+            <label htmlFor='username' className={`
+              absolute transition-all cursor-text
+              ${focus[0] ? 'left-3 top-3 text-xs text-neutral-800 font-bold' : 'left-3 top-5 text-sm text-neutral-400 font-medium'} 
+            `}>
+              Tên đăng nhập
+            </label>
+            <Field
               type="text" 
+              id="username"
               name="username" 
-              placeholder="Tên đăng nhập"
               autoComplete="username"
               className="
-                py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
-                text-sm text-neutral-800 font-medium
+                p-3 pt-7 w-full outline-none rounded-sm text-sm text-neutral-800 font-medium
+                focus:ring-2 focus:ring-neutral-800
               "
+              onFocus={() => setFocus([true, focus[1]])}
+              onBlur={() => !values.username.length && setFocus([false, focus[1]])}
             />
-            <div className='absolute inset-y-0 right-0 flex items-center'>
-              <ErrorMessageBox name='username' />
-            </div>
           </div>
+          <ErrorMessage 
+            name='username' 
+            component='div' 
+            className='w-fit p-1 px-3 rounded-md text-rose-800 bg-rose-100 text-xs font-bold' 
+          />
           <div className='relative'>
+            <label 
+              htmlFor='password'
+              className={`
+                absolute transition-all cursor-text
+                ${focus[1] ? 'left-3 top-3 text-xs text-neutral-800 font-bold' : 'left-3 top-5 text-sm text-neutral-400 font-medium'} 
+              `}
+            >
+              Mật khẩu
+            </label>
             <Field 
               type="password" 
+              id='password'
               name="password" 
-              placeholder="Mật khẩu"
               autoComplete="current-password"
               className="
-                py-3 w-full outline-none rounded-none border-b-2 border-neutral-800
-                text-sm text-neutral-800 font-medium
+                p-3 pt-7 w-full outline-none rounded-sm text-sm text-neutral-800 font-medium
+                focus:ring-2 focus:ring-neutral-800
               "
+              onFocus={() => setFocus([focus[0], true])}
+              onBlur={() => !values.password.length && setFocus([focus[0], false])}
             />
-            <div className='absolute inset-y-0 right-0 flex items-center'>
-              <ErrorMessageBox name='password' />
-            </div>
           </div>
-          <div className='mt-9 text-center'>
+          <ErrorMessage 
+            name='password' 
+            component='div' 
+            className='w-fit p-1 px-3 rounded-md text-rose-800 bg-rose-100 text-xs font-bold' 
+          />
+          <div className='text-right'>
             <button 
               type='submit' 
               className='outline-none text-sm text-neutral-800 font-bold disabled:opacity-40'
@@ -81,7 +115,7 @@ export default function Signin() {
               {
                 isSubmitting 
                 ?
-                <div className="h-5 w-5 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
+                <div className="h-4 w-4 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
                 :
                 <>Đăng nhập</>
               }
@@ -91,12 +125,4 @@ export default function Signin() {
       )}
     </Formik>
   )
-}
-
-function ErrorMessageBox({name}: {name: string}) {
-  return <ErrorMessage 
-    name={name}
-    component="div" 
-    className='px-3 py-1 rounded-md bg-pink-100 text-xs text-neutral-700 font-bold' 
-  />
 }

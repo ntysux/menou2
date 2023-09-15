@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { usePathname } from 'next/navigation'
 import { Fragment, useState } from 'react'
 import Signin from './signin'
+import { IconX } from '@tabler/icons-react'
 
 const transition = {
   overlay: {
@@ -24,32 +25,45 @@ const transition = {
 }
 
 export default function SigninDialog() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState<boolean>(pathname === '/' ? false : true)
-  const onClose = () => pathname === '/' && setOpen(false)
+  const pathname = usePathname(),
+    [open, setOpen] = useState<boolean>(pathname === '/' ? false : true),
+    isOpen = () => setOpen(true),
+    onClose = () => setOpen(false)
   
+  const FeaturesInit = {
+    OnOpen: () => pathname === '/' && (
+      <button 
+        className="px-5 py-3 rounded-lg text-sm text-neutral-800 shadow-custombox hover:shadow transition-all"
+        onClick={isOpen}
+      >
+        Đăng nhập
+      </button>
+    ),
+    OnClose: () => pathname === '/' && (
+      <div className='mb-5 text-right'>
+        <button 
+          className='outline-none p-1 bg-neutral-200 rounded-full text-white hover:bg-neutral-300'
+          onClick={onClose}
+        >
+          <IconX size='16px' strokeWidth='3' />
+        </button>
+      </div>
+    )
+  }
+
   return (
     <>
-      {
-        pathname === '/' &&
-        <button 
-          className="px-5 py-3 rounded-lg text-sm text-neutral-800 shadow-custombox hover:shadow transition-all"
-          onClick={() => setOpen(true)}
-        >
-          Đăng nhập
-        </button>
-      }
-
+      <FeaturesInit.OnOpen />
       <Transition show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={onClose}>
+        <Dialog as="div" className="relative z-10" onClose={isOpen}>
           <Transition.Child as={Fragment} {...transition.overlay}>
-            <div className="fixed inset-0 bg-neutral-950/25" />
+            <div className={`fixed inset-0 ${pathname === '/' ? 'bg-white' : 'bg-neutral-950/25 backdrop-blur-[1px]'}`} />
           </Transition.Child>
-
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...transition.panel}>
-                <Dialog.Panel className="w-full max-w-sm rounded-2xl bg-white p-7">
+                <Dialog.Panel className="w-full max-w-lg rounded-2xl p-7 bg-white ring-1 ring-neutral-200"> 
+                  <FeaturesInit.OnClose />
                   <Signin />
                 </Dialog.Panel>
               </Transition.Child>
