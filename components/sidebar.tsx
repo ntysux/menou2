@@ -1,13 +1,12 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
-import { IconDiamonds, IconSwipe, IconTrash } from "@tabler/icons-react"
+import { IconSettings, IconSwipe, IconTrash } from "@tabler/icons-react"
 import Link from "next/link"
 
 interface Feature {
   name: string
   href: string
-  icon: React.ReactNode,
-  color: string
+  icon: React.ReactNode
   command?: number
 }
 
@@ -17,9 +16,9 @@ export default function Sidebar() {
   const menuNotDeleted = menu.length - menuDeleted
 
   const features: Feature[] = [
-    {name: 'Menu', href: '/menu', icon: <IconSwipe size='17px' strokeWidth='2.7' />, color: 'text-sky-400', command: menuNotDeleted},
-    {name: 'Thùng rác', href: '/menu/trash', icon: <IconTrash size='17px' strokeWidth='2.7' />, color: 'text-rose-400', command: menuDeleted},
-    {name: 'Premium', href: '/menu/premium', icon: <IconDiamonds size='17px' strokeWidth='2.7' />, color: 'text-purple-400'}
+    {name: 'Menu', href: '/menu', icon: <IconSwipe size='17px' strokeWidth='2.7' />, command: menuNotDeleted},
+    {name: 'Thùng rác', href: '/menu/trash', icon: <IconTrash size='17px' strokeWidth='2.7' />, command: menuDeleted},
+    {name: 'Cài đặt', href: '/menu/settings', icon: <IconSettings size='17px' strokeWidth='2.7' />}
   ]
 
   return (
@@ -35,7 +34,7 @@ export default function Sidebar() {
             key={index}
             href={feature.href} 
           >
-            <li className="flex items-center justify-between space-x-11 py-2.5 px-5 rounded-xl min-w-max hover:bg-sky-100">
+            <li className="flex items-center justify-between space-x-11 py-2.5 px-5 rounded-xl min-w-max">
               <div className="flex items-center space-x-3">
                 <span className='text-neutral-300'>
                   {feature.icon}
