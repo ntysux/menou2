@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
     if (typeof tokenDecoded !== 'string' && tokenDecoded) {
       const uid: string = tokenDecoded['id']
-
+      
       const {results} = await notion.databases.query({
         database_id: notionMenouId!,
         filter: {
@@ -26,13 +26,10 @@ export async function GET(request: NextRequest) {
         } 
       })
 
-      const menuPages = [...results.map((page: any) => {
-        const {
-          id, 
-          properties: {
-            uid, name, deleted, materials, required, steps, status, color
-          }
-        } = page
+      const pages = [...results.map((page: any) => {
+        const {id, properties: {
+          uid, name, deleted, materials, required, steps, status, color
+        }} = page
   
         return {
           id,
@@ -47,9 +44,9 @@ export async function GET(request: NextRequest) {
         }
       })]
 
-      return NextResponse.json({menuPages})
+      return NextResponse.json({pages})
     }
   }
 
-  return NextResponse.json({error: 'An unknown error'})
+  return NextResponse.json({error: 'Unknown user'})
 }
