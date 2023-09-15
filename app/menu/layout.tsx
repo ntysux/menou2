@@ -3,7 +3,7 @@ import MenuBase from "@/components/menu/base"
 import ReduxProviders from "@/redux/providers"
 import { cookies } from "next/headers"
 
-export default async function MenuLayout({
+export default function MenuLayout({
   children,
 }: {
   children: React.ReactNode

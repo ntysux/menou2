@@ -3,23 +3,23 @@ import { cookies } from "next/headers"
 import MenuTrashContent from "@/components/menu/trash/content"
 
 const url = process.env.NEXT_PUBLIC_APP_URL
+
 async function allMenuPagesById(cookie: RequestCookie | undefined) {
-  const res = await fetch(`${url}/menu/api`, {
+  const response = await fetch(`${url}/menu/api`, {
     headers: {cookie: `token=${cookie?.value}`},
   })
-  const rs = await res.json()
-
-  return rs
+  const result = await response.json()
+  return result
 }
 
 export default async function MenuPage() {
   const cookie = cookies().get('token')
-  const rs = await allMenuPagesById(cookie)
+  const result = await allMenuPagesById(cookie)
 
-  return rs.menuPages ? (
-    <MenuTrashContent pages={rs.menuPages} />
+  return result.pages ? (
+    <MenuTrashContent pages={result.pages} />
   ) : (
-    <>{rs.error}</>
+    <>{result.error}</>
   )
 }
 
