@@ -21,7 +21,6 @@ async function handleRestoreMulti(idList: string[]) {
   if (idList.length) {
     await fetch(`${url}/menu/api/update/multi/restore`, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({idList})
     })
   }
