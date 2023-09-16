@@ -15,11 +15,13 @@ export default function Nav({children}: {children: React.ReactNode}) {
         <div className="flex space-x-9 sm:hidden">
           <RouterMobile />
         </div>
-        <Link href='/premium'>
-          <h3 className="text-sm text-neutral-800 font-medium leading-none">
-            Premium
-          </h3>
-        </Link>
+        <div className="hidden sm:block">
+          <Link href='/premium'>
+            <h3 className="text-sm text-neutral-800 font-medium leading-none">
+              Premium
+            </h3>
+          </Link>
+        </div>
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && children}
     </header>
