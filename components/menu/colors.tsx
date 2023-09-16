@@ -6,11 +6,12 @@ import { Fragment } from 'react'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 async function handleChangeColorMulti(idList: string[], color: string) {
-  await fetch(`${url}/menu/api/update/multi/color`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({idList, color})
-  })
+  if (idList.length) {
+    await fetch(`${url}/menu/api/update/multi/color`, {
+      method: 'POST',
+      body: JSON.stringify({idList, color})
+    })
+  }
 }
 
 const scale = {
