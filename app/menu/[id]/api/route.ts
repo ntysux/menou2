@@ -8,12 +8,13 @@ export async function GET(request: NextRequest, {params}: {params: {id: string}}
   const {id} = params
 
   try {
-    const {properties: {name, materials, required, steps, status}}: any = await notion.pages.retrieve({
+    const {properties: {uid, name, materials, required, steps, status}}: any = await notion.pages.retrieve({
       page_id: id
     })
 
     return NextResponse.json({
       page: {
+        uid: uid.title[0].plain_text,
         name: name.rich_text[0].plain_text,
         materials: materials.rich_text[0]?.plain_text,
         required: required.rich_text[0]?.plain_text,
