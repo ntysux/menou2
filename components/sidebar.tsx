@@ -29,7 +29,7 @@ export default function Sidebar() {
         </h1>
       </div>
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
-        {features.map((feature, index) =>  
+        {features.map((feature, index) =>
           <Link
             key={index}
             href={feature.href} 
@@ -44,8 +44,8 @@ export default function Sidebar() {
                 </p>
               </div>
               {
-                typeof feature.command === 'number' &&
-                <div className="text-xs text-sky-800 font-semibold px-2 py-0.5 bg-sky-100 rounded-md">
+                feature.command !== undefined &&
+                <div className="px-2.5 py-0.5 text-xs text-sky-800 font-semibold bg-sky-100 rounded-md">
                   {feature.command}
                 </div>
               }
