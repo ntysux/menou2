@@ -1,5 +1,7 @@
 import { Menu } from "@/redux/menu/types"
 import { IconAlertTriangle } from "@tabler/icons-react"
+import { decode } from "jsonwebtoken"
+import { cookies } from "next/headers"
 import { Fragment } from 'react'
 
 interface Result {
@@ -14,11 +16,26 @@ async function getPage(id: string): Promise<Result> {
   return result
 }
 
+function checkUid(): string | undefined {
+  const cookie = cookies().get('token')
+  if (cookie) {
+    const {value: token} = cookie
+    const tokenDecoded = decode(token)
+
+    if (typeof tokenDecoded !== 'string' && tokenDecoded) {
+      const id = tokenDecoded['id']
+      return id
+    }
+  }
+  return undefined
+}
+
 export default async function ViewPage({params}: {params: {id: string}}) {
   const {id} = params
   const result = await getPage(id)
+  const uid = checkUid()
 
-  return result.page ? (
+  return result.page && uid === result.page.uid ? (
     <div className="space-y-9 mb-9">
       <h2 className="text-xl text-neutral-800 font-medium">
         {result.page.name}
@@ -53,12 +70,7 @@ export default async function ViewPage({params}: {params: {id: string}}) {
       </div>
     </div>
   ) : (
-    <div className="p-9 space-y-3 shadow shadow-neutral-200 rounded-xl text-center">
-      <div className="flex justify-center">
-        <IconAlertTriangle size='27px' className="text-neutral-400" />
-      </div>
-      <p className="text-xs text-neutral-400 font-bold">{result.error}</p>
-    </div>
+    <ErrorMessage>{result.error ?? 'Unknown post'}</ErrorMessage>
   )
 }
 
@@ -68,4 +80,17 @@ function Empty() {
       Trống
     </div>
   ) 
+}
+
+function ErrorMessage({children}: {children: string}) {
+  return (
+    <div className="p-9 space-y-3 shadow shadow-neutral-200 rounded-xl text-center">
+      <div className="flex justify-center">
+        <IconAlertTriangle size='27px' className="text-neutral-400" />
+      </div>
+      <p className="text-xs text-neutral-400 font-bold">
+        {children}
+      </p>
+    </div>
+  )
 }
