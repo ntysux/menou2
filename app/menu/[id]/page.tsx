@@ -31,37 +31,38 @@ function checkUid(): string | undefined {
 }
 
 export default async function ViewPage({params}: {params: {id: string}}) {
-  const {id} = params
-  const result = await getPage(id)
-  const uid = checkUid()
+  const {id} = params,
+    result = await getPage(id),
+    uid = checkUid()
 
-  return result.page && uid === result.page.uid ? (
+  return result.page && uid === result.page.uid 
+    ? <Content page={result.page} />
+    : <ErrorMessage>{result.error ?? 'Unknown post'}</ErrorMessage>
+}
+
+function Content({page}: {page: Menu}) {
+  const fields = [
+    {title: 'Nguyên liệu', value: page.materials}, 
+    {title: 'Chẩn bị', value: page.required}, 
+    {title: 'Chế biến', value: page.steps}
+  ]
+
+  return (
     <div className="space-y-9 mb-9">
-      <h2 className="text-xl text-neutral-800 font-medium">
-        {result.page.name}
-      </h2>
+      <h2 className="text-xl text-neutral-800 font-medium">{page.name}</h2>
       <div className="space-y-3">
-        <h3 className="text-neutral-800 font-light">
-          Hướng dẫn / chế biến
-        </h3>
-        {
-          [
-            {title: 'Nguyên liệu', value: result.page.materials}, 
-            {title: 'Chẩn bị', value: result.page.required}, 
-            {title: 'Chế biến', value: result.page.steps}
-          ].map((field, index) =>
-          <Fragment key={index}>
+        <h3 className="text-neutral-800 font-light">Hướng dẫn / chế biến</h3>
+        {fields.map((field, fieldIndex) =>
+          <Fragment key={fieldIndex}>
             <h4 className="text-neutral-800 text-xs font-bold">{field.title}</h4>
             <ul>
               {
-                field.value?.length 
-                ?
-                field.value?.split('|').map((item, index) =>
-                  <li key={index} className="text-sm text-neutral-800 font-medium">
+                field.value?.split('|').map((item, ItemIndex) =>
+                  <li key={ItemIndex} className="text-sm text-neutral-800 font-medium">
                     {item}
                   </li>
                 )
-                :
+                ??
                 <Empty />
               }
             </ul>
@@ -69,8 +70,6 @@ export default async function ViewPage({params}: {params: {id: string}}) {
         )}
       </div>
     </div>
-  ) : (
-    <ErrorMessage>{result.error ?? 'Unknown post'}</ErrorMessage>
   )
 }
 
