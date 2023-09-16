@@ -7,13 +7,18 @@ import { JwtPayload, decode } from 'jsonwebtoken'
 const notion = new Client({auth: process.env.NOTION_KEY})
 const notionMenouId = process.env.NOTION_MENOU
 
-export async function POST(request: NextRequest) {
-  const {values: {name, status, library}} = await request.json()
-  const materials = library[0].join('|')
-  const required = library[1].join('|')
-  const steps = library[2].join('|')
+interface Props {
+  values: {
+    name: string
+    status: boolean
+    library: string[][]
+  }
+}
 
-  const cookie: RequestCookie | undefined = request.cookies.get('token')
+export async function POST(request: NextRequest) {
+  const {values: {name, status, library}}: Props = await request.json(),
+    [materials, required, steps] = library.map(field => field.join('|')),
+    cookie: RequestCookie | undefined = request.cookies.get('token')
 
   if(cookie) {
     const {value: token} = cookie
@@ -22,7 +27,7 @@ export async function POST(request: NextRequest) {
     if(typeof tokenDecoded !== 'string' && tokenDecoded !== null) {
       const uid: string = tokenDecoded['id']
 
-      const newPageResponse: any = await notion.pages.create({
+      const {id} = await notion.pages.create({
         parent: {
           database_id: notionMenouId!
         },
@@ -42,7 +47,7 @@ export async function POST(request: NextRequest) {
             }]
           },
           materials: {
-            rich_text: materials.length ? [
+            rich_text: materials ? [
               {
                 text: {
                   content: materials
@@ -51,7 +56,7 @@ export async function POST(request: NextRequest) {
             ] : []
           },
           required: {
-            rich_text: required.length ? [
+            rich_text: required ? [
               {
                 text: {
                   content: required
@@ -60,7 +65,7 @@ export async function POST(request: NextRequest) {
             ] : []
           },
           steps: {
-            rich_text: steps.length ? [
+            rich_text: steps ? [
               {
                 text: {
                   content: steps
@@ -73,8 +78,6 @@ export async function POST(request: NextRequest) {
           }
         }
       })
-
-      const {id} = newPageResponse
 
       return NextResponse.json({
         id, 
@@ -89,5 +92,5 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({error: 'An unknown error'})
+  return NextResponse.json({error: 'Unknown user'})
 }
