@@ -33,15 +33,9 @@ export async function POST(request: NextRequest) {
 
     if (result) {
       const {id}: {id: string} = results[0]
-      const token: string = sign(
-        {id}, //payload
-        process.env.SECRET_KEY!, //signature
-        {algorithm: 'HS256'}
-      )
-      
+      const token: string = sign({id}, process.env.SECRET_KEY!, {algorithm: 'HS256'})
       return NextResponse.json({id}, {status: 200, headers: {'Set-Cookie': `token=${token}; Path=/`}})
     }
   }
-
   return NextResponse.json({error: 'Tài khoản hoặc mật khẩu không đúng'})
 }

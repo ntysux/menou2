@@ -5,7 +5,7 @@ import { genSalt, hash } from 'bcrypt'
 import { Client as NotionClient } from "@notionhq/client"
 
 const notion = new NotionClient({auth: process.env.NOTION_KEY})
-const databaseId = process.env.NOTION_ACCOUNT
+const notionAccountId = process.env.NOTION_ACCOUNT
 
 interface Props {
   values: {
@@ -18,9 +18,8 @@ interface Props {
 export async function POST(request: NextRequest) {
   const {values: {username, password, name}}: Props = await request.json()
 
-  // check username in database
   const {results} = await notion.databases.query({
-    database_id: databaseId!,
+    database_id: notionAccountId!,
     filter: {
       property: 'username',
       rich_text: {
@@ -29,18 +28,18 @@ export async function POST(request: NextRequest) {
     }
   })
   
-  // return error if username already exists
+  // return if username already exists
   if(results.length) {
     return NextResponse.json({username: 'Tên đăng nhập đã tồn tại.'})
   } else {
     // hash password with Bcrypt
     const salt: string = await genSalt(10)
-    const hashedPassword: string = await hash(password, salt)
+    const passwordHashed: string = await hash(password, salt)
 
     // store account into Notion
-    const accountResponse: any = await notion.pages.create({
+    const {id} = await notion.pages.create({
       parent: {
-        database_id: databaseId!
+        database_id: notionAccountId!
       },
       properties: {
         username: {
@@ -53,7 +52,7 @@ export async function POST(request: NextRequest) {
         password: {
           rich_text: [{
             text: {
-              content: hashedPassword
+              content: passwordHashed
             }
           }]
         },
@@ -67,14 +66,8 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    const id: string = accountResponse.id
-    
-    const token: string = jwt.sign(
-      {id}, // payload
-      process.env.SECRET_KEY!, //signature
-      {algorithm: 'HS256'}
-    )
-
+    // create token
+    const token: string = jwt.sign({id}, process.env.SECRET_KEY!, {algorithm: 'HS256'})
     return NextResponse.json({id}, {status: 200, headers: {'Set-Cookie': `token=${token}; Path=/`}})
   }
 }
