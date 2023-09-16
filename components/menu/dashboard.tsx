@@ -8,19 +8,23 @@ import { usePathname } from 'next/navigation'
 import Colors from './colors'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
+
 async function handleDeleteMulti(idList: string[]) {
-  await fetch(`${url}/menu/api/delete/multi`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({idList})
-  })
+  if (idList.length) {
+    await fetch(`${url}/menu/api/delete/multi`, {
+      method: 'POST',
+      body: JSON.stringify({idList})
+    })
+  }
 }
 async function handleRestoreMulti(idList: string[]) {
-  await fetch(`${url}/menu/api/update/multi/restore`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({idList})
-  })
+  if (idList.length) {
+    await fetch(`${url}/menu/api/update/multi/restore`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({idList})
+    })
+  }
 }
 
 export default function Dashboard() {
