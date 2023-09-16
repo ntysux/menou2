@@ -10,7 +10,9 @@ export default function MenuBase({children}: {children: React.ReactNode}) {
         <Nav>
           <Dashboard />
         </Nav>
-        {children}
+        <div className="mx-3 sm:mx-0">
+          {children}
+        </div>
       </div>
     </div>
   )
