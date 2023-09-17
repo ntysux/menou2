@@ -7,8 +7,8 @@ import { Menu } from "@/redux/menu/types"
 const url = process.env.NEXT_PUBLIC_APP_URL
 
 interface Result {
-  pages: Menu[]
-  error: string
+  pages?: Menu[]
+  error?: string
 }
 
 async function allMenuPagesById(cookie: RequestCookie | undefined): Promise<Result> {
@@ -28,7 +28,7 @@ export default async function MenuPage() {
     : <ErrorMessage>{result.error}</ErrorMessage>
 }
 
-function ErrorMessage({children}: {children: string}) {
+function ErrorMessage({children}: {children: string | undefined}) {
   return (
     <div className="p-9 space-y-3 shadow shadow-neutral-200 rounded-xl text-center">
       <div className="flex justify-center">
