@@ -4,14 +4,19 @@ import { Client } from "@notionhq/client"
 
 const notion = new Client({auth: process.env.NOTION_KEY})
 
-export async function POST(request: NextRequest) {
-  const {id, name, status, library} = await request.json()
-  const materials = library[0].join('|')
-  const required = library[1].join('|')
-  const steps = library[2].join('|')
+interface Props {
+  id: string
+  name: string
+  status: boolean
+  library: string[][]
+}
 
-  const pageUpdated = await notion.pages.update({
-    page_id: id,
+export async function POST(request: NextRequest) {
+  const {id: pageId, name, status, library}: Props = await request.json()
+  const [materials, required, steps] = library.map(field => field.join('|'))
+
+  const {id} = await notion.pages.update({
+    page_id: pageId,
     properties: {
       name: {
         rich_text: [{
@@ -21,21 +26,21 @@ export async function POST(request: NextRequest) {
         }]
       },
       materials: {
-        rich_text: materials.length ? [{
+        rich_text: materials ? [{
           text: {
             content: materials
           }
         }] : []
       },
       required: {
-        rich_text: required.length ? [{
+        rich_text: required ? [{
           text: {
             content: required
           }
         }] : []
       },
       steps: {
-        rich_text: steps.length ? [{
+        rich_text: steps ? [{
           text: {
             content: steps
           }
@@ -47,5 +52,5 @@ export async function POST(request: NextRequest) {
     }
   })
   
-  return NextResponse.json({id: pageUpdated.id})
+  return NextResponse.json({id})
 }
