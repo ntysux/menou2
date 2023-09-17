@@ -1,8 +1,8 @@
 'use client'
 import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import UpdateForm from './update.form'
-import CreateForm from './create.form'
+import UpdateForm from './form/update.form'
+import CreateForm from './form/create.form'
 
 const transition = {
   overlay: {

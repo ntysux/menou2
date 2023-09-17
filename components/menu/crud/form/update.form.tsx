@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { update } from '@/redux/menu/slice'
 import { IconX } from '@tabler/icons-react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { schema } from './schema'
-import { Init } from './types'
-import { handleKeyDownAdd } from './handle/add'
-import { handleRemove } from './handle/remove'
+import { schema } from '../schema'
+import { Init } from '../types'
+import { handleKeyDownAdd } from '../handle/add'
+import { handleRemove } from '../handle/remove'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 

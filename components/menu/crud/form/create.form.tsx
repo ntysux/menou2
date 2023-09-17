@@ -4,10 +4,11 @@ import { useAppDispatch } from '@/redux/hooks'
 import { add } from '@/redux/menu/slice'
 import { IconX } from '@tabler/icons-react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { schema } from './schema'
-import { Init } from './types'
-import { handleKeyDownAdd } from './handle/add'
-import { handleRemove } from './handle/remove'
+import { schema } from '../schema'
+import { Init } from '../types'
+import { handleKeyDownAdd } from '../handle/add'
+import { handleRemove } from '../handle/remove'
+import { motion } from 'framer-motion'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -56,7 +57,7 @@ export default function CreateForm({setOpen}: {setOpen: Dispatch<SetStateAction<
               name='name' 
               type="text" 
               placeholder='Tên món ăn'
-              className='w-full outline-none text-3xl text-neutral-800 font-light placeholder:text-neutral-300'
+              className='w-full outline-none text-xl text-neutral-600 font-bold placeholder:text-neutral-300'
             />
             <div>
               <ErrorMessage 
@@ -66,30 +67,51 @@ export default function CreateForm({setOpen}: {setOpen: Dispatch<SetStateAction<
               />
             </div>
           </div>
-          <div className='flex space-x-3'>
+          <div className='w-fit grid grid-cols-2'>
             {['Công khai', 'Riêng tư'].map((option, index) =>
-              <button 
-                key={index}
-                type='button' 
-                onClick={() => setFieldValue('status', Boolean(index))}
-                className={`
-                  p-1 px-3 text-sm text-neutral-800 font-medium rounded-md 
-                  ${values.status === Boolean(index) && 'bg-neutral-200'}
-                `}
-              >
-                {option}
-              </button>
+              <div className='relative' key={index}>
+                <button
+                  type='button' 
+                  onClick={() => setFieldValue('status', Boolean(index))}
+                  className={`
+                    relative w-full z-10 p-1 px-3 text-xs font-medium
+                    ${
+                      values.status === Boolean(index) && values.status 
+                      ? 'text-purple-900' 
+                      : values.status === Boolean(index) && !values.status
+                      ? 'text-sky-900'
+                      : 'text-neutral-400'
+                    }
+                  `}
+                >
+                  {option}
+                </button>
+                {
+                  values.status === Boolean(index) 
+                  && 
+                  <motion.div 
+                    layoutId='btn' 
+                    className={`
+                      absolute inset-0 rounded-md
+                      ${values.status ? 'bg-purple-100' : 'bg-sky-100'}
+                    `}
+                  />
+                }
+              </div>
             )}
           </div>
           
-          <div className='space-y-3 my-9'>
+          <div className='space-y-3'>
             {['Nguyên liệu', 'Chuẩn bị', 'Chế biến'].map((field, index) => 
-              <div key={index}>
+              <div key={index} className='space-y-1'>
                 <Field
                   name={`currents[${index}]`}
                   type="text"
                   placeholder={field}
-                  className='w-full outline-none py-3 border-b-2 border-neutral-800 rounded-none text-sm text-neutral-800 font-medium'
+                  className='
+                    w-full outline-none py-2 text-sm text-neutral-800 font-medium rounded-sm
+                    focus:ring-2 focus:ring-neutral-800 focus:px-2 transition-all
+                  '
                   onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownAdd(e, index, values, setFieldValue)}
                 />
                 
