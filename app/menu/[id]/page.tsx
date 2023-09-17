@@ -6,7 +6,10 @@ import { Fragment } from 'react'
 
 interface Result {
   page?: Menu
-  error?: string
+  error?: {
+    code: string
+    message: string
+  }
 }
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -37,7 +40,7 @@ export default async function ViewPage({params}: {params: {id: string}}) {
 
   return result.page && uid === result.page.uid 
     ? <Content page={result.page} />
-    : <ErrorMessage>{result.error ?? 'Unknown post'}</ErrorMessage>
+    : <ErrorMessage>{result.error ? `${result.error.code}: ${result.error.message}` : 'Unknown post'}</ErrorMessage>
 }
 
 function Content({page}: {page: Menu}) {

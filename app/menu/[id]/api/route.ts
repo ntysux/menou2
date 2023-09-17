@@ -23,6 +23,6 @@ export async function GET(request: NextRequest, {params}: {params: {id: string}}
       }
     })
   } catch (error: any) {
-    return NextResponse.json({error: error.message})
+    return NextResponse.json({error: {code: error.code, message: error.message}})
   }
 }
