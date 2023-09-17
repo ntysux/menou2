@@ -1,5 +1,5 @@
 import { FormikErrors } from "formik"
-import { Init } from "../types"
+import { Init } from "../types/types"
 
 export function handleRemove(
   index: number,

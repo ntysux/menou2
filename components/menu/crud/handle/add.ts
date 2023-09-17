@@ -1,5 +1,5 @@
 import { KeyboardEvent } from "react"
-import { Init } from "../types"
+import { Init } from "../types/types"
 import { FormikErrors } from "formik"
 
 export function handleKeyDownAdd(
