@@ -79,16 +79,15 @@ export async function POST(request: NextRequest) {
         }
       })
 
-      return NextResponse.json({
-        id, 
-        uid, 
-        name,
+      const page = {
+        id, uid, name, status,
         deleted: false,
         materials: materials.length ? materials : undefined,
         required: required.length ? required : undefined,
-        steps: steps.length ? steps : undefined,
-        status
-      })
+        steps: steps.length ? steps : undefined
+      }
+
+      return NextResponse.json({page})
     }
   }
 
