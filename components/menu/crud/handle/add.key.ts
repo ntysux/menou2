@@ -1,12 +1,11 @@
 import { KeyboardEvent } from "react"
-import { Init } from "../types/types"
-import { FormikErrors } from "formik"
+import { Init, SetFieldValue } from "../types/types"
 
 export function handleKeyDownAdd(
   event: KeyboardEvent<HTMLInputElement>, 
   index: number,
   values: Init, 
-  setFieldValue: (field: string, value: any) => Promise<void | FormikErrors<Init>>
+  setFieldValue: SetFieldValue
 ) {
   if(event.key === 'Enter' && values.currents[index].trim()) {
     setFieldValue('library', 

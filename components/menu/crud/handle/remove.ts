@@ -1,11 +1,10 @@
-import { FormikErrors } from "formik"
-import { Init } from "../types/types"
+import { Init, SetFieldValue } from "../types/types"
 
 export function handleRemove(
   index: number,
   key: number,
   values: Init, 
-  setFieldValue: (field: string, value: any) => Promise<void | FormikErrors<Init>>
+  setFieldValue: SetFieldValue
 ) {
   setFieldValue('library', 
     [...values.library
