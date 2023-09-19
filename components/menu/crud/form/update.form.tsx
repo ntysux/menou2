@@ -48,19 +48,19 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
   async function handleSubmit(values: Init, {setSubmitting}: FormikHelpers<Init>) {
     setSubmitting(true)
     const {name, status, library} = values
-    dispatch(update({
-      page: {
-        ...rest,
-        name,
-        materials: library[0].length ? library[0].join('|') : undefined,
-        required: library[1].length ? library[1].join('|') : undefined,
-        steps: library[2].length ? library[2].join('|') : undefined,
-        status
-      }, 
-      index: pageIndex
-    }))
     const result = await handleApi(name, status, library, rest.id)
     if (result.id) {
+      dispatch(update({
+        page: {
+          ...rest,
+          name,
+          materials: library[0].length ? library[0].join('|') : undefined,
+          required: library[1].length ? library[1].join('|') : undefined,
+          steps: library[2].length ? library[2].join('|') : undefined,
+          status
+        }, 
+        index: pageIndex
+      }))
       setOpen(false)
     } else {
       setSubmitting(false) 
