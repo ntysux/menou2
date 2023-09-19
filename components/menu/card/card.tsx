@@ -1,5 +1,5 @@
 'use client'
-import Checkbox from '../checkbox'
+import Checkbox from '../../checkbox'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { check } from '@/redux/menu/slice'
 

@@ -4,8 +4,8 @@ import { useEffect } from 'react'
 import { init } from '@/redux/menu/slice'
 import { IconChefHat } from '@tabler/icons-react'
 import { Menu } from '@/redux/menu/types'
-import Card from './card'
-import CardDialog from './card.dialog'
+import Card from './card/card'
+import CardDialog from './card/card.dialog'
 
 export default function MenuContent({pages}: {pages: Menu[]}) {
   const dispatch = useAppDispatch()

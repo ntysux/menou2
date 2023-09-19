@@ -4,7 +4,7 @@ import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { motion } from "framer-motion"
 import { IconChevronLeft, IconPencil} from '@tabler/icons-react'
 import { useAppSelector } from "@/redux/hooks"
-import Checkbox from '../checkbox'
+import Checkbox from '../../checkbox'
 import CardActions from './card.actions'
 
 const transition = {
@@ -26,12 +26,12 @@ const transition = {
   }
 }
 
-export default function CardDialog({
-  children, index
-}: {
+interface Props {
   children: ((setState: Dispatch<SetStateAction<boolean>>) => React.ReactNode)
   index: number
-}) {
+}
+
+export default function CardDialog({children, index}: Props) {
   const [open, setOpen] = useState(false)
   const onClose = () => setOpen(false)
   const page = useAppSelector(state => state.menu)[index]
@@ -44,6 +44,8 @@ export default function CardDialog({
   function handleMaterialsChecked(isChecked: boolean, index: number) {
     setMaterialsChecked([...materialsChecked.fill(isChecked, index, index + 1)])
   }
+
+  const tabs: string[] = ['Nguyên liệu', 'Chuẩn bị', 'Chế biến']
 
   return (
     <>
@@ -66,9 +68,9 @@ export default function CardDialog({
                     <Tab.Group>
                       <div className="sticky top-0 p-7 bg-white flex items-center justify-between">
                         <Tab.List className="flex space-x-5">
-                          {['Nguyên liệu', 'Chuẩn bị', 'Chế biến'].map(category => (
+                          {tabs.map(tab => (
                             <Tab 
-                              key={category}
+                              key={tab}
                               className={({selected}) => `${selected
                                 ? 'text-neutral-800 font-medium'
                                 : 'text-neutral-400 font-normal'}
@@ -77,9 +79,7 @@ export default function CardDialog({
                             >
                               {({selected}) => (
                                 <>
-                                  <Dialog.Title as="h4">
-                                    {category}
-                                  </Dialog.Title>
+                                  <Dialog.Title as="h4">{tab}</Dialog.Title>
                                   {selected && <UnderLine />}
                                 </>
                               )}

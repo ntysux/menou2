@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { Variants, motion } from "framer-motion"
 import { IconColorSwatch, IconMaximize, IconPencil, IconTrash, IconX } from '@tabler/icons-react'
 import { changeColor, remove } from "@/redux/menu/slice"
-import CUDialog from "./crud/dialog/dialog"
+import CUDialog from "../crud/dialog/dialog"
 
 const container: Variants = {
   visible: {

@@ -2,7 +2,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
 import { init } from '@/redux/menu/slice'
-import Card from '@/components/menu/card'
+import Card from '@/components/menu/card/card'
 import { Menu } from '@/redux/menu/types'
 import { IconTrashX } from '@tabler/icons-react'
 
