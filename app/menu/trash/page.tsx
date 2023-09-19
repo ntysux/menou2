@@ -1,6 +1,6 @@
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
-import MenuTrashContent from "@/components/menu/trash/content"
+import MenuTrashContent from "@/components/trash/content"
 import { IconAlertTriangle } from "@tabler/icons-react"
 import { Menu } from "@/redux/menu/types"
 
