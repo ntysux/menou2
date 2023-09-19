@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { checkAllDeleted, checkAll, removeMulti, restoreMulti } from '@/redux/menu/slice'
-import CUDialog from './crud/c.u.dialog'
+import CUDialog from './crud/dialog/dialog'
 import Checkbox from '../checkbox'
 import { IconTrash } from '@tabler/icons-react'
 import { usePathname } from 'next/navigation'
