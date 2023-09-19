@@ -1,19 +1,38 @@
 'use client'
-import { Dispatch, KeyboardEvent, SetStateAction } from 'react'
-import { useAppDispatch } from '@/redux/hooks'
+import { useRef } from 'react'
+import { ErrorMessage, Field as FormikField, Form, Formik, FormikHelpers } from 'formik'
+import Field from '../field'
+import Items from '../items'
+import Status from '../status'
 import { add } from '@/redux/menu/slice'
-import { IconX } from '@tabler/icons-react'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { Menu } from '@/redux/menu/types'
 import { schema } from '../validate/schema'
-import { Init } from '../types/types'
-import { handleKeyDownAdd } from '../handle/add'
-import { handleRemove } from '../handle/remove'
-import { motion } from 'framer-motion'
+import { useAppDispatch } from '@/redux/hooks'
+import { Init, OpenDialog } from '../types/types'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
-export default function CreateForm({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
+async function handleApi(values: Init): Promise<Menu | string> {
+  const response = await fetch(`${url}/menu/api/create`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({values})
+  })
+  const result = await response.json()
+  return result.page ?? result.error
+}
+
+export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
   const dispatch = useAppDispatch()
+  const materialsRef = useRef<HTMLInputElement | null>(null),
+    requiredRef = useRef<HTMLInputElement | null>(null),
+    stepsRef = useRef<HTMLInputElement | null>(null)
+
+  const fields = [
+    {name: 'Nguyên liệu', ref: materialsRef},
+    {name: 'Chuẩn bị', ref: requiredRef}, 
+    {name: 'Chế biến', ref: stepsRef}
+  ]
 
   const init: Init = {
     name: '', 
@@ -23,24 +42,15 @@ export default function CreateForm({setOpen}: {setOpen: Dispatch<SetStateAction<
     error: ''
   }
 
-  async function handleForm(
-    values: Init, 
-    setSubmitting: (isSubmitting: boolean) => void, 
-    setFieldError: (field: string, message: string | undefined) => void
-  ) {
+  async function handleSubmit(values: Init, {setSubmitting, setFieldError}: FormikHelpers<Init>) {
     setSubmitting(true)
-    const response = await fetch(`${url}/menu/api/create`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({values})
-    })
-    const result = await response.json()
-    if (!result.error) {
+    const result = await handleApi(values)
+    if (typeof result !== 'string') {
       dispatch(add(result))
       setOpen(false)
     } else {
-      setFieldError('error', result.error)
-      setSubmitting(false)
+      setFieldError('error', result)
+      setSubmitting(false) 
     }
   }
 
@@ -48,101 +58,46 @@ export default function CreateForm({setOpen}: {setOpen: Dispatch<SetStateAction<
     <Formik
       initialValues={init}
       validationSchema={schema}
-      onSubmit={(values, {setSubmitting, setFieldError}) => handleForm(values, setSubmitting, setFieldError)}
+      onSubmit={handleSubmit}
     >
-      {({values, submitForm, setFieldValue}) => (
+      {({values, submitForm, setFieldValue, isSubmitting, errors}) => (
         <Form className='space-y-5'>
-          <div className='flex items-center'>
-            <Field 
-              name='name' 
-              type="text" 
-              placeholder='Tên món ăn'
-              className='w-full outline-none text-xl text-neutral-600 font-bold placeholder:text-neutral-300'
-            />
-            <div>
-              <ErrorMessage 
-                name='name'
-                component="div" 
-                className='min-w-max px-3 py-1 rounded-md bg-rose-100 text-xs text-rose-800 font-bold' 
-              />
-            </div>
-          </div>
-          <div className='w-fit grid grid-cols-2'>
-            {['Công khai', 'Riêng tư'].map((option, index) =>
-              <div className='relative' key={index}>
-                <button
-                  type='button' 
-                  onClick={() => setFieldValue('status', Boolean(index))}
-                  className={`
-                    relative w-full z-10 p-1 px-3 text-xs font-medium
-                    ${
-                      values.status === Boolean(index) && values.status 
-                      ? 'text-purple-900' 
-                      : values.status === Boolean(index) && !values.status
-                      ? 'text-sky-900'
-                      : 'text-neutral-400'
-                    }
-                  `}
-                >
-                  {option}
-                </button>
-                {
-                  values.status === Boolean(index) 
-                  && 
-                  <motion.div 
-                    layoutId='btn' 
-                    className={`
-                      absolute inset-0 rounded-md
-                      ${values.status ? 'bg-purple-100' : 'bg-sky-100'}
-                    `}
-                  />
-                }
-              </div>
-            )}
-          </div>
-          
+          <FormikField 
+            name='name' 
+            type="text" 
+            placeholder='Tên món ăn'
+            className='w-full outline-none text-xl text-neutral-600 font-bold placeholder:text-neutral-300'
+            onBlur={() => setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))}
+          />
+          <Status 
+            values={values} 
+            setFieldValue={setFieldValue} 
+          />
           <div className='space-y-3'>
-            {['Nguyên liệu', 'Chuẩn bị', 'Chế biến'].map((field, index) => 
+            {fields.map((field, index) => 
               <div key={index} className='space-y-1'>
-                <Field
-                  name={`currents[${index}]`}
-                  type="text"
-                  placeholder={field}
-                  className='
-                    w-full outline-none py-2 text-sm text-neutral-800 font-medium rounded-sm
-                    focus:ring-2 focus:ring-neutral-800 focus:px-2 transition-all
-                  '
-                  onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownAdd(e, index, values, setFieldValue)}
+                <Field 
+                  field={field} 
+                  index={index} 
+                  values={values} 
+                  setFieldValue={setFieldValue} 
                 />
-                
-                <div className={`flex ${index !== 2 ? 'flex-wrap gap-3' : 'flex-col gap-1'}`}>
-                  {values.library[index].map((item, key) =>
-                    <div 
-                      key={key} 
-                      className='text-sm text-neutral-800 font-medium inline-flex items-center'
-                    >
-                      {item}
-                      <span>
-                        <IconX
-                          size='16px' 
-                          strokeWidth='2.7' 
-                          className='text-neutral-800 cursor-pointer'
-                          onClick={() => handleRemove(index, key, values, setFieldValue)}
-                        />
-                      </span>
-                    </div>
-                  )}
-                </div>
+                <Items 
+                  values={values} 
+                  index={index} 
+                  setFieldValue={setFieldValue} 
+                />
               </div>
             )}
           </div>
-          <div className='absolute left-0 bottom-0 flex items-center justify-between p-5 w-full bg-white border-t border-neutral-200 rounded-b-2xl'>
+          <div className='absolute bottom-0 inset-x-0 flex items-center space-x-3 p-5 bg-white border-t border-neutral-200'>
             <button 
-              type="button"
-              onClick={submitForm} 
-              className='p-2 px-5 shadow shadow-neutral-200 rounded-lg text-neutral-500 font-medium hover:ring-1 hover:ring-neutral-200'
+              type="button" 
+              onClick={submitForm}
+              disabled={isSubmitting || errors.name || !values.name ? true : false} 
+              className='py-1 px-5 rounded-sm text-sm text-neutral-800 font-bold border-2 border-neutral-800 disabled:opacity-25'
             >
-              Tạo
+              {isSubmitting ? <Spin /> : 'Tạo'}
             </button>
             <ErrorMessage name='error' component="div" className='text-xs text-pink-400 font-medium' />
           </div>
@@ -150,4 +105,8 @@ export default function CreateForm({setOpen}: {setOpen: Dispatch<SetStateAction<
       )}
     </Formik>
   )
+}
+
+function Spin() {
+  return <div className="h-4 w-4 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
 }
