@@ -1,5 +1,5 @@
 import { FormikErrors } from "formik"
-import { MutableRefObject } from "react"
+import { Dispatch, MutableRefObject, SetStateAction } from "react"
 
 export interface Init {
   name: string
@@ -11,3 +11,4 @@ export interface Init {
 
 export type SetFieldValue = (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<Init>>
 export type Ref = MutableRefObject<HTMLInputElement | null>
+export type OpenDialog = Dispatch<SetStateAction<boolean>>
