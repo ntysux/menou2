@@ -6,7 +6,7 @@ export interface Init {
   status: boolean
   currents: string[]
   library: string[][]
-  error: string
+  error?: string
 }
 
 export type SetFieldValue = (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void | FormikErrors<Init>>
