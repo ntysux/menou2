@@ -15,10 +15,15 @@ export default function Nav({children}: {children: React.ReactNode}) {
         <div className="flex space-x-9 sm:hidden">
           <RouterMobile />
         </div>
-        <div className="hidden sm:block">
+        <div className="hidden sm:flex sm:space-x-9">
           <Link href='/premium'>
             <h3 className="text-sm text-neutral-800 font-medium leading-none">
               Premium
+            </h3>
+          </Link>
+          <Link href='/community'>
+            <h3 className="text-sm text-neutral-800 font-medium leading-none">
+              Cộng đồng
             </h3>
           </Link>
         </div>
