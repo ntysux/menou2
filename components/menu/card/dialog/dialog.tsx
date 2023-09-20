@@ -47,18 +47,16 @@ export default function CardDialog({children, index}: Props) {
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...transition.panel}>
                 <Dialog.Panel className="relative w-screen max-w-4xl">
-                  <div className={
+                  <Tab.Group as='div' className={
                     `${actions ? 'max-w-2xl' : 'max-w-full'} 
                     relative hidden-scroll overflow-y-scroll h-screen max-h-96 w-full rounded-2xl bg-white transition-all`
                   }>
-                    <Tab.Group>
-                      <Header 
-                        actions={actions} 
-                        setActions={setActions} 
-                      />
-                      <Content index={index} />
-                    </Tab.Group>
-                  </div>
+                    <Header 
+                      actions={actions} 
+                      setActions={setActions} 
+                    />
+                    <Content index={index} />
+                  </Tab.Group>
                   {actions && <CardActions setActions={setActions} index={index} />}
                 </Dialog.Panel>
               </Transition.Child>

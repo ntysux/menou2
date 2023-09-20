@@ -5,6 +5,7 @@ import { Variants, motion } from "framer-motion"
 import { IconColorSwatch, IconMaximize, IconPencil, IconTrash, IconX } from '@tabler/icons-react'
 import { changeColor, remove } from "@/redux/menu/slice"
 import CUDialog from "../../crud/dialog/dialog"
+import { Dispatch, SetStateAction } from "react"
 
 const container: Variants = {
   visible: {
@@ -19,7 +20,14 @@ const item = {
   visible: {y: 0, opacity: 1}
 }
 
+const main = {
+  initial: {scale: 0.95, opacity: 0},
+  animate: {scale: 1, opacity: 1},
+  transition: {duration: 0.3, delay: 0.3}
+}
+
 const url = process.env.NEXT_PUBLIC_APP_URL
+
 async function handleChangeColor(id: string, color: string) {
   await fetch(`${url}/menu/api/update/single/color`, {
     method: 'POST',
@@ -35,17 +43,19 @@ async function handleDelete(id: string) {
   })
 }
 
-export default function CardActions({index, setActions}: {index: number, setActions: any}) {
+const colors = [
+  {color: 'bg-rose-100', name: 'Nóng hổi', face: 'bg-rose-400'}, 
+  {color: 'bg-teal-100', name: 'Giải nhiệt', face: 'bg-teal-400'}, 
+  {color: 'bg-purple-100', name: 'Chill', face: 'bg-purple-400'},
+  {color: 'bg-white', name: 'Mặc định', face: 'bg-white'}
+]
+
+export default function CardActions({index, setActions}: {index: number, setActions: Dispatch<SetStateAction<boolean>>}) {
   const page = useAppSelector(state => state.menu)[index]
   const dispatch = useAppDispatch()
 
-  return (
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.3, delay: 0.3 }}
-      className='absolute inset-y-0 right-0 w-screen max-w-[13rem] rounded-2xl bg-neutral-950/75 backdrop-blur-[1px]'
-    >
+  function MobileCloseBtn() {
+    return (
       <div className="flex justify-end p-2 sm:hidden">
         <button 
           className="outline-none p-1 rounded-full bg-neutral-800"
@@ -54,6 +64,15 @@ export default function CardActions({index, setActions}: {index: number, setActi
           <IconX size='15px' strokeWidth='2.5' className="text-white" />
         </button>
       </div>
+    )
+  }
+
+  return (
+    <motion.div
+      {...main}
+      className='absolute inset-y-0 right-0 w-screen max-w-[215px] rounded-2xl bg-neutral-950/75 backdrop-blur-[1px]'
+    >
+      <MobileCloseBtn />
       <ul className='list-none grid grid-cols-4 gap-1 p-1'>
         <li className="flex justify-center rounded-xl p-1 bg-neutral-700 text-neutral-400">
           <IconColorSwatch size='18px' strokeWidth='2.5' />
@@ -90,14 +109,9 @@ export default function CardActions({index, setActions}: {index: number, setActi
         animate="visible"
         className="p-1 text-white text-sm font-medium"
       >
-        {[
-          {color: 'bg-rose-100', name: 'Nóng hổi', face: 'bg-rose-400'}, 
-          {color: 'bg-teal-100', name: 'Giải nhiệt', face: 'bg-teal-400'}, 
-          {color: 'bg-purple-100', name: 'Chill', face: 'bg-purple-400'},
-          {color: 'bg-white', name: 'Mặc định', face: 'bg-white'}
-        ].map((colorOption, colorKey) =>
+        {colors.map((colorOption, colorIndex) =>
           <motion.li 
-            key={colorKey}
+            key={colorIndex}
             variants={item}
             onClick={() => {
               dispatch(changeColor({color: colorOption.color, index}))
