@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react"
-import { IconChevronLeft } from "@tabler/icons-react"
+import { IconDots } from "@tabler/icons-react"
 import { motion } from "framer-motion"
 import { Dispatch, SetStateAction } from "react"
 
@@ -18,7 +18,7 @@ export default function Header({
         {tabs.map(tab => (
           <Tab 
             key={tab}
-            className={({selected}) => `relative text-sm outline-none ${selected ? 'text-neutral-800 font-medium' : 'text-neutral-400 font-normal'}`}
+            className={({selected}) => `relative text-sm font-medium outline-none ${selected ? 'text-neutral-800' : 'text-neutral-400'}`}
           >
             {({selected}) => (
               <>
@@ -29,13 +29,10 @@ export default function Header({
           </Tab>
         ))}
       </div>
-      <IconChevronLeft 
+      <IconDots
         size='20px' 
         strokeWidth='3'
-        className={`
-          ${actions ? 'rotate-180 text-neutral-800' : 'rotate-0 text-neutral-400'} 
-          transition-all duration-500
-        `}
+        className='text-neutral-400 hover:text-neutral-500'
         onClick={() => setActions(!actions)}
       />
     </Tab.List>
