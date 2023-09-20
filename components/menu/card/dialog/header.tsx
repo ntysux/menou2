@@ -32,7 +32,7 @@ export default function Header({
       <IconDots
         size='20px' 
         strokeWidth='3'
-        className='text-neutral-400 hover:text-neutral-500'
+        className={`text-neutral-400 hover:text-neutral-500 sm:flex ${actions && 'hidden'}`}
         onClick={() => setActions(!actions)}
       />
     </Tab.List>
