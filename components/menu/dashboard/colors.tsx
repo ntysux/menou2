@@ -24,7 +24,7 @@ const scale = {
   leaveTo: "opacity-0 translate-y-1"
 }
 
-const colors = [
+const colors: {color: string, face: string}[] = [
   {color: 'bg-rose-100', face: 'bg-rose-400'}, 
   {color: 'bg-teal-100', face: 'bg-teal-400'}, 
   {color: 'bg-purple-100', face: 'bg-purple-400'},
@@ -32,9 +32,14 @@ const colors = [
 ]
 
 export default function Colors() {
-  const dispatch = useAppDispatch()
-  const menu = useAppSelector(state => state.menu)
-  const idList = menu.filter(menu => menu.checked).map(menu => menu.id)
+  const dispatch = useAppDispatch(),
+    menu = useAppSelector(state => state.menu),
+    idList = menu.filter(menu => menu.checked).map(menu => menu.id)
+
+  async function changeColorAndDispatch(color: string) {
+    dispatch(changeColorMulti(color))
+    handleChangeColorMulti(idList, color)
+  }
 
   return (
     <Popover className='relative flex'>
@@ -47,10 +52,7 @@ export default function Colors() {
             {colors.map((colorTheme, index) =>
               <button 
                 key={index} 
-                onClick={() => {
-                  dispatch(changeColorMulti(colorTheme.color))
-                  handleChangeColorMulti(idList, colorTheme.color)
-                }}
+                onClick={() => changeColorAndDispatch(colorTheme.color)}
                 className='hover:bg-neutral-600 rounded-full p-1'
               >
                 <div className={`p-2 rounded-full ${colorTheme.face}`} />  
