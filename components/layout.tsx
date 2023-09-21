@@ -10,7 +10,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
   return pathname === '/' ? (
     children
   ) : (
-    <div className='sm:flex sm:w-screen sm:max-w-5xl sm:mx-auto'>
+    <div className='sm:flex sm:gap-3 sm:w-screen sm:max-w-5xl sm:mx-auto'>
       <div className='hidden sm:block'>
         <div className='sticky top-0'>
           <div className='py-3'>
@@ -22,12 +22,10 @@ export default function Layout({children}: {children: React.ReactNode}) {
         </div>
       </div>
       <div className='sm:flex-1'>
-        <div className='sticky top-0'>
-          <Nav>
-            <Dashboard />
-          </Nav>
-        </div>
-        <div className='p-3'>
+        <Nav>
+          <Dashboard />
+        </Nav>
+        <div className='mx-3 sm:mx-0'>
           {children}
         </div>
       </div>
