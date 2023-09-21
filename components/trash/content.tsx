@@ -31,7 +31,7 @@ export default function MenuTrashContent({pages}: {pages: Menu[]}) {
 
 function Empty() {
   return (
-    <div className="p-9 mt-5 mx-3 space-y-5 text-center border border-dashed border-neutral-300 rounded-lg sm:mx-0">
+    <div className="p-9 space-y-5 text-center border border-dashed border-neutral-300 rounded-lg">
       <div className="flex justify-center">
         <IconTrashX size='35px' className="text-neutral-300" />
       </div>

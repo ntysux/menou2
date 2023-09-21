@@ -22,37 +22,30 @@ export default function Sidebar() {
   ]
 
   return (
-    <div className="h-screen sticky top-0 hidden sm:block">
-      <div className="py-[13px]">
-        <h1 className='text-xl text-neutral-800 tracking-widest'>
-          Menoú
-        </h1>
-      </div>
-      <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
-        {features.map((feature, index) =>
-          <Link
-            key={index}
-            href={feature.href} 
-          >
-            <li className="flex items-center justify-between space-x-11 py-2.5 px-5 rounded-xl min-w-max">
-              <div className="flex items-center space-x-3">
-                <span className='text-neutral-300'>
-                  {feature.icon}
-                </span>
-                <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
-                  {feature.name}
-                </p>
+    <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
+      {features.map((feature, index) =>
+        <Link
+          key={index}
+          href={feature.href} 
+        >
+          <li className="flex items-center justify-between space-x-11 py-2.5 px-5 rounded-xl min-w-max">
+            <div className="flex items-center space-x-3">
+              <span className='text-neutral-300'>
+                {feature.icon}
+              </span>
+              <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
+                {feature.name}
+              </p>
+            </div>
+            {
+              feature.command !== undefined &&
+              <div className="px-2.5 py-0.5 text-xs text-sky-800 font-semibold bg-sky-100 rounded-md">
+                {feature.command}
               </div>
-              {
-                feature.command !== undefined &&
-                <div className="px-2.5 py-0.5 text-xs text-sky-800 font-semibold bg-sky-100 rounded-md">
-                  {feature.command}
-                </div>
-              }
-            </li>
-          </Link>
-        )}
-      </ul>
-    </div>
+            }
+          </li>
+        </Link>
+      )}
+    </ul>
   )
 }

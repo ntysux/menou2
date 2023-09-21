@@ -19,7 +19,7 @@ export default function MenuContent({pages}: {pages: Menu[]}) {
   }, [])
 
   return [menu, pages].some(array => array.filter(page => !page.deleted).length) ? (
-    <div className='mt-7 gap-3 mx-3 mb-20 grid grid-cols-1 sm:mx-0 sm:mb-0 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'>
+    <div className='grid grid-cols-1 gap-3 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'>
       {
         menu.map((page, index) =>
           !page.deleted &&
@@ -34,7 +34,7 @@ export default function MenuContent({pages}: {pages: Menu[]}) {
 
 function Empty() {
   return (
-    <div className="p-9 mt-5 mx-3 space-y-5 text-center border border-dashed border-neutral-300 rounded-lg sm:mx-0">
+    <div className="p-9 space-y-5 text-center border border-dashed border-neutral-300 rounded-lg">
       <div className="flex justify-center">
         <IconChefHat size='35px' className="text-neutral-300" />
       </div>
