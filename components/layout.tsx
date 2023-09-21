@@ -25,7 +25,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
         <Nav>
           <Dashboard />
         </Nav>
-        <div className='mx-3 sm:mx-0'>
+        <div className='m-3 sm:m-0'>
           {children}
         </div>
       </div>
