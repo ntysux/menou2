@@ -1,31 +1,18 @@
 'use client'
 import { usePathname } from "next/navigation"
 import RouterMobile from "./router.mobile"
-import Link from "next/link"
 
 export default function Nav({children}: {children: React.ReactNode}) {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-10 bg-white">
-      <nav className="flex justify-between sm:justify-end items-center py-5 px-3 sm:px-0">
-        <h1 className='text-xl text-neutral-800 tracking-widest block sm:hidden'>
+    <header className="sticky top-0 p-3 space-y-3 bg-white">
+      <nav className="flex items-center justify-between">
+        <h1 className='text-xl text-neutral-800 tracking-widest sm:opacity-0'>
           Menoú
         </h1>
-        <div className="flex space-x-9 sm:hidden">
+        <div className="flex sm:opacity-0">
           <RouterMobile />
-        </div>
-        <div className="hidden sm:flex sm:space-x-9">
-          <Link href='/premium'>
-            <h3 className="text-sm text-neutral-800 font-medium leading-none">
-              Premium
-            </h3>
-          </Link>
-          <Link href='/community'>
-            <h3 className="text-sm text-neutral-800 font-medium leading-none">
-              Cộng đồng
-            </h3>
-          </Link>
         </div>
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && children}
