@@ -7,9 +7,7 @@ export default function MenuLayout({children}: {children: React.ReactNode}) {
   return (
     <>
       {!cookie && <SigninDialog />}
-      <div className="my-3">
-        {children}
-      </div>
+      {children}
     </>
   )
 }
