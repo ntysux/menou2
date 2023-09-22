@@ -3,6 +3,7 @@ import Sidebar from '@/components/sidebar'
 import Nav from '@/components/nav'
 import Dashboard from '@/components/menu/dashboard/dashboard'
 import { usePathname } from 'next/navigation'
+import Search from './community/search'
 
 export default function Layout({children}: {children: React.ReactNode}) {
   const pathname = usePathname()
@@ -24,8 +25,9 @@ export default function Layout({children}: {children: React.ReactNode}) {
       <div className='sm:flex-1'>
         <Nav>
           {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}
+          {pathname.startsWith('/community') && <Search />}
         </Nav>
-        <div className='m-3 sm:m-0'>
+        <div className='m-3 sm:mx-0'>
           {children}
         </div>
       </div>
