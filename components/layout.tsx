@@ -23,7 +23,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
       </div>
       <div className='sm:flex-1'>
         <Nav>
-          <Dashboard />
+          {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}
         </Nav>
         <div className='m-3 sm:m-0'>
           {children}
