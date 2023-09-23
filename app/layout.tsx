@@ -2,7 +2,6 @@ import ReduxProviders from '@/redux/providers'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Quicksand } from 'next/font/google'
-import Layout from '@/components/layout'
 
 const quicksand = Quicksand({ subsets: ['vietnamese'] })
 
@@ -16,9 +15,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="en">
       <body className={quicksand.className}>
         <ReduxProviders>
-          <Layout>
-            {children}
-          </Layout>
+          {children}
         </ReduxProviders>
       </body>
     </html>
