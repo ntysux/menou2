@@ -46,7 +46,7 @@ export default async function ViewPage({params}: {params: {id: string}}) {
 function Content({page}: {page: Menu}) {
   const fields = [
     {title: 'Nguyên liệu', value: page.materials}, 
-    {title: 'Chẩn bị', value: page.required}, 
+    {title: 'Chuẩn bị', value: page.required}, 
     {title: 'Chế biến', value: page.steps}
   ]
 
