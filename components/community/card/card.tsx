@@ -7,7 +7,7 @@ export default function Card({page}: {page: MenuPublic}) {
   return (
     <div className="py-3 p-7 space-y-3 rounded-xl bg-hero-pattern cursor-pointer">
       <div>
-        <h2 className="text-neutral-800 font-bold bg-white w-fit max-w-[250px] truncate">
+        <h2 className="text-sm text-white font-bold bg-neutral-800 w-fit max-w-[250px] truncate">
           {name}
         </h2>
         <div className="bg-white w-fit flex items-end space-x-3">
