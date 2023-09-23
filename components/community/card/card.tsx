@@ -5,7 +5,7 @@ export default function Card({page}: {page: MenuPublic}) {
   const {name, uname, verified} = page
 
   return (
-    <div className="py-3 p-7 space-y-3 rounded-xl bg-hero-pattern hover:ring-2 hover:ring-neutral-800 hover:ring-inset">
+    <div className="py-3 p-7 space-y-3 rounded-xl bg-hero-pattern cursor-pointer">
       <div>
         <h2 className="text-neutral-800 font-bold bg-white w-fit max-w-[250px] truncate">
           {name}
