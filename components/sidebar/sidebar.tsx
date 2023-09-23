@@ -31,7 +31,7 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
 
   return (
     <div className="space-y-3">
-      {pathname === '/community' && children}
+      {pathname.startsWith('/community') && children}
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
         {features.map((feature, index) =>
           <Link
