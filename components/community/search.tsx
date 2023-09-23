@@ -1,4 +1,5 @@
 'use client'
+import { useAppSelector } from "@/redux/hooks"
 import { Dialog, Transition } from "@headlessui/react"
 import { ChangeEvent, Fragment, useState } from "react"
 
@@ -22,8 +23,9 @@ const transitionProps = {
 }
 
 export default function Search() {
-  const [open, setOpen] = useState(false)
-  const [search, setSearch] = useState('')
+  const menuPublic = useAppSelector(state => state.menuPublic),
+    [open, setOpen] = useState(false),
+    [search, setSearch] = useState('')
 
   function onClose() {
     setOpen(false)
@@ -33,8 +35,17 @@ export default function Search() {
     setOpen(true)
   }
 
-  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+  function handleSetSearch(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value)
+  }
+
+  function ShowSearchResult() {
+    const searchResult: number = menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length
+    return search && (
+      <button className="bg-white px-3 py-1 rounded-sm w-fit text-sm text-neutral-800 font-bold">
+        {searchResult} kết quả
+      </button>
+    )
   }
 
   return (
@@ -63,15 +74,9 @@ export default function Search() {
                     value={search}
                     type="text"
                     className="w-full outline-none p-2 bg-white text-sm text-neutral-800 font-medium rounded-sm"
-                    onChange={handleSearch}
+                    onChange={handleSetSearch}
                   />
-
-                  {
-                    search && 
-                    <button className="bg-white px-3 py-1 rounded-sm w-fit text-sm text-neutral-800 font-bold">
-                      0 kết quả
-                    </button>
-                  }
+                  <ShowSearchResult />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
