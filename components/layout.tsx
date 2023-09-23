@@ -1,5 +1,5 @@
 'use client'
-import Sidebar from '@/components/sidebar'
+import Sidebar from '@/components/sidebar/sidebar'
 import Nav from '@/components/nav'
 import Dashboard from '@/components/menu/dashboard/dashboard'
 import { usePathname } from 'next/navigation'
