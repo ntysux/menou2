@@ -7,13 +7,19 @@ const notion = new Client({auth: process.env.NOTION_KEY})
 const notionMenouId = process.env.NOTION_MENOU
 
 async function getPageWithNameUser(page: any): Promise<MenuPublic> {
-  const {properties: {name: {rich_text: [{plain_text}]}}}: any = await notion.pages.retrieve({
+  const {
+    properties: {
+      name: {rich_text: [{plain_text}]},
+      verified: {checkbox}
+    }
+  }: any = await notion.pages.retrieve({
     page_id: page.uid
   })
 
   return {
     ...page,
-    uname: plain_text
+    uname: plain_text,
+    verified: checkbox
   }
 }
 
