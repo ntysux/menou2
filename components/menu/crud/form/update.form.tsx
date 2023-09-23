@@ -110,7 +110,7 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
               disabled={isSubmitting || errors.name || !values.name ? true : false} 
               className='py-1 px-5 rounded-sm text-sm text-neutral-800 font-bold border-2 border-neutral-800 disabled:opacity-25'
             >
-              {isSubmitting ? <Spin /> : 'Tạo'}
+              {isSubmitting ? <Spin /> : 'Lưu'}
             </button>
             <ErrorMessage name='error' component="div" className='text-xs text-pink-400 font-medium' />
           </div>
