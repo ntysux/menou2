@@ -1,6 +1,7 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
 import { Dialog, Transition } from "@headlessui/react"
+import Link from "next/link"
 import { ChangeEvent, Fragment, useState } from "react"
 
 const transitionProps = {
@@ -42,9 +43,16 @@ export default function Search() {
   function ShowSearchResult() {
     const searchResult: number = menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length
     return search && (
-      <button className="bg-white px-3 py-1 rounded-sm w-fit text-sm text-neutral-800 font-bold">
-        {searchResult} kết quả
-      </button>
+      <div>
+        <Link href={`/community?search=${search}`}>
+          <button 
+            className="bg-white px-3 py-1 rounded-sm w-fit text-sm text-neutral-800 font-bold"
+            onClick={onClose}
+          >
+            {searchResult} kết quả
+          </button>
+        </Link>
+      </div>
     )
   }
 
