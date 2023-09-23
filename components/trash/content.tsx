@@ -9,10 +9,8 @@ import { IconTrashX } from '@tabler/icons-react'
 export default function MenuTrashContent({pages}: {pages: Menu[]}) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
-  let count = 0
   useEffect(() => {
-    count++
-    if (!menu.length && pages.length && count === 1) {
+    if (!menu.length && pages.length) {
       dispatch(init(pages))
     }
   }, [])

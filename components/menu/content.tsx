@@ -10,10 +10,8 @@ import CardDialog from './card/dialog/dialog'
 export default function MenuContent({pages}: {pages: Menu[]}) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
-  let count = 0
   useEffect(() => {
-    count++
-    if (!menu.length && pages.length && count === 1) {
+    if (!menu.length && pages.length) {
       dispatch(init(pages))
     }
   }, [])

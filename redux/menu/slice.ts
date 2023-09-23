@@ -7,9 +7,7 @@ export const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    init: (state, action: PayloadAction<Menu[]>) => {
-      state.push(...action.payload)
-    },
+    init: (state, action: PayloadAction<Menu[]>) => [...action.payload],
     add: (state, action: PayloadAction<Menu>) => {
       state.unshift(action.payload)
     },

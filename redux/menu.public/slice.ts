@@ -7,9 +7,7 @@ export const menuPublicSlice = createSlice({
   name: 'menuPublic',
   initialState,
   reducers: {
-    init: (state, action: PayloadAction<MenuPublic[]>) => {
-      state.push(...action.payload)
-    }
+    init: (state, action: PayloadAction<MenuPublic[]>) => [...action.payload]
   }
 })
 
