@@ -1,19 +1,8 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
-import { IconDiamonds, IconDiscountCheckFilled, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
+import { IconDiamonds, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-
-const url = process.env.NEXT_PUBLIC_APP_URL
-
-async function getUser(cookie: RequestCookie | undefined) {
-  const response = await fetch(`${url}/community/user`, {
-    headers: {cookie: `token=${cookie?.value}`}
-  })
-  const result = await response.json()
-  return result
-}
 
 interface Feature {
   name: string
@@ -22,9 +11,7 @@ interface Feature {
   command?: number
 }
 
-export default function Sidebar() {
-  // const cookie = cookies().get('token')
-  // const result = await getUser(cookie)
+export default function Sidebar({children}: {children: React.ReactNode}) {
 
   const menu = useAppSelector(state => state.menu),
     menuDeleted = menu.filter(menu => menu.deleted).length,
@@ -44,17 +31,7 @@ export default function Sidebar() {
 
   return (
     <div className="space-y-3">
-      {
-        pathname === '/community' &&
-        <div className="p-3 rounded-xl shadow shadow-neutral-200">
-          <div className="flex items-center space-x-1 p-5">
-            <IconDiscountCheckFilled size='17px' className="text-sky-400" />
-            <p className="text-sm text-neutral-800 font-bold">
-              Ntysux
-            </p>
-          </div>
-        </div>
-      }
+      <>{pathname === '/community' && children}</>
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
         {features.map((feature, index) =>
           <Link
