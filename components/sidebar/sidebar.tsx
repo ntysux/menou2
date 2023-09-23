@@ -11,7 +11,7 @@ interface Feature {
   command?: number
 }
 
-export default function Sidebar({children}: {children: React.ReactNode}) {
+export default function Sidebar({children}: {children?: React.ReactNode}) {
 
   const menu = useAppSelector(state => state.menu),
     menuDeleted = menu.filter(menu => menu.deleted).length,
@@ -31,7 +31,7 @@ export default function Sidebar({children}: {children: React.ReactNode}) {
 
   return (
     <div className="space-y-3">
-      <>{pathname === '/community' && children}</>
+      {pathname === '/community' && children}
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
         {features.map((feature, index) =>
           <Link
