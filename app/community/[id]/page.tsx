@@ -50,6 +50,7 @@ function Content({page}: {page: MenuPublic}) {
           </div>
         </div>
       </div>
+      <p>{page.description}</p>
       <div className="space-y-3">
         <h3 className="text-neutral-800 font-light">Hướng dẫn / chế biến</h3>
         {fields.map((field, fieldIndex) =>
