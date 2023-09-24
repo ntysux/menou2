@@ -53,6 +53,9 @@ function Content({page}: {page: Menu}) {
   return (
     <div className="space-y-9 mb-9">
       <h2 className="text-xl text-neutral-800 font-medium">{page.name}</h2>
+      <p className="text-sm text-neutral-500 font-medium">
+        {page.description}
+      </p>
       <div className="space-y-3">
         <h3 className="text-neutral-800 font-light">Hướng dẫn / chế biến</h3>
         {fields.map((field, fieldIndex) =>
