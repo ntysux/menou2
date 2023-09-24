@@ -37,6 +37,7 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
   const init: Init = {
     name: '', 
     status: false, 
+    description: '',
     currents: Array(3).fill(''), 
     library: Array(3).fill([]), 
     error: ''
@@ -72,6 +73,18 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
           <Status 
             values={values} 
             setFieldValue={setFieldValue} 
+          />
+          <FormikField 
+            as='textarea'
+            rows='3'
+            name='description' 
+            type="text"
+            placeholder='Mô tả'
+            className='
+              outline-none p-3 pl-0 w-full text-sm text-neutral-600 font-medium resize-none rounded-sm min-h-full hidden-scroll
+              focus:pl-3 focus:ring-2 focus:ring-neutral-800 transition-all
+            '
+            onBlur={() => setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))}
           />
           <div className='space-y-3'>
             {fields.map((field, index) => 

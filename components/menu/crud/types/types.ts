@@ -4,6 +4,7 @@ import { Dispatch, MutableRefObject, SetStateAction } from "react"
 export interface Init {
   name: string
   status: boolean
+  description?: string
   currents: string[]
   library: string[][]
   error?: string

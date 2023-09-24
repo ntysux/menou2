@@ -28,13 +28,14 @@ export async function GET(request: NextRequest) {
 
       const pages = [...results.map((page: any) => {
         const {id, properties: {
-          uid, name, deleted, materials, required, steps, status, color
+          uid, name, description, deleted, materials, required, steps, status, color
         }} = page
   
         return {
           id,
           uid: uid.title[0].plain_text,
           name: name.rich_text[0].plain_text,
+          description: description.rich_text[0]?.plain_text,
           deleted: deleted.checkbox,
           materials: materials.rich_text[0]?.plain_text,
           required: required.rich_text[0]?.plain_text,

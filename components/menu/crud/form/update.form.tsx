@@ -11,11 +11,11 @@ import { Init, OpenDialog } from '../types/types'
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
-async function handleApi(name: string, status: boolean, library: string[][], id: string) {
+async function handleApi(name: string, status: boolean, description: string | undefined, library: string[][], id: string) {
   const response = await fetch(`${url}/menu/api/update`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({id, name, library, status})
+    body: JSON.stringify({id, name, description, library, status})
   })
   const result: {id: string} = await response.json()
   return result
@@ -23,7 +23,7 @@ async function handleApi(name: string, status: boolean, library: string[][], id:
 
 export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, setOpen: OpenDialog}) {
   const dispatch = useAppDispatch()
-  const {name, status, materials, required, steps, ...rest} = useAppSelector(state => state.menu)[pageIndex]
+  const {name, status, description, materials, required, steps, ...rest} = useAppSelector(state => state.menu)[pageIndex]
   const materialsRef = useRef<HTMLInputElement | null>(null),
     requiredRef = useRef<HTMLInputElement | null>(null),
     stepsRef = useRef<HTMLInputElement | null>(null)
@@ -37,6 +37,7 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
   const init: Init = {
     name,
     status,
+    description,
     currents: Array(3).fill(''), 
     library: [
       materials?.split('|') ?? [],
@@ -47,13 +48,14 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
 
   async function handleSubmit(values: Init, {setSubmitting}: FormikHelpers<Init>) {
     setSubmitting(true)
-    const {name, status, library} = values
-    const result = await handleApi(name, status, library, rest.id)
+    const {name, status, description, library} = values
+    const result = await handleApi(name, status, description, library, rest.id)
     if (result.id) {
       dispatch(update({
         page: {
           ...rest,
           name,
+          description,
           materials: library[0].length ? library[0].join('|') : undefined,
           required: library[1].length ? library[1].join('|') : undefined,
           steps: library[2].length ? library[2].join('|') : undefined,
@@ -85,6 +87,18 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
           <Status
             values={values} 
             setFieldValue={setFieldValue} 
+          />
+          <FormikField 
+            as='textarea'
+            rows='3'
+            name='description' 
+            type="text"
+            placeholder='Mô tả'
+            className='
+              outline-none p-3 pl-0 w-full text-sm text-neutral-600 font-medium resize-none rounded-sm min-h-full hidden-scroll
+              focus:pl-3 focus:ring-2 focus:ring-neutral-800 transition-all
+            '
+            onBlur={() => setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))}
           />
           <div className='space-y-3'>
             {fields.map((field, index) => 

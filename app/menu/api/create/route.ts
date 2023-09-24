@@ -10,13 +10,14 @@ const notionMenouId = process.env.NOTION_MENOU
 interface Props {
   values: {
     name: string
+    description?: string
     status: boolean
     library: string[][]
   }
 }
 
 export async function POST(request: NextRequest) {
-  const {values: {name, status, library}}: Props = await request.json(),
+  const {values: {name, description, status, library}}: Props = await request.json(),
     [materials, required, steps] = library.map(field => field.join('|')),
     cookie: RequestCookie | undefined = request.cookies.get('token')
 
@@ -45,6 +46,13 @@ export async function POST(request: NextRequest) {
                 content: name
               }
             }]
+          },
+          description: {
+            rich_text: description ? [{
+              text: {
+                content: description
+              }
+            }] : []
           },
           materials: {
             rich_text: materials ? [
@@ -80,7 +88,11 @@ export async function POST(request: NextRequest) {
       })
 
       const page = {
-        id, uid, name, status,
+        id, 
+        uid, 
+        name, 
+        status, 
+        description,
         deleted: false,
         materials: materials.length ? materials : undefined,
         required: required.length ? required : undefined,

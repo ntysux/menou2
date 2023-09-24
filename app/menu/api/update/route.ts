@@ -7,12 +7,13 @@ const notion = new Client({auth: process.env.NOTION_KEY})
 interface Props {
   id: string
   name: string
+  description?: string
   status: boolean
   library: string[][]
 }
 
 export async function POST(request: NextRequest) {
-  const {id: pageId, name, status, library}: Props = await request.json()
+  const {id: pageId, name, status, description, library}: Props = await request.json()
   const [materials, required, steps] = library.map(field => field.join('|'))
 
   const {id} = await notion.pages.update({
@@ -24,6 +25,13 @@ export async function POST(request: NextRequest) {
             content: name
           }
         }]
+      },
+      description: {
+        rich_text: description ? [{
+          text: {
+            content: description
+          }
+        }] : []
       },
       materials: {
         rich_text: materials ? [{
