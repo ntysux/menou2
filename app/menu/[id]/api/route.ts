@@ -16,7 +16,7 @@ export async function GET(request: NextRequest, {params}: {params: {id: string}}
       page: {
         uid: uid.title[0].plain_text,
         name: name.rich_text[0].plain_text,
-        description: description.rich_text[0].plain_text,
+        description: description.rich_text[0]?.plain_text,
         materials: materials.rich_text[0]?.plain_text,
         required: required.rich_text[0]?.plain_text,
         steps: steps.rich_text[0]?.plain_text,
