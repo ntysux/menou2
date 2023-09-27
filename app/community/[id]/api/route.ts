@@ -3,23 +3,53 @@ import { type NextRequest } from 'next/server'
 import { Client } from "@notionhq/client"
 
 const notion = new Client({auth: process.env.NOTION_KEY})
+const notionCommentId = process.env.NOTION_COMMENT
+
+async function getComments(page: any) {
+  const {properties: {uid, comment}} = page 
+
+  const {id, properties: {name, verified}}: any = await notion.pages.retrieve({
+    page_id: uid.rich_text[0].plain_text
+  })
+
+  return {
+    user: {
+      id,
+      name: name.rich_text[0].plain_text,
+      verified: verified.checkbox
+    },
+    comment: comment.rich_text[0].plain_text
+  }
+} 
 
 export async function GET(request: NextRequest, {params}: {params: {id: string}}) {
   const {id} = params
 
   try {
+    // get page
     const {properties: {uid, name, description, materials, required, steps}}: any = await notion.pages.retrieve({
       page_id: id
     })
 
-    const {
-      properties: {
-        name: {rich_text: [{plain_text}]},
-        verified: {checkbox}
-      }
-    }: any = await notion.pages.retrieve({
+    // get author
+    const {properties: {
+      name: {rich_text: [{plain_text}]},
+      verified: {checkbox}
+    }}: any = await notion.pages.retrieve({
       page_id: uid.title[0].plain_text
-    }) 
+    })
+    
+    // get comments
+    const {results} = await notion.databases.query({
+      database_id: notionCommentId!,
+      filter: {
+        property: 'pid',
+        rich_text: {
+          contains: id
+        }
+      }
+    })
+    const comments = await Promise.all(results.map((page: any) => getComments(page)))
 
     return NextResponse.json({
       page: {
@@ -29,8 +59,11 @@ export async function GET(request: NextRequest, {params}: {params: {id: string}}
         materials: materials.rich_text[0]?.plain_text,
         required: required.rich_text[0]?.plain_text,
         steps: steps.rich_text[0]?.plain_text,
-        uname: plain_text,
-        verified: checkbox
+        author: {
+          name: plain_text,
+          verified: checkbox
+        },
+        comments
       }
     })
   } catch (error: any) {
