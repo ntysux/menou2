@@ -2,7 +2,6 @@ import { Menu } from "../menu/types"
 
 export interface Comment {
   user: {
-    id: string,
     name: string
     verified: boolean 
   }
