@@ -1,10 +1,15 @@
+import Comment from "@/components/comment/comment"
+import Content from "@/components/community/page.content"
 import { MenuPublic } from "@/redux/menu.public/types"
-import { IconAlertTriangle, IconDiscountCheckFilled } from "@tabler/icons-react"
-import { Fragment } from "react"
+import { IconAlertTriangle } from "@tabler/icons-react"
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
+import { cookies } from "next/headers"
+
+export const revalidate = 0
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
-interface Result {
+interface PageResult {
   page?: MenuPublic
   error?: {
     code: string
@@ -12,74 +17,46 @@ interface Result {
   }
 }
 
-async function getOnePublicMenu(id: string): Promise<Result> {
-  const response = await fetch(`${url}/community/${id}/api`, {next: {revalidate: 300}})
-  const result: Result = await response.json()
+interface UserResult {
+  user?: {
+    id: string
+    name: string
+    verified: boolean
+  }
+  error?: string
+}
+
+async function getOnePublicMenu(id: string): Promise<PageResult> {
+  const response = await fetch(`${url}/community/${id}/api`)
+  const result: PageResult = await response.json()
+  return result
+}
+
+async function getUser(cookie: RequestCookie | undefined): Promise<UserResult> {
+  const response = await fetch(`${url}/community/api/user`, {
+    headers: {cookie: `token=${cookie?.value}`}
+  })
+  const result: UserResult = await response.json()
   return result
 }
 
 export default async function Page({params}: {params: {id: string}}) {
-  const {id} = params
-  const result = await getOnePublicMenu(id)
+  const {id} = params,
+    cookie = cookies().get('token'),
+    pageResult = await getOnePublicMenu(id),
+    userResult = await getUser(cookie)
 
-  return result.page 
-  ? <Content page={result.page} /> 
-  : <ErrorMessage>{`${result.error?.code}: ${result.error?.message}`}</ErrorMessage>
-}
-
-function Content({page}: {page: MenuPublic}) {
-  const fields = [
-    {title: 'Nguyên liệu', value: page.materials}, 
-    {title: 'Chuẩn bị', value: page.required}, 
-    {title: 'Chế biến', value: page.steps}
-  ]
-
-  return (
-    <div className="space-y-9 mb-9">
-      <div>
-        <h2 className="text-xl text-neutral-800 font-medium">{page.name}</h2>
-        <div className="flex items-end space-x-3">
-          <i className="text-xs text-neutral-500 font-medium">
-            bởi
-          </i>
-          <div className="flex items-end space-x-1">
-            {page.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
-            <p className="text-sm text-neutral-800 font-bold">
-              {page.uname}
-            </p>
-          </div>
-        </div>
-      </div>
-      <p>{page.description}</p>
-      <div className="space-y-3">
-        <h3 className="text-neutral-800 font-light">Hướng dẫn / chế biến</h3>
-        {fields.map((field, fieldIndex) =>
-          <Fragment key={fieldIndex}>
-            <h4 className="text-neutral-800 text-xs font-bold">{field.title}</h4>
-            <ul>
-              {
-                field.value?.split('|').map((item, ItemIndex) =>
-                  <li key={ItemIndex} className="text-sm text-neutral-800 font-medium">
-                    {item}
-                  </li>
-                )
-                ??
-                <Empty />
-              }
-            </ul>
-          </Fragment>
-        )}
-      </div>
-    </div>
-  )
-}
-
-function Empty() {
-  return (
-    <div className="p-9 border border-dashed border-neutral-300 rounded-lg text-center text-sm text-neutral-400 font-medium">
-      Trống
-    </div>
-  ) 
+  return (pageResult.page && userResult.user)
+  ? <>
+      <Content page={pageResult.page} /> 
+      <Comment 
+        currentUser={userResult.user}
+        commentList={pageResult.page.comments}
+      />
+    </>
+  : <ErrorMessage>
+      {`${pageResult.error?.code}: ${pageResult.error?.message}`}
+    </ErrorMessage>
 }
 
 function ErrorMessage({children}: {children: string}) {
