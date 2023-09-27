@@ -11,5 +11,5 @@ export interface Comment {
 export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> & {
   uname: string 
   verified: boolean
-  comment: Comment[]
+  comments: Comment[]
 }
