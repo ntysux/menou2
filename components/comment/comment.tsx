@@ -2,7 +2,7 @@
 import { Comment } from "@/redux/menu.public/types"
 import { IconDiscountCheckFilled, IconSend } from "@tabler/icons-react"
 import { useParams } from "next/navigation"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -23,19 +23,25 @@ export default function Comment({
 }) {
   const {id}: {id: string} = useParams(),
     [focus, setFocus] = useState(false),
-    [commentValue, setCommentValue] = useState(''),
+    [text, setText] = useState(''),
     [comments, setComments] = useState<Comment[]>(commentList)
 
+  useEffect(() => {
+    const textarea = document.querySelector('#textarea') as HTMLTextAreaElement
+    textarea.style.height = 'auto'
+    textarea.style.height = `${textarea.scrollHeight}px`
+  }, [text])
+
   function handleAddComment() {
-    if (commentValue.trim()) {
-      setComments([{comment: commentValue.trim().replace(/ {2,}/g, ' '), user: currentUser}, ...comments])
-      setCommentValue('')
-      addComment(id, currentUser.id, commentValue.trim().replace(/ {2,}/g, ' '))
+    if (text.trim()) {
+      setComments([{comment: text.trim().replace(/ {2,}/g, ' '), user: currentUser}, ...comments])
+      setText('')
+      addComment(id, currentUser.id, text.trim().replace(/ {2,}/g, ' '))
     }
   }
 
   function handleSetComment(event: ChangeEvent<HTMLTextAreaElement>) {
-    setCommentValue(event.target.value)
+    setText(event.target.value)
   }
 
   return (
@@ -43,11 +49,12 @@ export default function Comment({
       <h3 className="text-neutral-800 font-bold">
         Bình luận ({comments.length})
       </h3>
-      <div className={`${focus ? 'ring-2 ring-neutral-800' : 'ring-1 ring-neutral-300'} rounded-sm`}>
+      <div className={`${focus ? 'ring-2 ring-neutral-800' : 'ring-1 ring-neutral-300'} rounded-lg overflow-hidden`}>
         <textarea
-          value={commentValue}
+          id="textarea"
+          value={text}
           placeholder='Viết bình luận'
-          className="p-3 w-full resize-none outline-none text-sm text-neutral-800 font-medium sticky bottom-0"
+          className="overflow-hidden p-3 w-full resize-none outline-none text-sm text-neutral-800 font-medium"
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           onChange={handleSetComment}
