@@ -18,7 +18,7 @@ export default function Nav() {
         </div>
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}
-      {pathname.startsWith('/community') && <Search />}
+      {pathname === '/community' && <Search />}
     </header>
   )
 }
