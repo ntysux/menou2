@@ -18,8 +18,10 @@ async function getPageWithNameUser(page: any): Promise<MenuPublic> {
 
   return {
     ...page,
-    uname: plain_text,
-    verified: checkbox
+    author: {
+      name: plain_text,
+      verified: checkbox
+    }
   }
 }
 
@@ -46,15 +48,13 @@ export async function GET(request: NextRequest) {
   })
 
   const pagesI = [...results.map((page: any) => {
-    const {id, properties: {uid, name, materials, required, steps}} = page
+    const {id, properties: {uid, name, description}} = page
 
     return {
       id,
       uid: uid.title[0].plain_text,
       name: name.rich_text[0].plain_text,
-      materials: materials.rich_text[0]?.plain_text,
-      required: required.rich_text[0]?.plain_text,
-      steps: steps.rich_text[0]?.plain_text,
+      description: description.rich_text[0]?.plain_text
     }
   })]
 

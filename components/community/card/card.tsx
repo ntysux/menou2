@@ -3,7 +3,7 @@ import { IconDiscountCheckFilled } from "@tabler/icons-react"
 import Link from "next/link"
 
 export default function Card({page}: {page: MenuPublic}) {
-  const {id, name, uname, verified} = page
+  const {id, name, description, author: {name: authorName, verified}} = page
 
   return (
     <Link href={`/community/${id}`}>
@@ -18,14 +18,14 @@ export default function Card({page}: {page: MenuPublic}) {
             </i>
             <div className="flex items-center space-x-1">
               <span className="text-sm text-neutral-800 font-bold w-fit max-w-[150px] truncate">
-                {uname}
+                {authorName}
               </span>
               {verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
             </div>
           </div>
         </div>
         <p className="text-sm text-neutral-800 font-medium bg-white w-fit max-w-[200px] truncate">
-          Lorem
+          {description}
         </p>
       </div>
     </Link>
