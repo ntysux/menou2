@@ -1,6 +1,7 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
 import { Dialog, Transition } from "@headlessui/react"
+import { IconSearch } from "@tabler/icons-react"
 import Link from "next/link"
 import { ChangeEvent, Fragment, useState } from "react"
 
@@ -61,11 +62,10 @@ export default function Search() {
       <button
         onClick={isOpen}
         className='
-          p-3 px-5 rounded-lg shadow-custombox hover:shadow hover:shadow-neutral-200 transition-all duration-300
-          text-sm font-medium bg-gradient-to-r from-purple-400 to-sky-400 text-transparent bg-clip-text
-        '
+          p-3 px-9 text-neutral-800 rounded-lg shadow-custombox transition-all duration-300
+          hover:shadow hover:shadow-neutral-200'
       >
-        Tìm món ăn
+        <IconSearch size='17px' strokeWidth='2.7' />
       </button>
 
       <Transition appear show={open} as={Fragment}>
