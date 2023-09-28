@@ -19,7 +19,7 @@ export default function Content({pages}: {pages: MenuPublic[]}) {
   return search ? (
     <div className="space-y-3">
       <h2 className="text-sm text-neutral-800 font-bold">
-        {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả
+        {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả cho '{search}'
       </h2>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {menuPublic.map((page, index) => 
