@@ -24,11 +24,6 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
     {name: 'Cài đặt', href: '/menu/settings', icon: <IconSettings size='17px' strokeWidth='2.7' />}
   ]
 
-  const routes = [
-    {name: 'Cộng đồng', href: '/community', icon: <IconWorld size='17px' strokeWidth='2.7' />},
-    {name: 'Premium', href: '/premium', icon: <IconDiamonds size='17px' strokeWidth='2.7' />}
-  ]
-
   return (
     <div className="space-y-3">
       {pathname.startsWith('/community') && children}
@@ -58,23 +53,24 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
         )}
       </ul>
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
-        {routes.map((route, index) =>
-          <Link
-            key={index}
-            href={route.href} 
-          >
-            <li className="flex items-center justify-between space-x-11 py-2.5 px-5 rounded-xl min-w-max">
-              <div className="flex items-center space-x-3">
-                <span className='text-neutral-300'>
-                  {route.icon}
-                </span>
-                <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
-                  {route.name}
-                </p>
-              </div>
-            </li>
-          </Link>
-        )}
+        <Link href='/community'>
+          <li className="flex items-center space-x-3 py-2.5 px-5">
+            <span className='text-neutral-300'>
+              <IconWorld size='17px' strokeWidth='2.7' />
+            </span>
+            <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
+              Cộng đồng
+            </p>
+          </li>
+        </Link>
+        <li className="flex items-center space-x-3 py-2.5 px-5">
+          <span className='text-neutral-300'>
+            <IconDiamonds size='17px' strokeWidth='3' />
+          </span>
+          <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
+            Premium
+          </p>
+        </li>
       </ul>
     </div>
   )
