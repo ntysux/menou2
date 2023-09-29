@@ -1,4 +1,4 @@
-import Comment from "@/components/comment/comment"
+import Comment from "@/components/community/comment"
 import Content from "@/components/community/page.content"
 import { MenuPublic } from "@/redux/menu.public/types"
 import { IconAlertTriangle } from "@tabler/icons-react"
