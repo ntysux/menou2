@@ -16,7 +16,7 @@ export default function Content({index}: {index: number}) {
   const panels = [materials?.split('|'), required?.split('|'), steps?.split('|')]
 
   return (
-    <Tab.Panels className="px-6">
+    <Tab.Panels className="px-6 pb-6">
       {panels.map((panel, panelIndex) => (
         <Tab.Panel key={panelIndex}>
           {
