@@ -66,8 +66,8 @@ export default function Signin() {
               name="username" 
               autoComplete="username"
               className="
-                p-3 pt-7 w-full outline-none rounded-sm text-sm text-neutral-800 font-medium
-                focus:ring-2 focus:ring-neutral-800
+                p-3 pt-7 w-full outline-none rounded-md text-sm text-neutral-800 font-medium
+                focus:ring-2 focus:ring-neutral-800 ring-inset
               "
               onFocus={() => setFocus([true, focus[1]])}
               onBlur={() => !values.username.length && setFocus([false, focus[1]])}
@@ -94,8 +94,8 @@ export default function Signin() {
               name="password" 
               autoComplete="current-password"
               className="
-                p-3 pt-7 w-full outline-none rounded-sm text-sm text-neutral-800 font-medium
-                focus:ring-2 focus:ring-neutral-800
+                p-3 pt-7 w-full outline-none rounded-md text-sm text-neutral-800 font-medium
+                focus:ring-2 focus:ring-neutral-800 ring-inset
               "
               onFocus={() => setFocus([focus[0], true])}
               onBlur={() => !values.password.length && setFocus([focus[0], false])}
@@ -109,13 +109,13 @@ export default function Signin() {
           <div className='text-right'>
             <button 
               type='submit' 
-              className='outline-none text-sm text-neutral-800 font-bold disabled:opacity-40'
+              className='outline-none text-center text-sm text-neutral-950/75 font-bold'
               disabled={isSubmitting}
             >
               {
-                isSubmitting 
+                isSubmitting
                 ?
-                <div className="h-4 w-4 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
+                <div className="h-4 w-4 animate-spin rounded-full border-4 border-neutral-950/20 border-r-neutral-50/0" />
                 :
                 <>Đăng nhập</>
               }

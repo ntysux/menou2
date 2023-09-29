@@ -40,7 +40,7 @@ export default function SignupDialog() {
     OnClose: () => (
       <div className='mb-5 text-right'>
         <button 
-          className='outline-none p-1 bg-neutral-200 rounded-full text-white hover:bg-neutral-300'
+          className='outline-none p-1 bg-neutral-950/75 text-neutral-200 rounded-full hover:text-white'
           onClick={onClose}
         >
           <IconX size='16px' strokeWidth='3' />
@@ -55,12 +55,12 @@ export default function SignupDialog() {
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={isOpen}>
           <Transition.Child as={Fragment} {...transition.overlay}>
-            <div className="fixed inset-0 bg-white" />
+            <div className="fixed inset-0 bg-neutral-300" />
           </Transition.Child>
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...transition.panel}>
-                <Dialog.Panel className="w-full max-w-lg rounded-2xl p-7 bg-white ring-1 ring-neutral-200">
+                <Dialog.Panel className="w-full max-w-lg rounded-2xl p-7 bg-white">
                   <FeaturesInit.OnClose />
                   <Signup />
                 </Dialog.Panel>
