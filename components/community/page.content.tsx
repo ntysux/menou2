@@ -1,6 +1,7 @@
 import { MenuPublic } from "@/redux/menu.public/types"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
 import { Fragment } from "react"
+import Empty from "../empty"
 
 export default function Content({page}: {page: MenuPublic}) {
   const {name, materials, required, steps, author} = page
@@ -51,7 +52,7 @@ export default function Content({page}: {page: MenuPublic}) {
                   </li>
                 )
                 ??
-                <Empty />
+                <Empty>Trống</Empty>
               }
             </ul>
           </Fragment>
@@ -59,12 +60,4 @@ export default function Content({page}: {page: MenuPublic}) {
       </div>
     </div>
   )
-}
-
-function Empty() {
-  return (
-    <div className="p-9 border border-dashed border-neutral-300 rounded-lg text-center text-sm text-neutral-400 font-medium">
-      Trống
-    </div>
-  ) 
 }

@@ -94,9 +94,7 @@ export default function Comment({
             <div className="flex justify-center text-neutral-300">
               <IconMessage2 />
             </div>
-            <p className="text-sm text-neutral-500 font-medium">
-              Chưa có bình luận.
-            </p>
+            Chưa có bình luận.
           </Empty>
         }
       </div>
