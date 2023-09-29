@@ -3,6 +3,7 @@ import { IconAlignRight } from '@tabler/icons-react'
 import { Fragment, useState } from 'react'
 import { motion } from "framer-motion"
 import Link from 'next/link'
+import Premium from './premium'
 
 const container = {
   visible: {
@@ -45,8 +46,7 @@ interface Routes {
 
 const personalRoutes: Routes[] = [
   {name: 'Menu', href: '/menu'},
-  {name: 'Thùng rác', href: '/menu/trash'},
-  {name: 'Premium', href: '/premium'}
+  {name: 'Thùng rác', href: '/menu/trash'}
 ]
 
 const transitionProps = {
@@ -80,7 +80,7 @@ export default function RouterMobile() {
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
           <Transition.Child as={Fragment} {...transitionProps.overlay}>
-            <div className="fixed inset-0 bg-neutral-800/50 transition-opacity" />
+            <div className="fixed inset-0 bg-neutral-950/50 backdrop-blur-[1px]" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-hidden">
@@ -135,9 +135,22 @@ export default function RouterMobile() {
                           variants={item} 
                           className='p-3 text-white text-sm font-medium'
                         >
-                            Cộng đồng
+                          Cộng đồng
                         </motion.li>
                       </Link>
+                      <Premium>
+                        {setPremiumOpen =>
+                          <motion.li
+                            onClick={() => {
+                              setPremiumOpen(true)
+                            }}
+                            variants={item} 
+                            className='p-3 text-white text-sm font-medium'
+                          >
+                            Premium  
+                          </motion.li>
+                        }
+                      </Premium>
                     </motion.ul>
                   </Dialog.Panel>
                 </Transition.Child>
