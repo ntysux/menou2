@@ -135,5 +135,5 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
 }
 
 function Spin() {
-  return <div className="h-4 w-4 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
+  return <div className="h-5 w-5 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
 }
