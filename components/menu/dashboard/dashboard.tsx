@@ -1,5 +1,5 @@
 'use client'
-import { IconTrash } from '@tabler/icons-react'
+import { IconRecycle, IconTrash } from '@tabler/icons-react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { checkAllDeleted, checkAll, removeMulti, restoreMulti } from '@/redux/menu/slice'
 import Colors from './colors'
@@ -84,7 +84,7 @@ export default function Dashboard() {
           </div>
         </div>
         :
-        <div className='flex items-center space-x-5'>
+        <div className='flex items-center space-x-7 px-7 rounded-lg shadow shadow-neutral-200'>
           <Checkbox
             indeterminate={indeterminate}
             checked={allChecked}
@@ -92,9 +92,9 @@ export default function Dashboard() {
           />
           <button 
             onClick={handleRestoreAndDispatch}
-            className='text-sm text-neutral-800 font-medium'
+            className='outline-none text-neutral-300 hover:text-neutral-400'
           >
-            Khôi phục
+            <IconRecycle size='17px' strokeWidth='2.7' />
           </button>
         </div>
       }
