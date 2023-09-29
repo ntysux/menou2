@@ -1,8 +1,9 @@
 'use client'
 import { Comment } from "@/redux/menu.public/types"
-import { IconDiscountCheckFilled, IconSend } from "@tabler/icons-react"
+import { IconDiscountCheckFilled, IconMessage2, IconSend } from "@tabler/icons-react"
 import { useParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
+import Empty from "../empty"
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -89,18 +90,16 @@ export default function Comment({
             </div>
           ) 
           : 
-          <Empty />
+          <Empty>
+            <div className="flex justify-center text-neutral-300">
+              <IconMessage2 />
+            </div>
+            <p className="text-sm text-neutral-500 font-medium">
+              Chưa có bình luận.
+            </p>
+          </Empty>
         }
       </div>
     </div>
   )
-}
-
-function Empty() {
-  return (
-    <div className="p-9 border border-dashed border-neutral-300 rounded-lg text-center text-sm text-neutral-400 font-medium">
-      <h4>Chưa có bình luận</h4>
-      <p>Hãy là người đầu tiên bình luận về món ăn này.</p>
-    </div>
-  ) 
 }
