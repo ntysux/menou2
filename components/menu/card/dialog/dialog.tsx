@@ -4,6 +4,7 @@ import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import CardActions from './actions'
 import Header from './header'
 import Content from './content'
+import { useAppSelector } from '@/redux/hooks'
 
 const transition = {
   overlay: {
@@ -32,6 +33,7 @@ interface Props {
 export default function CardDialog({children, index}: Props) {
   const [open, setOpen] = useState(false)
   const [actions, setActions] = useState<boolean>(false)
+  const page = useAppSelector(state => state.menu)[index]
   const onClose = () => setOpen(false)
 
   return (
@@ -48,10 +50,11 @@ export default function CardDialog({children, index}: Props) {
               <Transition.Child as={Fragment} {...transition.panel}>
                 <Dialog.Panel className="relative w-screen max-w-4xl">
                   <Tab.Group as='div' className={
-                    `${actions ? 'max-w-2xl' : 'max-w-full'} 
-                    relative hidden-scroll overflow-y-scroll h-screen max-h-96 w-full rounded-2xl bg-white transition-all`
+                    `${actions ? 'max-w-2xl' : 'max-w-full'} ${page.color ?? 'bg-white'}
+                    relative hidden-scroll overflow-y-scroll h-screen max-h-96 w-full rounded-2xl transition-all`
                   }>
-                    <Header 
+                    <Header
+                      index={index}
                       actions={actions} 
                       setActions={setActions} 
                     />

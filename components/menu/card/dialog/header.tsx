@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hooks"
 import { Tab } from "@headlessui/react"
 import { IconDots } from "@tabler/icons-react"
 import { motion } from "framer-motion"
@@ -5,15 +6,17 @@ import { Dispatch, SetStateAction } from "react"
 
 const tabs: string[] = ['Nguyên liệu', 'Chuẩn bị', 'Chế biến']
 
-export default function Header({
-  actions, 
-  setActions
-}: {
-  actions: boolean, 
+interface Props {
+  index: number
+  actions: boolean 
   setActions: Dispatch<SetStateAction<boolean>>
-}) {
+}
+
+export default function Header({index, actions, setActions}: Props) {
+  const page = useAppSelector(state => state.menu)[index]
+
   return (
-    <Tab.List className="flex justify-between sticky top-0 p-7 bg-white items-center">
+    <Tab.List className={`${page.color ?? 'bg-white'} flex justify-between sticky top-0 p-7 items-center`}>
       <div className="flex space-x-5">
         {tabs.map(tab => (
           <Tab 
