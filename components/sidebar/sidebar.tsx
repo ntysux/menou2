@@ -3,6 +3,7 @@ import { useAppSelector } from "@/redux/hooks"
 import { IconDiamonds, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Premium from "../premium"
 
 interface Feature {
   name: string
@@ -63,14 +64,21 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
             </p>
           </li>
         </Link>
-        <li className="flex items-center space-x-3 py-2.5 px-5">
-          <span className='text-neutral-300'>
-            <IconDiamonds size='17px' strokeWidth='3' />
-          </span>
-          <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
-            Premium
-          </p>
-        </li>
+        <Premium>
+          {setOpen => 
+            <li 
+              className="flex items-center space-x-3 py-2.5 px-5 cursor-pointer"
+              onClick={() => setOpen(true)}
+            >
+              <span className='text-neutral-300'>
+                <IconDiamonds size='17px' strokeWidth='3' />
+              </span>
+              <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
+                Premium
+              </p>
+            </li>
+          }
+        </Premium>
       </ul>
     </div>
   )
