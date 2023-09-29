@@ -7,7 +7,7 @@ export default function Card({page}: {page: MenuPublic}) {
 
   return (
     <Link href={`/community/${id}`}>
-      <div className="group py-3 p-7 space-y-3 rounded-xl bg-hero-pattern">
+      <div className="group py-3 p-7 space-y-3 rounded-lg bg-hero-pattern">
         <div>
           <h2 className="text-sm text-white font-bold bg-neutral-800 w-fit max-w-[250px] truncate group-hover:bg-white group-hover:text-neutral-800">
             {name}
@@ -17,7 +17,7 @@ export default function Card({page}: {page: MenuPublic}) {
               bởi
             </i>
             <div className="flex items-center space-x-1">
-              <span className="text-sm text-neutral-800 font-bold w-fit max-w-[150px] truncate">
+              <span className="text-xs text-neutral-800 font-bold w-fit max-w-[150px] truncate">
                 {authorName}
               </span>
               {verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
