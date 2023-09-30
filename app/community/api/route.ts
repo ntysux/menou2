@@ -26,39 +26,42 @@ async function getPageWithNameUser(page: any): Promise<MenuPublic> {
 }
 
 export async function GET(request: NextRequest) {
-
-  const {results} = await notion.databases.query({
-    database_id: notionMenouId!,
-    filter: {
-      and: [
-        {
-          property: 'status',
-          checkbox: {
-            equals: false
+  try {
+    const {results} = await notion.databases.query({
+      database_id: notionMenouId!,
+      filter: {
+        and: [
+          {
+            property: 'status',
+            checkbox: {
+              equals: false
+            }
+          },
+          {
+            property: 'deleted',
+            checkbox: {
+              equals: false
+            }
           }
-        },
-        {
-          property: 'deleted',
-          checkbox: {
-            equals: false
-          }
-        }
-      ]
-    } 
-  })
-
-  const pagesI = [...results.map((page: any) => {
-    const {id, properties: {uid, name, description}} = page
-
-    return {
-      id,
-      uid: uid.title[0].plain_text,
-      name: name.rich_text[0].plain_text,
-      description: description.rich_text[0]?.plain_text
-    }
-  })]
-
-  const pages = await Promise.all(pagesI.map(page => getPageWithNameUser(page)))
-
-  return NextResponse.json({pages})
+        ]
+      } 
+    })
+  
+    const pagesI = [...results.map((page: any) => {
+      const {id, properties: {uid, name, description}} = page
+  
+      return {
+        id,
+        uid: uid.title[0].plain_text,
+        name: name.rich_text[0].plain_text,
+        description: description.rich_text[0]?.plain_text
+      }
+    })]
+  
+    const pages = await Promise.all(pagesI.map(page => getPageWithNameUser(page)))
+  
+    return NextResponse.json({pages})
+  } catch (error) {
+    return NextResponse.json({error: 'Something wrong'})
+  }
 }
