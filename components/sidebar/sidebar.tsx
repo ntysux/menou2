@@ -1,8 +1,9 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
-import { IconDiamonds, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
+import { IconDiamonds, IconLogout2, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
 import Link from "next/link"
 import Premium from "../premium"
+import { useRouter } from "next/navigation"
 
 interface Feature {
   name: string
@@ -11,17 +12,27 @@ interface Feature {
   command?: number
 }
 
+const url = process.env.NEXT_PUBLIC_APP_URL
+
 export default function Sidebar({children}: {children?: React.ReactNode}) {
 
   const menu = useAppSelector(state => state.menu),
     menuDeleted = menu.filter(menu => menu.deleted).length,
-    menuNotDeleted = menu.length - menuDeleted
+    menuNotDeleted = menu.length - menuDeleted,
+    router = useRouter()
 
   const features: Feature[] = [
     {name: 'Menu', href: '/menu', icon: <IconSwipe size='17px' strokeWidth='2.7' />, command: menuNotDeleted},
     {name: 'Thùng rác', href: '/menu/trash', icon: <IconTrash size='17px' strokeWidth='2.7' />, command: menuDeleted},
     {name: 'Cài đặt', href: '/menu/settings', icon: <IconSettings size='17px' strokeWidth='2.7' />}
   ]
+
+  async function handleSignout() {
+    const response = await fetch(`${url}/auth/api/signout`, {method: 'POST'})
+    if (response.status === 200) {
+      router.replace('/')
+    }
+  }
 
   return (
     <div className="space-y-3">
@@ -50,6 +61,17 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
             </li>
           </Link>
         )}
+        <li 
+          className="flex items-center space-x-3 py-2.5 px-5 cursor-pointer"
+          onClick={handleSignout}
+        >
+          <span className='text-neutral-300'>
+            <IconLogout2 size='17px' strokeWidth='2.7' />
+          </span>
+          <p className="p-1 rounded-md text-sm text-neutral-800 font-medium">
+            Đăng xuất
+          </p>
+        </li>
       </ul>
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
         <Link href='/community'>

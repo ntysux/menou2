@@ -4,6 +4,7 @@ import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { motion } from "framer-motion"
 import Link from 'next/link'
 import Premium from './premium'
+import { useRouter } from 'next/navigation'
 
 const container = {
   visible: {
@@ -138,6 +139,30 @@ function MenuRoute({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
   )
 }
 
+const url = process.env.NEXT_PUBLIC_APP_URL
+
+function Signout({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
+  const router = useRouter()
+
+  async function handleSignout() {
+    setOpen(false)
+    const response = await fetch(`${url}/auth/api/signout`, {method: 'POST'})
+    if (response.status === 200) {
+      router.replace('/')
+    }
+  }
+
+  return (
+    <motion.li
+      onClick={handleSignout}
+      variants={item} 
+      className='p-3 text-white text-sm font-medium'
+    >
+      Đăng xuất
+    </motion.li>
+  )
+}
+
 export default function RouterMobile() {
   const [open, setOpen] = useState<boolean>(false)
 
@@ -167,6 +192,7 @@ export default function RouterMobile() {
                       <MenuRoute setOpen={setOpen} />
                       <CommunityRoute setOpen={setOpen} />
                       <PremiumRoute />
+                      <Signout setOpen={setOpen} />
                     </motion.ul>
                   </Dialog.Panel>
                 </Transition.Child>
