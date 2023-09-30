@@ -55,7 +55,7 @@ export default function SigninDialog() {
     <>
       <FeaturesInit.OnOpen />
       <Transition show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={isOpen}>
+        <Dialog as="div" className="relative z-50" onClose={isOpen}>
           <Transition.Child as={Fragment} {...transition.overlay}>
             <div className={`fixed inset-0 ${pathname === '/' ? 'bg-neutral-300' : 'bg-neutral-950/25 backdrop-blur-[1px]'}`} />
           </Transition.Child>
