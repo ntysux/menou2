@@ -2,12 +2,13 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { Client } from "@notionhq/client"
 import { JwtPayload, decode } from 'jsonwebtoken'
+import { cookies } from 'next/headers'
 
 const notion = new Client({auth: process.env.NOTION_KEY})
 const notionMenouId = process.env.NOTION_MENOU
 
 export async function GET(request: NextRequest) {
-  const cookie = request.cookies.get('token')
+  const cookie = cookies().get('token')
 
   if (cookie) {
     const {value: token} = cookie
