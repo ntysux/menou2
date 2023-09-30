@@ -1,6 +1,6 @@
 import { Dialog, Transition, Disclosure } from '@headlessui/react'
 import { IconAlignRight } from '@tabler/icons-react'
-import { Fragment, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { motion } from "framer-motion"
 import Link from 'next/link'
 import Premium from './premium'
@@ -22,7 +22,7 @@ const item = {
   }
 }
 
-const container2 = {
+const ul = {
   visible: {
     transition: {
       delayChildren: 0.2,
@@ -31,7 +31,7 @@ const container2 = {
   }
 }
 
-const item2 = {
+const li = {
   hidden: { x: 20, opacity: 0 },
   visible: {
     x: 0,
@@ -43,11 +43,6 @@ interface Routes {
   name: string,
   href: string
 }
-
-const personalRoutes: Routes[] = [
-  {name: 'Menu', href: '/menu'},
-  {name: 'Thùng rác', href: '/menu/trash'}
-]
 
 const transitionProps = {
   overlay: {
@@ -66,6 +61,81 @@ const transitionProps = {
     leaveFrom: "translate-x-0 opacity-1",
     leaveTo: "translate-x-full opacity-0"
   }
+}
+
+const personalRoutes: Routes[] = [
+  {name: 'Menu', href: '/menu'},
+  {name: 'Thùng rác', href: '/menu/trash'}
+]
+
+function PremiumRoute() {
+  return (
+    <Premium>
+      {setPremiumOpen =>
+        <motion.li
+          onClick={() => setPremiumOpen(true)}
+          variants={item} 
+          className='p-3 text-white text-sm font-medium'
+        >
+          Premium  
+        </motion.li>
+      }
+    </Premium>
+  )
+}
+
+function CommunityRoute({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
+  return (
+    <Link href='/community' className='outline-none'>
+      <motion.li
+        onClick={() => setOpen(false)}
+        variants={item} 
+        className='p-3 text-white text-sm font-medium'
+      >
+        Cộng đồng
+      </motion.li>
+    </Link>
+  )
+}
+
+function MenuRoute({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
+  return (
+    <motion.li 
+      variants={item} 
+      className='p-3 text-white text-sm font-medium'
+    >
+      <Disclosure>
+        {({ open }) => (
+          <>
+            <Disclosure.Button as='div' className='w-full flex items-center justify-between outline-none'>
+              <span>Cá nhân</span>
+              <div className={`p-1 ${open ? 'px-1 bg-neutral-500' : 'px-3 bg-neutral-600'} rounded-full transition-all`} />
+            </Disclosure.Button>
+            <Disclosure.Panel className="p-3 pb-1">
+              <motion.ul
+                className='list-none space-y-1'
+                variants={ul}
+                initial="hidden"
+                animate="visible"
+              >
+                {personalRoutes.map(personalRoute =>
+                  <Link key={personalRoute.name} href={personalRoute.href}>
+                    <motion.li
+                      variants={li} 
+                      className='p-2 text-sm text-neutral-300 font-medium'
+                      onClick={() => setOpen(false)}
+                    >
+                      {personalRoute.name}
+                    </motion.li>
+                  </Link>
+                )}
+              </motion.ul>
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+    </motion.li>
+  )
 }
 
 export default function RouterMobile() {
@@ -94,63 +164,9 @@ export default function RouterMobile() {
                       initial="hidden"
                       animate="visible"
                     >
-                      <motion.li 
-                        variants={item} 
-                        className='p-3 text-white text-sm font-medium'
-                      >
-                        <Disclosure>
-                          {({ open }) => (
-                            <>
-                              <Disclosure.Button as='div' className='w-full flex items-center justify-between outline-none'>
-                                <span>Cá nhân</span>
-                                <div className={`p-1 ${open ? 'px-1 bg-neutral-500' : 'px-3 bg-neutral-600'} rounded-full transition-all`} />
-                              </Disclosure.Button>
-                              <Disclosure.Panel className="p-3 pb-1">
-                                <motion.ul
-                                  className='list-none space-y-1'
-                                  variants={container2}
-                                  initial="hidden"
-                                  animate="visible"
-                                >
-                                  {personalRoutes.map(personalRoute =>
-                                    <Link key={personalRoute.name} href={personalRoute.href}>
-                                      <motion.li
-                                        variants={item2} 
-                                        className='p-2 text-sm text-neutral-300 font-medium'
-                                        onClick={() => setOpen(false)}
-                                      >
-                                        {personalRoute.name}
-                                      </motion.li>
-                                    </Link>
-                                  )}
-                                </motion.ul>
-                              </Disclosure.Panel>
-                            </>
-                          )}
-                        </Disclosure>
-                      </motion.li>
-                      <Link href='/community' className='outline-none'>
-                        <motion.li
-                          onClick={() => setOpen(false)}
-                          variants={item} 
-                          className='p-3 text-white text-sm font-medium'
-                        >
-                          Cộng đồng
-                        </motion.li>
-                      </Link>
-                      <Premium>
-                        {setPremiumOpen =>
-                          <motion.li
-                            onClick={() => {
-                              setPremiumOpen(true)
-                            }}
-                            variants={item} 
-                            className='p-3 text-white text-sm font-medium'
-                          >
-                            Premium  
-                          </motion.li>
-                        }
-                      </Premium>
+                      <MenuRoute setOpen={setOpen} />
+                      <CommunityRoute setOpen={setOpen} />
+                      <PremiumRoute />
                     </motion.ul>
                   </Dialog.Panel>
                 </Transition.Child>
