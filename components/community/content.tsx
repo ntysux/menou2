@@ -16,22 +16,22 @@ export default function Content({pages}: {pages: MenuPublic[]}) {
     }
   }, [])
 
-  return search ? (
+  return (
     <div className="space-y-3">
-      <h2 className="text-sm text-neutral-800 font-bold">
-        {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả cho {search}
-      </h2>
+      {
+        search 
+        && 
+        <h2 className="text-sm text-neutral-800 font-bold">
+          {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả cho {search}
+        </h2>
+      }
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {menuPublic.map((page, index) => 
-          page.name.toLowerCase().includes(search.toLowerCase()) && <Card key={index} page={page} />
+          search 
+          ? page.name.toLowerCase().includes(search.toLowerCase()) && <Card key={index} page={page} />
+          : <Card key={index} page={page} />
         )}
       </div>
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 gap-3">
-      {menuPublic.map((page, index) => 
-        <Card key={index} page={page} />
-      )}
     </div>
   )
 }
