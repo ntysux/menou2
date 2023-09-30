@@ -2,7 +2,6 @@
 import { useAppSelector } from "@/redux/hooks"
 import { IconDiamonds, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import Premium from "../premium"
 
 interface Feature {
@@ -16,8 +15,7 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
 
   const menu = useAppSelector(state => state.menu),
     menuDeleted = menu.filter(menu => menu.deleted).length,
-    menuNotDeleted = menu.length - menuDeleted,
-    pathname = usePathname()
+    menuNotDeleted = menu.length - menuDeleted
 
   const features: Feature[] = [
     {name: 'Menu', href: '/menu', icon: <IconSwipe size='17px' strokeWidth='2.7' />, command: menuNotDeleted},
@@ -27,7 +25,7 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
 
   return (
     <div className="space-y-3">
-      {pathname.startsWith('/community') && children}
+      {children}
       <ul className='list-none p-3 rounded-xl shadow shadow-neutral-200'>
         {features.map((feature, index) =>
           <Link
