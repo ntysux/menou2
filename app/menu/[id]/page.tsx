@@ -1,6 +1,7 @@
+import Empty from "@/components/empty"
+import ErrorMessage from "@/components/error.message"
 import { Menu } from "@/redux/menu/types"
 import { url } from "@/utils/app.url"
-import { IconAlertTriangle } from "@tabler/icons-react"
 import { decode } from "jsonwebtoken"
 import { cookies } from "next/headers"
 import { Fragment } from 'react'
@@ -69,33 +70,12 @@ function Content({page}: {page: Menu}) {
                   </li>
                 )
                 ??
-                <Empty />
+                <Empty>Trống</Empty>
               }
             </ul>
           </Fragment>
         )}
       </div>
-    </div>
-  )
-}
-
-function Empty() {
-  return (
-    <div className="p-9 border border-dashed border-neutral-300 rounded-lg text-center text-sm text-neutral-400 font-medium">
-      Trống
-    </div>
-  ) 
-}
-
-function ErrorMessage({children}: {children: string}) {
-  return (
-    <div className="p-9 space-y-3 shadow shadow-neutral-200 rounded-xl text-center">
-      <div className="flex justify-center">
-        <IconAlertTriangle size='27px' className="text-neutral-400" />
-      </div>
-      <p className="text-xs text-neutral-400 font-bold">
-        {children}
-      </p>
     </div>
   )
 }
