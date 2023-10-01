@@ -1,8 +1,8 @@
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
 import MenuTrashContent from "@/components/trash/content"
-import { IconAlertTriangle } from "@tabler/icons-react"
 import { Menu } from "@/redux/menu/types"
+import ErrorMessage from "@/components/error.message"
 
 const url = process.env.NEXT_PUBLIC_APP_URL
 
@@ -25,18 +25,5 @@ export default async function MenuPage() {
 
   return result.pages 
     ? <MenuTrashContent pages={result.pages} /> 
-    : <ErrorMessage>{result.error}</ErrorMessage>
-}
-
-function ErrorMessage({children}: {children: string | undefined}) {
-  return (
-    <div className="p-9 space-y-3 shadow shadow-neutral-200 rounded-xl text-center">
-      <div className="flex justify-center">
-        <IconAlertTriangle size='27px' className="text-neutral-400" />
-      </div>
-      <p className="text-xs text-neutral-400 font-bold">
-        {children}
-      </p>
-    </div>
-  )
+    : <ErrorMessage>{result.error!}</ErrorMessage>
 }

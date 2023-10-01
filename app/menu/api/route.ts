@@ -50,5 +50,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({error: 'Unknown user'})
+  return NextResponse.json({error: 'Người dùng không xác định'})
 }
