@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from './utils/app.url'
 
 export default function Middleware(request: NextRequest) {
   const cookie = request.cookies.get('token')

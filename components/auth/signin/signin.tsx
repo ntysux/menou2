@@ -3,8 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { schema } from './schema'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from '@/utils/app.url'
 
 interface Init {
   username: string

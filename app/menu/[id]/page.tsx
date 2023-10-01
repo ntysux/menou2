@@ -1,4 +1,5 @@
 import { Menu } from "@/redux/menu/types"
+import { url } from "@/utils/app.url"
 import { IconAlertTriangle } from "@tabler/icons-react"
 import { decode } from "jsonwebtoken"
 import { cookies } from "next/headers"
@@ -11,7 +12,6 @@ interface Result {
     message: string
   }
 }
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 async function getPage(id: string): Promise<Result> {
   const response = await fetch(`${url}/menu/${id}/api`, {next: {revalidate: 0}})

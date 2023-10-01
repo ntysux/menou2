@@ -6,8 +6,7 @@ import Colors from './colors'
 import Checkbox from '../../checkbox'
 import CUDialog from '../crud/dialog/dialog'
 import { usePathname } from 'next/navigation'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from '@/utils/app.url'
 
 async function handleDeleteMulti(idList: string[]) {
   if (idList.length) {

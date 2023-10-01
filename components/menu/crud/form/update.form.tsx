@@ -8,8 +8,7 @@ import Status from '../status'
 import { update } from '@/redux/menu/slice'
 import { schema } from '../validate/schema'
 import { Init, OpenDialog } from '../types/types'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from '@/utils/app.url'
 
 async function handleApi(name: string, status: boolean, description: string | undefined, library: string[][], id: string) {
   const response = await fetch(`${url}/menu/api/update`, {

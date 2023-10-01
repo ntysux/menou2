@@ -1,10 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { changeColorMulti } from '@/redux/menu/slice'
+import { url } from '@/utils/app.url'
 import { Popover, Transition } from '@headlessui/react'
 import { IconColorSwatch } from '@tabler/icons-react'
 import { Fragment } from 'react'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 async function handleChangeColorMulti(idList: string[], color: string) {
   if (idList.length) {

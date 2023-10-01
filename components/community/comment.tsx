@@ -4,8 +4,7 @@ import { IconDiscountCheckFilled, IconMessage2, IconSend } from "@tabler/icons-r
 import { useParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import Empty from "../empty"
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from "@/utils/app.url"
 
 async function addComment(pid: string, uid: string, comment: string) {
   await fetch(`${url}/community/${pid}/api/comment`, {

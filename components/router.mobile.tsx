@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import Link from 'next/link'
 import Premium from './premium'
 import { useRouter } from 'next/navigation'
+import { url } from '@/utils/app.url'
 
 const container = {
   visible: {
@@ -138,8 +139,6 @@ function MenuRoute({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
     </motion.li>
   )
 }
-
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 function Signout({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
   const router = useRouter()

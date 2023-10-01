@@ -3,8 +3,7 @@ import { cookies } from "next/headers"
 import MenuTrashContent from "@/components/trash/content"
 import { Menu } from "@/redux/menu/types"
 import ErrorMessage from "@/components/error.message"
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from "@/utils/app.url"
 
 interface Result {
   pages?: Menu[]

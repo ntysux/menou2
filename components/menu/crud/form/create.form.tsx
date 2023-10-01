@@ -9,8 +9,7 @@ import { Menu } from '@/redux/menu/types'
 import { schema } from '../validate/schema'
 import { useAppDispatch } from '@/redux/hooks'
 import { Init, OpenDialog } from '../types/types'
-
-const url = process.env.NEXT_PUBLIC_APP_URL
+import { url } from '@/utils/app.url'
 
 async function handleApi(values: Init): Promise<Menu | string> {
   const response = await fetch(`${url}/menu/api/create`, {

@@ -1,10 +1,9 @@
 import ErrorMessage from "@/components/error.message"
 import MenuContent from "@/components/menu/content"
 import { Menu } from "@/redux/menu/types"
+import { url } from "@/utils/app.url"
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
-
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 interface Result {
   pages?: Menu[]

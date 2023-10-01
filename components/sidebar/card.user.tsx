@@ -1,8 +1,7 @@
+import { url } from "@/utils/app.url"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
-
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 interface Result {
   user?: {

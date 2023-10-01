@@ -6,6 +6,7 @@ import { IconColorSwatch, IconMaximize, IconPencil, IconTrash, IconX } from '@ta
 import { changeColor, remove } from "@/redux/menu/slice"
 import CUDialog from "../../crud/dialog/dialog"
 import { Dispatch, SetStateAction } from "react"
+import { url } from "@/utils/app.url"
 
 const container: Variants = {
   visible: {
@@ -25,8 +26,6 @@ const main = {
   animate: {scale: 1, opacity: 1},
   transition: {duration: 0.3, delay: 0.3}
 }
-
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 async function handleChangeColor(id: string, color: string) {
   await fetch(`${url}/menu/api/update/single/color`, {

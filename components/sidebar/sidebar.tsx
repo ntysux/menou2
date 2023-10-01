@@ -4,6 +4,7 @@ import { IconDiamonds, IconLogout2, IconSettings, IconSwipe, IconTrash, IconWorl
 import Link from "next/link"
 import Premium from "../premium"
 import { useRouter } from "next/navigation"
+import { url } from "@/utils/app.url"
 
 interface Feature {
   name: string
@@ -11,8 +12,6 @@ interface Feature {
   icon: React.ReactNode
   command?: number
 }
-
-const url = process.env.NEXT_PUBLIC_APP_URL
 
 export default function Sidebar({children}: {children?: React.ReactNode}) {
 
