@@ -5,7 +5,7 @@ import { url } from "@/utils/app.url"
 import { decode } from "jsonwebtoken"
 import { cookies } from "next/headers"
 
-interface Result {
+interface GetPageResult {
   page?: Menu
   error?: {
     code: string
@@ -13,13 +13,13 @@ interface Result {
   }
 }
 
-async function getPage(id: string): Promise<Result> {
+async function getPage(id: string): Promise<GetPageResult> {
   const response = await fetch(`${url}/menu/${id}/api`, {next: {revalidate: 0}})
   const result = await response.json()
   return result
 }
 
-function checkUid(): string | undefined {
+function getUid(): string | undefined {
   const cookie = cookies().get('token')
   if (cookie) {
     const {value: token} = cookie
@@ -36,9 +36,9 @@ function checkUid(): string | undefined {
 export default async function ViewPage({params}: {params: {id: string}}) {
   const {id} = params,
     result = await getPage(id),
-    uid = checkUid()
+    uid = getUid()
 
   return result.page && uid === result.page.uid 
     ? <Content page={result.page} />
-    : <ErrorMessage>{result.error ? `${result.error.code}: ${result.error.message}` : 'Unknown post'}</ErrorMessage>
+    : <ErrorMessage>{result.error ? `Lỗi: ${result.error.code}` : 'Bài viết không xác định'}</ErrorMessage>
 }
