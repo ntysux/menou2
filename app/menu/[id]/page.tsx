@@ -1,10 +1,9 @@
-import Empty from "@/components/empty"
 import ErrorMessage from "@/components/error.message"
+import Content from "@/components/menu/page.content"
 import { Menu } from "@/redux/menu/types"
 import { url } from "@/utils/app.url"
 import { decode } from "jsonwebtoken"
 import { cookies } from "next/headers"
-import { Fragment } from 'react'
 
 interface Result {
   page?: Menu
@@ -42,40 +41,4 @@ export default async function ViewPage({params}: {params: {id: string}}) {
   return result.page && uid === result.page.uid 
     ? <Content page={result.page} />
     : <ErrorMessage>{result.error ? `${result.error.code}: ${result.error.message}` : 'Unknown post'}</ErrorMessage>
-}
-
-function Content({page}: {page: Menu}) {
-  const fields = [
-    {title: 'Nguyên liệu', value: page.materials}, 
-    {title: 'Chuẩn bị', value: page.required}, 
-    {title: 'Chế biến', value: page.steps}
-  ]
-
-  return (
-    <div className="space-y-9 mb-9">
-      <h2 className="text-xl text-neutral-800 font-medium">{page.name}</h2>
-      <p className="text-sm text-neutral-500 font-medium">
-        {page.description}
-      </p>
-      <div className="space-y-3">
-        <h3 className="text-neutral-800 font-light">Hướng dẫn / chế biến</h3>
-        {fields.map((field, fieldIndex) =>
-          <Fragment key={fieldIndex}>
-            <h4 className="text-neutral-800 text-xs font-bold">{field.title}</h4>
-            <ul>
-              {
-                field.value?.split('|').map((item, ItemIndex) =>
-                  <li key={ItemIndex} className="text-sm text-neutral-800 font-medium">
-                    {item}
-                  </li>
-                )
-                ??
-                <Empty>Trống</Empty>
-              }
-            </ul>
-          </Fragment>
-        )}
-      </div>
-    </div>
-  )
 }
