@@ -1,10 +1,11 @@
 'use client'
-import { useAppSelector } from "@/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { IconDiamonds, IconLogout2, IconSettings, IconSwipe, IconTrash, IconWorld } from "@tabler/icons-react"
 import Link from "next/link"
 import Premium from "../premium"
 import { useRouter } from "next/navigation"
 import { url } from "@/utils/app.url"
+import { init } from "@/redux/menu/slice"
 
 interface Feature {
   name: string
@@ -16,6 +17,7 @@ interface Feature {
 export default function Sidebar({children}: {children?: React.ReactNode}) {
 
   const menu = useAppSelector(state => state.menu),
+    dispatch = useAppDispatch(),
     menuDeleted = menu.filter(menu => menu.deleted).length,
     menuNotDeleted = menu.length - menuDeleted,
     router = useRouter()
@@ -29,6 +31,7 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
   async function handleSignout() {
     const response = await fetch(`${url}/auth/api/signout`, {method: 'POST'})
     if (response.status === 200) {
+      dispatch(init([]))
       router.replace('/')
     }
   }
