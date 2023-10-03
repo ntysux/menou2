@@ -1,23 +1,15 @@
 import Content from "@/components/community/content"
 import { MenuPublic } from "@/redux/menu.public/types"
+import { url } from "@/utils/app.url"
 
-// const url = process.env.NEXT_PUBLIC_APP_URL
-
-// interface Result {
-//   pages?: MenuPublic[]
-//   error?: string
-// }
-
-// async function getAllPublicMenu(): Promise<Result> {
-//   const response = await fetch(`${url}/community/api`, {next: {revalidate: 300}})
-//   const result = await response.json()
-//   return result
-// }
-
-export default async function CommunityPage() {
-  // const result = await getAllPublicMenu()
-  
-  return <></>
+async function getAllPublicMenu(): Promise<MenuPublic[]> {
+  const response = await fetch(`${url}/community/api`, {next: {revalidate: 300}})
+  const result: {pages: MenuPublic[]} = await response.json()
+  return result.pages
 }
 
-// result.pages ? <Content pages={result.pages} /> : <>{result.error}</>
+export default async function CommunityPage() {
+  const pages = await getAllPublicMenu()
+  
+  return <Content pages={pages} />
+}
