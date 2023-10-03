@@ -3,7 +3,7 @@ import { MenuPublic } from "@/redux/menu.public/types"
 import { url } from "@/utils/app.url"
 
 async function getAllPublicMenu(): Promise<MenuPublic[]> {
-  const response = await fetch(`${url}/community/api`, {next: {revalidate: 300}})
+  const response = await fetch(`${url}/community/api`, {next: {revalidate: 0}})
   const result: {pages: MenuPublic[]} = await response.json()
   return result.pages
 }
