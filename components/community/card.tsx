@@ -1,33 +1,40 @@
+'use client'
 import { MenuPublic } from "@/redux/menu.public/types"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function Card({page}: {page: MenuPublic}) {
   const {id, name, description, author: {name: authorName, verified}} = page
+  const router = useRouter()
+
+  function nextPage() {
+    router.push(`/community/${id}`)
+  }
 
   return (
-    <Link href={`/community/${id}`}>
-      <div className="group py-3 p-7 space-y-3 rounded-lg bg-hero-pattern">
-        <div>
-          <h2 className="text-sm text-white font-bold bg-neutral-800 w-fit max-w-[250px] truncate group-hover:bg-white group-hover:text-neutral-800">
-            {name}
-          </h2>
-          <div className="bg-white w-fit flex items-end space-x-3">
-            <i className="text-xs font-medium text-neutral-500">
-              bởi
-            </i>
-            <div className="flex items-center space-x-1">
-              <span className="text-xs text-neutral-800 font-bold w-fit max-w-[150px] truncate">
-                {authorName}
-              </span>
-              {verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
-            </div>
+    <div 
+      className="p-9 space-y-3 rounded-xl shadow shadow-neutral-200 hover:ring-1 hover:ring-neutral-200 hover:ring-inset"
+      onClick={nextPage}
+    >
+      <div>
+        <h2 className="text-sm text-neutral-800 font-bold max-w-[250px] truncate">
+          {name}
+        </h2>
+        <div className="flex items-end space-x-3">
+          <i className="text-xs font-medium text-neutral-500">
+            bởi
+          </i>
+          <div className="flex items-center space-x-1">
+            <span className="text-xs text-neutral-800 font-bold max-w-[150px] truncate">
+              {authorName}
+            </span>
+            {verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
           </div>
         </div>
-        <p className="text-sm text-neutral-800 font-medium bg-white w-fit max-w-[200px] truncate">
-          {description}
-        </p>
       </div>
-    </Link>
+      <p className="text-sm text-neutral-800 font-medium max-w-[200px] truncate">
+        {description}
+      </p>
+    </div>
   )
 }
