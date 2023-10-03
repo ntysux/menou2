@@ -14,5 +14,5 @@ export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> 
     name: string 
     verified: boolean
   }
-  comments: Comment[]
+  comments?: Comment[]
 }
