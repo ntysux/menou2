@@ -2,6 +2,7 @@ import { url } from "@/utils/app.url"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
+import ErrorMessage from "../error.message"
 
 interface Result {
   user?: {
@@ -23,14 +24,16 @@ export default async function CardUser() {
   const cookie = cookies().get('token')
   const result = await getUser(cookie)
 
-  return (
+  return result.user ? (
     <div className="p-3 rounded-xl shadow shadow-neutral-200">
       <div className="flex items-center space-x-1 p-5">
-        {result.user?.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
-        <p className="text-sm text-neutral-800 font-bold">
-          {result.user?.name ?? result.error}
+        {result.user.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
+        <p className='text-sm text-neutral-800 font-bold'>
+          {result.user.name}
         </p>
       </div>
     </div>
+  ) : (
+    <ErrorMessage>{result.error!}</ErrorMessage>
   )
 }
