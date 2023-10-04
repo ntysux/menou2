@@ -1,12 +1,12 @@
 'use client'
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init } from "@/redux/menu.public/slice"
-import { MenuPublic } from "@/redux/menu.public/types"
+import { MenuPublicPreview } from "@/redux/menu.public/types"
 import { useEffect } from "react"
 import Card from "./card"
 import { useSearchParams } from "next/navigation"
 
-export default function Content({pages}: {pages: MenuPublic[]}) {
+export default function Content({pages}: {pages: MenuPublicPreview[]}) {
   const search = useSearchParams().get('search')
   const menuPublic = useAppSelector(state => state.menuPublic)
   const dispatch = useAppDispatch()

@@ -1,9 +1,9 @@
 'use client'
-import { MenuPublic } from "@/redux/menu.public/types"
+import { MenuPublicPreview } from "@/redux/menu.public/types"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
 import { useRouter } from "next/navigation"
 
-export default function Card({page}: {page: MenuPublic}) {
+export default function Card({page}: {page: MenuPublicPreview}) {
   const {id, name, description, author: {name: authorName, verified}} = page
   const router = useRouter()
 

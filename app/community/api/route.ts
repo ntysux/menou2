@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { Client } from "@notionhq/client"
-import { MenuPublic } from '@/redux/menu.public/types'
+import { MenuPublicPreview } from '@/redux/menu.public/types'
 
 interface PageIndeterminate {
   id: string
@@ -13,7 +13,7 @@ interface PageIndeterminate {
 const notion = new Client({auth: process.env.NOTION_KEY})
 const notionMenouId = process.env.NOTION_MENOU
 
-async function renderPage(page: PageIndeterminate): Promise<MenuPublic> {
+async function renderPage(page: PageIndeterminate): Promise<MenuPublicPreview> {
   const {properties: {name, verified}}: any = await notion.pages.retrieve({
     page_id: page.uid
   })

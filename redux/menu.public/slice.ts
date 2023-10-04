@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { MenuPublic } from "./types"
+import { MenuPublicPreview } from "./types"
 
-const initialState: MenuPublic[] = []
+const initialState: MenuPublicPreview[] = []
 
 export const menuPublicSlice = createSlice({
   name: 'menuPublic',
   initialState,
   reducers: {
-    init: (state, action: PayloadAction<MenuPublic[]>) => [...action.payload]
+    init: (state, action: PayloadAction<MenuPublicPreview[]>) => [...action.payload]
   }
 })
 

@@ -16,3 +16,5 @@ export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> 
   }
   comments: Comment[]
 }
+
+export type MenuPublicPreview = Omit<MenuPublic, 'comments'>
