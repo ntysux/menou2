@@ -1,28 +1,21 @@
-import { url } from "@/utils/app.url"
+'use client'
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
-import { cookies } from "next/headers"
 import ErrorMessage from "../error.message"
+import { User } from "@/redux/user/types"
+import { useAppSelector } from "@/redux/hooks"
+import { useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { init } from "@/redux/user/slice"
 
-interface Result {
-  user?: {
-    name: string
-    verified: boolean
-  }
-  error?: string
-}
+export default function CardUser({result}: {result: {user?: User, error?: string}}) {
+  const user = useAppSelector(state => state.user)
+  const dispatch = useDispatch()
 
-async function getUser(cookie: RequestCookie | undefined): Promise<Result> {
-  const response = await fetch(`${url}/community/api/user`, {
-    headers: {cookie: `token=${cookie?.value}`}
-  })
-  const result: Result = await response.json()
-  return result
-}
-
-export default async function CardUser() {
-  const cookie = cookies().get('token')
-  const result = await getUser(cookie)
+  useEffect(() => {
+    if (!user.id && result.user) {
+      dispatch(init(result.user))
+    }
+  }, [])
 
   return result.user ? (
     <div className="p-3 rounded-xl shadow shadow-neutral-200">
