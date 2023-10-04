@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json({
         user: {
+          id: uid,
           name: name.rich_text[0].plain_text, 
           verified: verified.checkbox
         }
