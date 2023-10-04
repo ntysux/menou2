@@ -1,10 +1,13 @@
+'use client'
 import { MenuPublic } from "@/redux/menu.public/types"
-import { IconDiscountCheckFilled } from "@tabler/icons-react"
-import { Fragment } from "react"
+import { IconArrowNarrowLeft, IconDiscountCheckFilled } from "@tabler/icons-react"
 import Empty from "../empty"
+import Comment from "./comment"
+import { useRouter } from "next/navigation"
 
 export default function Content({page}: {page: MenuPublic}) {
-  const {name, materials, required, steps, author} = page
+  const router = useRouter()
+  const {name, materials, required, steps, author, comments} = page
   const fields = [
     {title: 'Nguyên liệu', value: materials}, 
     {title: 'Chuẩn bị', value: required}, 
@@ -12,7 +15,10 @@ export default function Content({page}: {page: MenuPublic}) {
   ]
 
   return (
-    <div className="space-y-9 mb-9">
+    <div className="space-y-9 mb-20">
+      <button onClick={() => router.back()}>
+        <IconArrowNarrowLeft className="text-neutral-800" />
+      </button>
       <div>
         <h2 className="text-xl text-neutral-800 font-bold">
           {name}
@@ -23,41 +29,39 @@ export default function Content({page}: {page: MenuPublic}) {
           </i>
           <div className="flex items-end space-x-1">
             {author.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
-            <p className="text-sm text-neutral-800 font-bold">
+            <p className="text-xs text-neutral-800 font-bold">
               {author.name}
             </p>
           </div>
         </div>
       </div>
-      <p className="text-sm text-neutral-500 font-medium">
-        {page.description}
-      </p>
-      <div className="space-y-3">
-        <h3 className="text-lg text-neutral-800 font-medium">
+      <div className="space-y-5">
+        <p className="text-sm text-neutral-600 font-medium">
+          {page.description}
+        </p>
+        <h3 className="text-2xl text-neutral-800 font-light">
           Hướng dẫn / chế biến
         </h3>
         {fields.map(({title, value}, index) =>
-          <Fragment key={index}>
-            <h4 className="text-xs text-neutral-800 font-bold">
+          <div key={index} className="space-y-1">
+            <h4 className="text-sm text-neutral-800 font-bold">
               {title}
             </h4>
-            <ul>
-              {
-                value?.split('|').map((item, itemIndex) =>
-                  <li 
-                    key={itemIndex} 
-                    className="text-sm text-neutral-800 font-medium"
-                  >
+            {
+              value &&
+              <ul>
+                {value.split('|').map((item, itemIndex) =>
+                  <li key={itemIndex} className="text-sm text-neutral-800 font-medium">
                     {item}
                   </li>
-                )
-                ??
-                <Empty>Trống</Empty>
-              }
-            </ul>
-          </Fragment>
+                )}
+              </ul>
+            }
+            {!value && <Empty>Trống</Empty>}
+          </div>
         )}
       </div>
+      <Comment comments={comments} />
     </div>
   )
 }
