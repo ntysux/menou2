@@ -20,9 +20,9 @@ export default function CardUser({result}: {result: {user?: User, error?: string
   return result.user ? (
     <div className="p-3 rounded-xl shadow shadow-neutral-200">
       <div className="flex items-center space-x-1 p-5">
-        {result.user.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
+        {user.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
         <p className='text-sm text-neutral-800 font-bold'>
-          {result.user.name}
+          {user.name}
         </p>
       </div>
     </div>

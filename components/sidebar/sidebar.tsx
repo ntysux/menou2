@@ -5,7 +5,8 @@ import Link from "next/link"
 import Premium from "../premium"
 import { useRouter } from "next/navigation"
 import { url } from "@/utils/app.url"
-import { init } from "@/redux/menu/slice"
+import { init as menuInit } from "@/redux/menu/slice"
+import { init as userInit } from "@/redux/user/slice"
 
 interface Feature {
   name: string
@@ -31,8 +32,10 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
   async function handleSignout() {
     const response = await fetch(`${url}/auth/api/signout`, {method: 'POST'})
     if (response.status === 200) {
-      dispatch(init([]))
+      dispatch(menuInit([]))
+      dispatch(userInit({id: '', name: '', verified: false}))
       router.replace('/')
+      router.refresh()
     }
   }
 
