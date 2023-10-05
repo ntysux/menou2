@@ -13,9 +13,17 @@ export default function Card({index, onClick}: {index: number, onClick?: () => v
         <h3 className="truncate max-w-[150px] leading-3 text-xs font-bold text-neutral-800">
           {name}
         </h3>
-        <div className={`${status ? 'bg-purple-100 text-purple-800' : 'bg-sky-100 text-sky-800'} px-3 py-1 text-xs font-medium w-fit rounded-md`}>
-          {status ? 'Riêng tư' : 'Công khai'}
-        </div>
+        {
+          color && color !== 'bg-white'
+          ?
+          <div className={`${color} px-3 py-1 text-xs font-medium w-fit rounded-md`}>
+            {status ? 'Riêng tư' : 'Công khai'}
+          </div>
+          :
+          <div className={`${status ? 'bg-purple-100 text-purple-800' : 'bg-sky-100 text-sky-800'} px-3 py-1 text-xs font-medium w-fit rounded-md`}>
+            {status ? 'Riêng tư' : 'Công khai'}
+          </div>
+        }
       </div>
 
       <div className='absolute top-3 right-3'>
