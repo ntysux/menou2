@@ -12,13 +12,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     init: (state, action: PayloadAction<User>) => {
-      state.id = action.payload.id
-      state.name = action.payload.name
-      state.verified = action.payload.verified
+      return {...action.payload}
     }
   }
 })
 
-export const {
-  init
-} = userSlice.actions
+export const { init } = userSlice.actions
