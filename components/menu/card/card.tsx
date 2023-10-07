@@ -10,7 +10,7 @@ export default function Card({index, onClick}: {index: number, onClick?: () => v
   return (
     <div className={`${color} relative z-0 p-3 rounded-xl ${checked ? 'ring-2 ring-neutral-800' : 'shadow shadow-neutral-200 hover:ring-1 hover:ring-neutral-200'}`}>
       <div className='space-y-9' onClick={onClick}>
-        <h3 className="truncate max-w-[150px] leading-3 text-xs font-bold text-neutral-800">
+        <h3 className="truncate max-w-[100px] leading-3 text-xs font-bold text-neutral-800">
           {name}
         </h3>
         {
