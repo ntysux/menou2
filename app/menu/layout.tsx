@@ -9,7 +9,7 @@ export default function MenuLayout({children}: {children: React.ReactNode}) {
   return (
     <>
       {!cookie && <SigninDialog />}
-      <div className='sm:flex sm:gap-3 sm:w-screen sm:max-w-5xl sm:mx-auto'>
+      <div className='sm:flex sm:gap-7 sm:w-screen sm:max-w-5xl sm:mx-auto'>
         <div className='hidden sm:block'>
           <div className='sticky top-0'>
             <div className='py-3'>
@@ -22,7 +22,7 @@ export default function MenuLayout({children}: {children: React.ReactNode}) {
         </div>
         <div className='sm:flex-1'>
           <Nav />
-          <div className='m-3 sm:mx-0'>
+          <div className='mx-3 my-9 sm:mx-0'>
             {children}
           </div>
         </div>
