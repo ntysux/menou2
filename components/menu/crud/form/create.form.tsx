@@ -107,7 +107,7 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
               type="button" 
               onClick={submitForm}
               disabled={isSubmitting || errors.name || !values.name ? true : false} 
-              className='py-1 px-5 rounded-sm text-sm text-neutral-800 font-bold border-2 border-neutral-800 disabled:opacity-25'
+              className='py-1 px-5 text-sm text-neutral-800 font-bold disabled:opacity-25'
             >
               {isSubmitting ? <Spin /> : 'Tạo'}
             </button>
