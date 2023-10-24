@@ -59,7 +59,7 @@ export default function Sidebar({children}: {children?: React.ReactNode}) {
               </div>
               {
                 feature.command !== undefined &&
-                <div className="px-2.5 py-0.5 text-xs text-sky-800 font-semibold bg-sky-100 rounded-md">
+                <div className="px-2.5 py-0.5 text-xs text-white font-semibold bg-neutral-200 rounded-md">
                   {feature.command}
                 </div>
               }
