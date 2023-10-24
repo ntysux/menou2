@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Premium from './premium'
 import { useRouter } from 'next/navigation'
 import { url } from '@/utils/app.url'
+import { overlay, tranlateX } from '@/utils/transition.props'
 
 const container = {
   visible: {
@@ -44,25 +45,6 @@ const li = {
 interface Routes {
   name: string,
   href: string
-}
-
-const transitionProps = {
-  overlay: {
-    enter: "ease-out duration-300",
-    enterFrom: "opacity-0",
-    enterTo: "opacity-100",
-    leave: "ease-in duration-200",
-    leaveFrom: "opacity-100",
-    leaveTo: "opacity-0"
-  },
-  tranlateX: {
-    enter: "transform transition ease-in-out duration-700",
-    enterFrom: "translate-x-full opacity-0",
-    enterTo: "translate-x-0 opacity-1",
-    leave: "transform transition ease-in-out duration-700",
-    leaveFrom: "translate-x-0 opacity-1",
-    leaveTo: "translate-x-full opacity-0"
-  }
 }
 
 const personalRoutes: Routes[] = [
@@ -173,14 +155,14 @@ export default function RouterMobile() {
 
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
-          <Transition.Child as={Fragment} {...transitionProps.overlay}>
+          <Transition.Child as={Fragment} {...overlay}>
             <div className="fixed inset-0 bg-neutral-950/50 backdrop-blur-[1px]" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-hidden">
             <div className="absolute inset-0 overflow-hidden">
               <div className="pointer-events-none fixed right-3 top-16 flex max-w-full">
-                <Transition.Child as={Fragment} {...transitionProps.tranlateX}>
+                <Transition.Child as={Fragment} {...tranlateX}>
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-xs bg-neutral-800/75 backdrop-blur-[1px] p-5 rounded-xl">
                     <motion.ul
                       className='list-none'

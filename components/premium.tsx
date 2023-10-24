@@ -1,25 +1,7 @@
 'use client'
+import { overlay, scale } from "@/utils/transition.props"
 import { Dialog, Transition } from "@headlessui/react"
 import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react"
-
-const transitionProps = {
-  overlay: {
-    enter: "ease-out duration-300",
-    enterFrom: "opacity-0",
-    enterTo: "opacity-100",
-    leave: "ease-in duration-200",
-    leaveFrom: "opacity-100",
-    leaveTo: "opacity-0"
-  },
-  scale: {
-    enter: "ease-out duration-300",
-    enterFrom: "opacity-0 scale-95",
-    enterTo: "opacity-100 scale-100",
-    leave: "ease-in duration-200",
-    leaveFrom: "opacity-100 scale-100",
-    leaveTo: "opacity-0 scale-95"
-  }
-}
 
 export default function Premium({children}: {children: (setState: Dispatch<SetStateAction<boolean>>) => React.ReactNode}) {
   const [open, setOpen] = useState<boolean>(false)
@@ -38,12 +20,12 @@ export default function Premium({children}: {children: (setState: Dispatch<SetSt
       {children(setOpen)}
       <Transition appear show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={onClose}>
-          <Transition.Child as={Fragment} {...transitionProps.overlay}>
+          <Transition.Child as={Fragment} {...overlay}>
             <div className="fixed inset-0 bg-neutral-950/25 backdrop-blur-[1px]" />
           </Transition.Child>
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
-              <Transition.Child as={Fragment} {...transitionProps.scale}>
+              <Transition.Child as={Fragment} {...scale}>
                 <Dialog.Panel className="relative isolate w-full max-w-xl overflow-hidden rounded-2xl bg-white p-9 shadow-xl"> 
                   <BgGradient />
                   <div className='space-y-3'>

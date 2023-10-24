@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { changeColorMulti } from '@/redux/menu/slice'
 import { url } from '@/utils/app.url'
+import { translateY } from '@/utils/transition.props'
 import { Popover, Transition } from '@headlessui/react'
 import { IconColorSwatch } from '@tabler/icons-react'
 import { Fragment } from 'react'
@@ -12,15 +13,6 @@ async function handleChangeColorMulti(idList: string[], color: string) {
       body: JSON.stringify({idList, color})
     })
   }
-}
-
-const scale = {
-  enter: "transition ease-out duration-200",
-  enterFrom: "opacity-0 translate-y-1",
-  enterTo: "opacity-100 translate-y-0",
-  leave: "transition ease-in duration-150",
-  leaveFrom: "opacity-100 translate-y-0",
-  leaveTo: "opacity-0 translate-y-1"
 }
 
 const colors: {color: string, face: string}[] = [
@@ -45,7 +37,7 @@ export default function Colors() {
       <Popover.Button className='outline-none text-neutral-300 hover:text-neutral-400'>
         <IconColorSwatch size='17px' strokeWidth='2.7' />
       </Popover.Button>
-      <Transition as={Fragment} {...scale}>
+      <Transition as={Fragment} {...translateY}>
         <Popover.Panel className="absolute top-7 z-10 right-0 sm:left-0">
           <div className='flex space-x-1 p-1 w-fit rounded-sm bg-neutral-950/75'>
             {colors.map((colorTheme, index) =>
