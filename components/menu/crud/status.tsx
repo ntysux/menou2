@@ -15,7 +15,7 @@ export default function Status({values, setFieldValue}: Props) {
       layoutId='btn' 
       className={`
         absolute inset-0 rounded-md
-        ${values.status ? 'bg-purple-100' : 'bg-sky-100'}
+        ${values.status ? 'bg-violet-100' : 'bg-stone-200'}
       `}
     />
   }
@@ -31,9 +31,9 @@ export default function Status({values, setFieldValue}: Props) {
               relative w-full z-10 p-1 px-3 text-xs font-medium
               ${
                 values.status === Boolean(index) && values.status 
-                ? 'text-purple-900' 
+                ? 'text-violet-900' 
                 : values.status === Boolean(index) && !values.status
-                ? 'text-sky-900'
+                ? 'text-stone-900'
                 : 'text-neutral-400'
               }
             `}
