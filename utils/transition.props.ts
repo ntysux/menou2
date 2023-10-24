@@ -24,3 +24,12 @@ export const translateY = {
   leaveFrom: "opacity-100 translate-y-0",
   leaveTo: "opacity-0 translate-y-1"
 }
+
+export const tranlateX = {
+  enter: "transform transition ease-in-out duration-700",
+  enterFrom: "translate-x-full opacity-0",
+  enterTo: "translate-x-0 opacity-1",
+  leave: "transform transition ease-in-out duration-700",
+  leaveFrom: "translate-x-0 opacity-1",
+  leaveTo: "translate-x-full opacity-0"
+}
