@@ -3,6 +3,8 @@ import { type NextRequest } from 'next/server'
 import { Client } from "@notionhq/client"
 import { MenuPublicPreview } from '@/redux/menu.public/types'
 
+export const dynamic = 'force-dynamic'
+
 interface PageIndeterminate {
   id: string
   uid: string
