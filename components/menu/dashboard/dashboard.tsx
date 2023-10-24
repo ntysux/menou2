@@ -56,11 +56,11 @@ export default function Dashboard() {
           <button
             onClick={() => setOpen(true)}
             className='
-              p-3 px-5 rounded-lg shadow-custombox hover:shadow hover:shadow-neutral-200 transition-all duration-300
-              text-sm font-medium bg-gradient-to-r from-purple-400 to-sky-400 text-transparent bg-clip-text
+              p-3 px-9 rounded-lg shadow-custombox hover:shadow hover:shadow-neutral-200 transition-all duration-300
+              text-sm text-neutral-400 font-medium hover:text-neutral-600
             '
           >
-            Món ăn mới
+            Mới
           </button>
         }
       </CUDialog>
