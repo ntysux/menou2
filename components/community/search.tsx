@@ -44,10 +44,11 @@ export default function Search() {
       <button
         onClick={isOpen}
         className='
-          p-3 px-9 text-neutral-500 rounded-lg shadow-custombox transition-all duration-300
-          hover:shadow hover:shadow-neutral-200'
+          p-3 px-9 text-neutral-400 rounded-lg shadow-custombox transition-all duration-300
+          hover:shadow hover:shadow-neutral-200 hover:text-neutral-600
+        '
       >
-        <IconSearch size='17px' strokeWidth='2.7' />
+        <IconSearch size='17px' strokeWidth='1' />
       </button>
 
       <Transition appear show={open} as={Fragment}>
