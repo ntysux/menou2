@@ -83,7 +83,7 @@ export default function NavRouter() {
               {routes.map(route =>
                 route.href 
                 ?
-                  <Link href={route.href} key={route.name}>
+                  <Link href={route.href} key={route.name} className="outline-none">
                     <motion.li 
                       variants={item}
                       onClick={() => close()}

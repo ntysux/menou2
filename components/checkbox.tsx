@@ -33,7 +33,7 @@ export default function Checkbox({children, checked, onChange, indeterminate}: P
           checked={checked ?? isChecked}
           onChange={onChange ?? handleSetChecked}
           className='
-            absolute z-10 appearance-none rounded-[4px] h-4 w-4 
+            absolute z-10 outline-none appearance-none rounded-[4px] h-4 w-4 
             ring-2 ring-neutral-300 checked:ring-2 checked:ring-neutral-950/75
           '
         />
