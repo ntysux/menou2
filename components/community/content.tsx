@@ -10,6 +10,7 @@ export default function Content({pages}: {pages: MenuPublicPreview[]}) {
   const search = useSearchParams().get('search')
   const menuPublic = useAppSelector(state => state.menuPublic)
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     if(!menuPublic.length && pages.length) {
       dispatch(init(pages))
@@ -25,7 +26,7 @@ export default function Content({pages}: {pages: MenuPublicPreview[]}) {
           {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả cho {search}
         </h2>
       }
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 sm:grid-cols-5 gap-x-3 gap-y-7">
         {menuPublic.map((page, index) => 
           search 
           ? page.name.toLowerCase().includes(search.toLowerCase()) && <Card key={index} page={page} />
