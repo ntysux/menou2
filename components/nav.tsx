@@ -1,8 +1,8 @@
 'use client'
 import { usePathname } from "next/navigation"
-import RouterMobile from "./router.mobile"
 import Dashboard from "./menu/dashboard/dashboard"
 import Search from "./community/search"
+import NavRouter from "./nav.router"
 
 export default function Nav() {
   const pathname = usePathname()
@@ -10,12 +10,10 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-10 bg-white px-3 sm:px-0">
       <nav className="flex items-center justify-between py-3">
-        <h1 className='text-xl text-neutral-800 tracking-widest sm:opacity-0'>
+        <h1 className='text-lg text-neutral-800 font-medium tracking-widest'>
           Menoú
         </h1>
-        <div className="flex sm:opacity-0">
-          <RouterMobile />
-        </div>
+        <NavRouter />
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}
       {pathname === '/community' && <Search />}
