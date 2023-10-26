@@ -5,6 +5,7 @@ import { MenuPublicPreview } from "@/redux/menu.public/types"
 import { useEffect } from "react"
 import Card from "./card/card"
 import { useSearchParams } from "next/navigation"
+import CardDialog from "./card/dialog/dialog"
 
 export default function Content({pages}: {pages: MenuPublicPreview[]}) {
   const search = useSearchParams().get('search')
@@ -29,8 +30,17 @@ export default function Content({pages}: {pages: MenuPublicPreview[]}) {
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-x-3 gap-y-7">
         {menuPublic.map((page, index) => 
           search 
-          ? page.name.toLowerCase().includes(search.toLowerCase()) && <Card key={index} page={page} />
-          : <Card key={index} page={page} />
+          ? page.name.toLowerCase().includes(search.toLowerCase()) && 
+            <CardDialog page={page} key={index}>
+              {setOpen =>
+                <Card page={page} onClick={() => setOpen(true)} />
+              }
+            </CardDialog>
+          : <CardDialog page={page} key={index}>
+              {setOpen =>
+                <Card page={page} onClick={() => setOpen(true)} />
+              }
+            </CardDialog>
         )}
       </div>
     </div>

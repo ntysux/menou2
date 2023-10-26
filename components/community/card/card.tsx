@@ -2,11 +2,16 @@
 import { MenuPublicPreview } from "@/redux/menu.public/types"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
 
-export default function Card({page}: {page: MenuPublicPreview}) {
+interface Props {
+  page: MenuPublicPreview
+  onClick: () => void
+}
+
+export default function Card({page, onClick}: Props) {
   const {name, author: {name: authorName, verified}} = page
 
   return (
-    <div>
+    <div onClick={onClick}>
       <div className="p-3 pb-11 bg-hero-pattern rounded-lg">
         <div className="flex items-end space-x-3 bg-white w-fit">
           <i className="text-xs text-neutral-600 font-medium">bởi</i>
