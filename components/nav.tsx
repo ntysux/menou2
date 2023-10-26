@@ -4,7 +4,11 @@ import Dashboard from "./menu/dashboard/dashboard"
 import Search from "./community/search"
 import NavRouter from "./nav.router"
 
-export default function Nav() {
+interface Props {
+  children?: React.ReactNode
+}
+
+export default function Nav({children}: Props) {
   const pathname = usePathname()
 
   return (
@@ -13,7 +17,10 @@ export default function Nav() {
         <h1 className='text-lg text-neutral-800 font-medium tracking-widest'>
           Menoú
         </h1>
-        <NavRouter />
+        <div className="flex items-center space-x-7">
+          {children}
+          <NavRouter />
+        </div>
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}
       {pathname === '/community' && <Search />}
