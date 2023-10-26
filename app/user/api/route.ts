@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
         verified: verified.checkbox
       }
 
-      return NextResponse.json(user)
+      return NextResponse.json({user})
     }
   }
 
