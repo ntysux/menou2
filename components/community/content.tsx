@@ -8,9 +8,10 @@ import { useSearchParams } from "next/navigation"
 import CardDialog from "./card/dialog/dialog"
 
 export default function Content({pages}: {pages: MenuPublicPreview[]}) {
-  const search = useSearchParams().get('search')
-  const menuPublic = useAppSelector(state => state.menuPublic)
-  const dispatch = useAppDispatch()
+  const 
+    dispatch = useAppDispatch(),
+    menuPublic = useAppSelector(state => state.menuPublic),
+    search = useSearchParams().get('search')
 
   useEffect(() => {
     if(!menuPublic.length && pages.length) {
@@ -21,8 +22,7 @@ export default function Content({pages}: {pages: MenuPublicPreview[]}) {
   return (
     <div className="space-y-3">
       {
-        search 
-        && 
+        search && 
         <h2 className="text-sm text-neutral-800 font-bold">
           {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả cho {search}
         </h2>
