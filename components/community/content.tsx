@@ -31,12 +31,12 @@ export default function Content({pages}: {pages: MenuPublic[]}) {
         {menuPublic.map((page, index) => 
           search 
           ? page.name.toLowerCase().includes(search.toLowerCase()) && 
-            <CardDialog page={page} key={index}>
+            <CardDialog index={index} key={index}>
               {setOpen =>
                 <Card page={page} onClick={() => setOpen(true)} />
               }
             </CardDialog>
-          : <CardDialog page={page} key={index}>
+          : <CardDialog index={index} key={index}>
               {setOpen =>
                 <Card page={page} onClick={() => setOpen(true)} />
               }

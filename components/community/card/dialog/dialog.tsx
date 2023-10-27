@@ -1,21 +1,22 @@
 import Empty from "@/components/empty"
-import { MenuPublic } from "@/redux/menu.public/types"
 import { Dialog, Transition } from "@headlessui/react"
 import { IconArrowNarrowLeft, IconDiscountCheckFilled } from "@tabler/icons-react"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
+import { useAppSelector } from "@/redux/hooks"
 
 interface Props {
   children: (setOpen: Dispatch<SetStateAction<boolean>>) => React.ReactNode
-  page: MenuPublic
+  index: number
 }
 
-export default function CardDialog({children, page}: Props) {
+export default function CardDialog({children, index}: Props) {
   const [open, setOpen] = useState(false)
+  const {name, description, materials, required, steps, author} = useAppSelector(state => state.menuPublic)[index]
 
   const fields = [
-    {name: 'Nguyên liệu', data: page.materials}, 
-    {name: 'Chuẩn bị', data: page.required},
-    {name: 'Chế biến', data: page.steps}
+    {name: 'Nguyên liệu', data: materials}, 
+    {name: 'Chuẩn bị', data: required},
+    {name: 'Chế biến', data: steps}
   ]
 
   return (
@@ -44,7 +45,7 @@ export default function CardDialog({children, page}: Props) {
                 </div>
                 <div className="mx-3 sm:w-screen sm:max-w-5xl sm:mx-auto">
                   <h1 className="text-3xl text-neutral-800 font-light">
-                    {page.name}
+                    {name}
                   </h1>
                   <div className="flex items-end space-x-3">
                     <i className="text-xs text-neutral-500 font-medium">
@@ -52,14 +53,14 @@ export default function CardDialog({children, page}: Props) {
                     </i>
                     <div className="flex items-center space-x-1">
                       <span className="text-sm text-neutral-800 font-bold">
-                        {page.author.name}
+                        {author.name}
                       </span>
-                      {page.author.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
+                      {author.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
                     </div>
                   </div>
                   <div className="mt-9 space-y-5">
                     <p className="text-sm text-neutral-700 font-medium">
-                      {page.description}
+                      {description}
                     </p>
                     {fields.map(field => 
                       <div key={field.name} className="space-y-1">
@@ -81,6 +82,8 @@ export default function CardDialog({children, page}: Props) {
                         }
                       </div>
                     )}
+                  </div>
+                  <div className="mt-9 space-y-3">
                     <h3 className="text-neutral-800 font-bold">
                       Bình luận (3)
                     </h3>
