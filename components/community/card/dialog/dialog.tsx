@@ -1,11 +1,11 @@
-import { MenuPublicPreview } from "@/redux/menu.public/types"
+import { MenuPublic } from "@/redux/menu.public/types"
 import { Dialog, Transition } from "@headlessui/react"
 import { IconArrowNarrowLeft, IconDiscountCheckFilled } from "@tabler/icons-react"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
 
 interface Props {
   children: (setOpen: Dispatch<SetStateAction<boolean>>) => React.ReactNode
-  page: MenuPublicPreview
+  page: MenuPublic
 }
 
 export default function CardDialog({children, page}: Props) {

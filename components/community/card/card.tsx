@@ -1,9 +1,9 @@
 'use client'
-import { MenuPublicPreview } from "@/redux/menu.public/types"
+import { MenuPublic } from "@/redux/menu.public/types"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
 
 interface Props {
-  page: MenuPublicPreview
+  page: MenuPublic
   onClick: () => void
 }
 

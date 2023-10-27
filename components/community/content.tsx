@@ -1,13 +1,13 @@
 'use client'
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init } from "@/redux/menu.public/slice"
-import { MenuPublicPreview } from "@/redux/menu.public/types"
 import { useEffect } from "react"
 import Card from "./card/card"
 import { useSearchParams } from "next/navigation"
 import CardDialog from "./card/dialog/dialog"
+import { MenuPublic } from "@/redux/menu.public/types"
 
-export default function Content({pages}: {pages: MenuPublicPreview[]}) {
+export default function Content({pages}: {pages: MenuPublic[]}) {
   const 
     dispatch = useAppDispatch(),
     menuPublic = useAppSelector(state => state.menuPublic),

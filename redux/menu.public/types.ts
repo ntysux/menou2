@@ -9,12 +9,12 @@ export interface Comment {
   comment: string
 }
 
-export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> & {
-  author: {
-    name: string 
-    verified: boolean
-  }
-  comments: Comment[]
+export interface Author {
+  name: string 
+  verified: boolean
 }
 
-export type MenuPublicPreview = Omit<MenuPublic, 'comments'>
+export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> & {
+  author: Author
+  comments: Comment[]
+}
