@@ -19,7 +19,7 @@ export default function Card({page, onClick}: Props) {
             <span className="text-sm text-neutral-800 font-bold truncate max-w-[100px]">
               {authorName}
             </span>
-            {verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
+            {verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
           </div>
         </div>
         <i className="text-xs text-neutral-400 font-medium bg-white">

@@ -54,7 +54,7 @@ export default function CardDialog({children, page}: Props) {
                       <span className="text-sm text-neutral-800 font-bold">
                         {page.author.name}
                       </span>
-                      {page.author.verified && <IconDiscountCheckFilled size='17px' className="text-sky-400" />}
+                      {page.author.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
                     </div>
                   </div>
                   <div className="mt-9 space-y-5">
