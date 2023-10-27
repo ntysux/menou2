@@ -1,5 +1,5 @@
 import SigninDialog from "@/components/auth/signin/signin.dialog"
-import Nav from "@/components/nav"
+import Nav from "@/components/nav/nav"
 import { cookies } from "next/headers"
 
 export default function MenuLayout({children}: {children: React.ReactNode}) {

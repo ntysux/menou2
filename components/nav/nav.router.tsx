@@ -3,7 +3,7 @@ import { IconAlignRight } from "@tabler/icons-react"
 import Link from "next/link"
 import { Fragment } from "react"
 import { motion } from 'framer-motion'
-import Premium from "./premium"
+import Premium from "../premium"
 import { url } from "@/utils/app.url"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init as menuInit } from "@/redux/menu/slice"

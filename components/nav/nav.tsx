@@ -1,7 +1,7 @@
 'use client'
 import { usePathname } from "next/navigation"
-import Dashboard from "./menu/dashboard/dashboard"
-import Search from "./community/search"
+import Dashboard from "../menu/dashboard/dashboard"
+import Search from "../community/search"
 import NavRouter from "./nav.router"
 
 interface Props {

@@ -1,6 +1,6 @@
 import ErrorMessage from "@/components/error.message"
-import Nav from "@/components/nav"
-import NavCardUser from "@/components/nav.user"
+import Nav from "@/components/nav/nav"
+import NavCardUser from "@/components/nav/nav.user"
 import { User } from "@/redux/user/types"
 import { url } from "@/utils/app.url"
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
