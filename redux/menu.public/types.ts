@@ -1,11 +1,8 @@
 import { Menu } from "../menu/types"
+import { User } from "../user/types"
 
 export interface Comment {
-  user: {
-    id: string
-    name: string
-    verified: boolean 
-  }
+  user: User
   comment: string
 }
 
