@@ -2,12 +2,15 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init } from "@/redux/menu.public/slice"
 import { useEffect } from "react"
-import Card from "./card/card"
 import { useSearchParams } from "next/navigation"
-import CardDialog from "./card/dialog/dialog"
-import { MenuPublic } from "@/redux/menu.public/types"
+import { MenuPublicPreview } from "@/redux/menu.public/types"
+import Card from "./card/card"
 
-export default function Content({pages}: {pages: MenuPublic[]}) {
+interface Props {
+  pages: MenuPublicPreview[]
+}
+
+export default function Content({pages}: Props) {
   const 
     dispatch = useAppDispatch(),
     menuPublic = useAppSelector(state => state.menuPublic),
@@ -29,18 +32,7 @@ export default function Content({pages}: {pages: MenuPublic[]}) {
       }
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-x-3 gap-y-7">
         {menuPublic.map((page, index) => 
-          search 
-          ? page.name.toLowerCase().includes(search.toLowerCase()) && 
-            <CardDialog index={index} key={index}>
-              {setOpen =>
-                <Card page={page} onClick={() => setOpen(true)} />
-              }
-            </CardDialog>
-          : <CardDialog index={index} key={index}>
-              {setOpen =>
-                <Card page={page} onClick={() => setOpen(true)} />
-              }
-            </CardDialog>
+          <Card key={index} index={index} />
         )}
       </div>
     </div>
