@@ -42,11 +42,11 @@ async function getAuthor(uid: string): Promise<Author> {
 }
 
 async function renderMenuPublic(page: any): Promise<MenuPublicPreview> {
-  const {id, properties: {uid, name, description, materials, required, steps}} = page
+  const {id, last_edited_time, properties: {uid, name, description, materials, required, steps}} = page
   const author = await getAuthor(uid.title[0].plain_text)
 
   const 
-    date = new Date(page.last_edited_time),
+    date = new Date(last_edited_time),
     year = date.getFullYear(),
     month = date.getMonth() + 1,
     day = date.getDate()
