@@ -10,7 +10,7 @@ async function getMenuPublicPage(pid: string): Promise<MenuPublic> {
 }
 
 export default async function Page({params: {id}}: {params: {id: string}}) {
-  const {name, lastEditedTime, description, materials, required, steps, author, comments} = await getMenuPublicPage(id)
+  const {uid, name, lastEditedTime, description, materials, required, steps, author, comments} = await getMenuPublicPage(id)
 
   const fields = [
     {name: 'Nguyên liệu', data: materials}, 
@@ -20,11 +20,11 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
 
   return (
     <>
-      <div className="flex justify-between">
-        <h1 className="text-3xl text-neutral-800 font-light">
+      <div className="sm:flex sm:justify-between">
+        <h1 className="text-3xl text-neutral-800 font-light truncate max-w-3xl">
           {name}
         </h1>
-        <i className="text-xs text-neutral-400 font-medium">
+        <i className="text-xs text-neutral-500 font-medium">
           Cập nhập lần cuối: <span>{lastEditedTime}</span>
         </i>
       </div>
@@ -40,7 +40,7 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
         </div>
       </div>
       <div className="mt-9 space-y-5">
-        <p className="text-sm text-neutral-700 font-medium">
+        <p className="text-neutral-600 font-medium">
           {description}
         </p>
         {fields.map(field => 
@@ -64,10 +64,29 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
           </div>
         )}
       </div>
-      <div className="mt-9 space-y-3">
+      <div className="my-9 space-y-3">
         <h3 className="text-neutral-800 font-bold">
           Bình luận ({comments.length})
         </h3>
+        {comments.map(({user, comment}, index) => 
+          <div key={index}>
+            <div className="flex items-center">
+              {user.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400 mr-1" />}
+              <h4 className="text-sm text-neutral-800 font-bold">
+                {user.name}
+              </h4>
+              {
+                uid === user.id &&
+                <div className="ml-3 py-0.5 px-2 bg-neutral-300 rounded-md text-xs font-medium text-white">
+                  Tác giả
+                </div>
+              }
+            </div>
+            <p className="text-sm text-neutral-800 font-medium">
+              {comment}
+            </p>
+          </div>
+        )}
       </div>
     </>
   )
