@@ -1,3 +1,4 @@
+import Back from "@/components/community/page/back"
 import Empty from "@/components/empty"
 import { MenuPublic } from "@/redux/menu.public/types"
 import { url } from "@/utils/app.url"
@@ -20,7 +21,8 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
 
   return (
     <>
-      <div className="sm:flex sm:justify-between">
+      <Back />
+      <div className="mt-3 sm:flex sm:justify-between">
         <h1 className="text-3xl text-neutral-800 font-light truncate max-w-3xl">
           {name}
         </h1>
