@@ -6,8 +6,10 @@ export interface Comment {
   comment: string
 }
 
+export type Author = Omit<User, 'id'>
+
 export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> & {
   lastEditedTime: string
-  author: User
+  author: Author
   comments: Comment[]
 }
