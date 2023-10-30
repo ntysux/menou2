@@ -7,6 +7,7 @@ export interface Comment {
 }
 
 export type MenuPublic = Omit<Menu, 'deleted' | 'status' | 'checked' | 'color'> & {
+  lastEditedTime: string
   author: User
   comments: Comment[]
 }
