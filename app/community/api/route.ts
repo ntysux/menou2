@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { Client } from "@notionhq/client"
-import { Author, MenuPublic } from '@/redux/menu.public/types'
+import { Author, MenuPublicPreview } from '@/redux/menu.public/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,16 +35,21 @@ async function getAuthor(uid: string): Promise<Author> {
   const {properties: {name, verified}}: any = await notion.pages.retrieve({
     page_id: uid
   })
-
   return {
     name: name.rich_text[0].plain_text,
     verified: verified.checkbox
   }
 }
 
-async function renderMenuPublic(page: any): Promise<MenuPublic> {
+async function renderMenuPublic(page: any): Promise<MenuPublicPreview> {
   const {id, properties: {uid, name, description, materials, required, steps}} = page
   const author = await getAuthor(uid.title[0].plain_text)
+
+  const 
+    date = new Date(page.last_edited_time),
+    year = date.getFullYear(),
+    month = date.getMonth() + 1,
+    day = date.getDate()
 
   return {
     id,
@@ -54,14 +59,14 @@ async function renderMenuPublic(page: any): Promise<MenuPublic> {
     materials: materials.rich_text[0]?.plain_text,
     required: required.rich_text[0]?.plain_text,
     steps: steps.rich_text[0]?.plain_text,
-    author,
-    comments: []
+    lastEditedTime: `${day}/${month}/${year}`,
+    author
   }
 }
 
 export async function GET(request: NextRequest) {
   const menu = await getAllMenu()
-  const menuPublic = await Promise.all([...menu.map(page => renderMenuPublic(page))])
+  const menuPublicPreview = await Promise.all([...menu.map(page => renderMenuPublic(page))])
 
-  return NextResponse.json({menuPublic})
+  return NextResponse.json({menuPublicPreview})
 }
