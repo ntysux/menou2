@@ -1,4 +1,5 @@
 import Back from "@/components/community/page/back"
+import Comment from "@/components/community/page/comment"
 import Empty from "@/components/empty"
 import { MenuPublic } from "@/redux/menu.public/types"
 import { url } from "@/utils/app.url"
@@ -67,28 +68,10 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
         )}
       </div>
       <div className="my-9 space-y-3">
-        <h3 className="text-neutral-800 font-bold">
-          Bình luận ({comments.length})
-        </h3>
-        {comments.map(({user, comment}, index) => 
-          <div key={index}>
-            <div className="flex items-center">
-              {user.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400 mr-1" />}
-              <h4 className="text-sm text-neutral-800 font-bold">
-                {user.name}
-              </h4>
-              {
-                uid === user.id &&
-                <div className="ml-3 py-0.5 px-2 bg-neutral-300 rounded-md text-xs font-medium text-white">
-                  Tác giả
-                </div>
-              }
-            </div>
-            <p className="text-sm text-neutral-800 font-medium">
-              {comment}
-            </p>
-          </div>
-        )}
+        <Comment 
+          uid={uid}
+          comments={comments} 
+        />
       </div>
     </>
   )
