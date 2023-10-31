@@ -8,20 +8,20 @@
 
 /* width */
 ::-webkit-scrollbar {
-width: 5px;
+  width: 7px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-background: #e5e5e5; 
+  background: #ffffff; 
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-background: #a3a3a3; 
+  background: #d4d4d4; 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-background: #737373; 
+  background: #a3a3a3; 
 }
