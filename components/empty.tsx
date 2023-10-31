@@ -12,8 +12,21 @@ export default function Empty({children}: Props) {
           {children}
         </p>
         :
-        <>{children}</> 
+        <div>
+          {children}
+        </div> 
       }
     </div>
   )
 }
+
+function EmptyIcon({children}: {children: React.ReactNode}) {
+  return <div className="flex justify-center">{children}</div>
+}
+
+function EmptyText({children, className}: {children: string, className?: string}) {
+  return <p className={`${className} text-center`}>{children}</p>
+}
+
+Empty.Icon = EmptyIcon
+Empty.Text = EmptyText
