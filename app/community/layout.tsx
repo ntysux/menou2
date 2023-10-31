@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/error.message"
 import Nav from "@/components/nav/nav"
 import NavCardUser from "@/components/nav/nav.user"
 import { User } from "@/redux/user/types"
@@ -8,7 +7,7 @@ import { cookies } from "next/headers"
 
 interface Result {
   user?: User
-  error?: string
+  exception?: string
 }
 
 async function getUser(cookie: RequestCookie | undefined): Promise<Result> {
@@ -21,13 +20,13 @@ async function getUser(cookie: RequestCookie | undefined): Promise<Result> {
 
 export default async function CommunityLayout({children}: {children: React.ReactNode}) {
   const cookie = cookies().get('token')
-  const {user, error} = await getUser(cookie)
+  const {user, exception} = await getUser(cookie)
 
   return (
     <div className='sm:w-screen sm:max-w-5xl sm:mx-auto'>
       <Nav>
         {user && <NavCardUser user={user} />}
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {exception && <span className="text-sm text-neutral-800 font-bold">{exception}</span>}
       </Nav>
       <div className='m-3 my-9 sm:mx-0'>
         {children}

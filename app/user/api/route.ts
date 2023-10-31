@@ -28,5 +28,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({error: 'Lỗi: người dùng không xác định !'})
+  return NextResponse.json({exception: 'Guest'})
 }
