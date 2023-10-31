@@ -62,7 +62,7 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
                 )}
               </ul>
               :
-              <Empty>Trống</Empty>
+              <Empty>Bước đang phát triển</Empty>
             }
           </div>
         )}
