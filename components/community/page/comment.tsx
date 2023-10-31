@@ -1,8 +1,10 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
 import { Comment } from "@/redux/menu.public/types"
+import { url } from "@/utils/app.url"
 import { Disclosure } from "@headlessui/react"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
+import { useParams } from "next/navigation"
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 
 interface Props {
@@ -10,8 +12,17 @@ interface Props {
   comments: Comment[]
 }
 
+async function addComment(pid: string, uid: string, comment: string) {
+  await fetch(`${url}/community/${pid}/api/comment/add`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({uid, comment})
+  })
+}
+
 export default function Comment({uid, comments}: Props) {
-  const 
+  const
+    {id}: {id: string} = useParams(),
     user = useAppSelector(state => state.user),
     textareaRef = useRef<HTMLTextAreaElement | null>(null),
     [comment, setComment] = useState({current: '', list: comments})
@@ -34,7 +45,8 @@ export default function Comment({uid, comments}: Props) {
   
   function handleAddComment() {
     if (comment.current.trim()) {
-      setComment({list: [...comment.list, {user, comment: comment.current}], current: ''})
+      setComment({list: [...comment.list, {user, comment: comment.current.replace(/ {2,}/g, ' ')}], current: ''})
+      addComment(id, user.id, comment.current.replace(/ {2,}/g, ' '))
     }
     textareaRef.current?.focus()
   }

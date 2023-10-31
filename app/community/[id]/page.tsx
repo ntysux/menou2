@@ -70,7 +70,7 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
       <div className="my-9 space-y-3">
         <Comment 
           uid={uid}
-          comments={comments} 
+          comments={comments.reverse()} 
         />
       </div>
     </>
