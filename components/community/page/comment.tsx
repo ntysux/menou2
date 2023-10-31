@@ -1,9 +1,10 @@
 'use client'
+import Empty from "@/components/empty"
 import { useAppSelector } from "@/redux/hooks"
 import { Comment } from "@/redux/menu.public/types"
 import { url } from "@/utils/app.url"
 import { Disclosure } from "@headlessui/react"
-import { IconDiscountCheckFilled } from "@tabler/icons-react"
+import { IconBrandTelegram, IconDiscountCheckFilled } from "@tabler/icons-react"
 import { useParams } from "next/navigation"
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 
@@ -97,6 +98,21 @@ export default function Comment({uid, comments}: Props) {
           </Disclosure.Panel>
         </Disclosure>
       </div>
+      {
+        !comment.list.length
+        &&
+        <Empty>
+          <Empty.Icon>
+            <IconBrandTelegram size='29px' className="text-neutral-300" />
+          </Empty.Icon>
+          <Empty.Text className="mt-3 text-sm text-neutral-600 font-bold">
+            Chưa có bình luận
+          </Empty.Text>
+          <Empty.Text className="text-sm text-neutral-500">
+            Hãy là người đầu tiên nhận xét về món ăn này
+          </Empty.Text>
+        </Empty>
+      }
       {comment.list.map(({user, comment}, index) => 
         <div key={index}>
           <div className="flex items-center">
