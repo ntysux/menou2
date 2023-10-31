@@ -37,20 +37,17 @@ export default function Comment({uid, comments}: Props) {
   function handleSetComment(event: ChangeEvent<HTMLTextAreaElement>) {
     setComment({...comment, current: event.target.value})
   }
-
   function handleCancel(close: () => void) {
     setComment({...comment, current: ''})
     close()
   }
-  
   function handleAddComment() {
     if (comment.current.trim()) {
-      setComment({list: [...comment.list, {user, comment: comment.current.replace(/ {2,}/g, ' ')}], current: ''})
-      addComment(id, user.id, comment.current.replace(/ {2,}/g, ' '))
+      setComment({list: [...comment.list, {user, comment: comment.current}], current: ''})
+      addComment(id, user.id, comment.current.trim().replace(/ {2,}/g, ' '))
     }
     textareaRef.current?.focus()
   }
-
   function handleFocusTextarea() {
     setTimeout(() => {
       textareaRef.current?.focus()
@@ -66,7 +63,7 @@ export default function Comment({uid, comments}: Props) {
         <Disclosure>
           <Disclosure.Button 
             onClick={handleFocusTextarea}
-            className="outline-none p-3 w-full cursor-text text-left text-sm text-neutral-300 font-medium rounded-xl"
+            className="outline-none p-3 w-full cursor-text text-left text-sm text-neutral-300 font-medium rounded-xl hover:text-neutral-400"
           >
             Viết bình luận
           </Disclosure.Button>
