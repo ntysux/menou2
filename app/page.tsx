@@ -10,7 +10,16 @@ export default function InitPage() {
           Menoú
         </h1>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <SigninDialog />
+          <SigninDialog>
+            {setOpen =>
+              <button 
+                className="px-5 py-3 rounded-lg text-sm text-neutral-800 shadow-custombox hover:shadow transition-all"
+                onClick={() => setOpen(true)}
+              >
+                Đăng nhập
+              </button>
+            }
+          </SigninDialog>
           <SignupDialog />
         </div>
       </div>
