@@ -67,7 +67,7 @@ export default function Signin({setOpen}: {setOpen?: Dispatch<SetStateAction<boo
                 id="username"
                 name="username" 
                 autoComplete="username"
-                className="p-3 pt-7 w-full outline-none rounded-md text-sm text-white font-medium bg-neutral-950/0"
+                className="p-3 pt-7 w-full outline-none text-sm text-white font-medium bg-neutral-950/0"
                 onFocus={() => setFocus([true, focus[1]])}
                 onBlur={() => !values.username.length && setFocus([false, focus[1]])}
               />
