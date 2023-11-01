@@ -99,7 +99,7 @@ export default function Signin({setOpen}: {setOpen?: Dispatch<SetStateAction<boo
               <button 
                 type='button'
                 onClick={() => setOpen(false)}
-                className='outline-none p-2.5 text-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
+                className='outline-none p-3 text-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
               >
                 Đóng
               </button>
@@ -107,7 +107,7 @@ export default function Signin({setOpen}: {setOpen?: Dispatch<SetStateAction<boo
             <button
               type='submit' 
               disabled={isSubmitting}
-              className='outline-none w-full p-2.5 flex items-center justify-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
+              className='outline-none w-full p-3 flex items-center justify-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
             >
               {
                 isSubmitting
