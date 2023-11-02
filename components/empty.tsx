@@ -24,7 +24,7 @@ function EmptyIcon({children}: {children: React.ReactNode}) {
   return <div className="flex justify-center">{children}</div>
 }
 
-function EmptyText({children, className}: {children: string, className?: string}) {
+function EmptyText({children, className}: {children: string | React.ReactNode, className?: string}) {
   return <p className={`${className} text-center`}>{children}</p>
 }
 
