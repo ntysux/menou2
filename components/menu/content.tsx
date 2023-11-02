@@ -6,6 +6,7 @@ import { IconChefHat } from '@tabler/icons-react'
 import { Menu } from '@/redux/menu/types'
 import Card from './card/card'
 import CardDialog from './card/dialog/dialog'
+import Empty from '../empty'
 
 export default function MenuContent({pages}: {pages: Menu[]}) {
   const 
@@ -20,32 +21,24 @@ export default function MenuContent({pages}: {pages: Menu[]}) {
 
   return [menu, pages].some(array => array.filter(page => !page.deleted).length) ? (
     <div className='grid grid-cols-1 gap-3 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2'>
-      {
-        menu.map((page, index) =>
-          !page.deleted &&
-          <CardDialog key={index} index={index}>
-            {setOpen => <Card index={index} onClick={() => setOpen(true)} />}
-          </CardDialog>
-        )
-      }
+      {menu.map((page, index) =>
+        !page.deleted &&
+        <CardDialog key={index} index={index}>
+          {setOpen => <Card index={index} onClick={() => setOpen(true)} />}
+        </CardDialog>
+      )}
     </div>
-  ) : <Empty />
-}
-
-function Empty() {
-  return (
-    <div className="p-9 space-y-5 text-center border border-dashed border-neutral-300 rounded-lg">
-      <div className="flex justify-center">
+  ) : (
+    <Empty>
+      <Empty.Icon>
         <IconChefHat size='35px' className="text-neutral-300" />
-      </div>
-      <div>
-        <h2 className="text-sm text-neutral-400 font-medium tracking-wider">
-          Món ăn sẽ được hiển thị tại đây.
-        </h2>
-        <p className="text-xs text-neutral-400 font-medium">
-          Nhấn vào <span className="text-neutral-500 font-bold">Món ăn mới</span> để thêm mới món ăn.
-        </p>
-      </div>
-    </div>
+      </Empty.Icon>
+      <Empty.Text className='mt-3 text-sm text-neutral-500 font-medium'>
+        Món ăn sẽ được hiển thị tại đây.
+      </Empty.Text>
+      <Empty.Text className='text-sm text-neutral-400'>
+        Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm mới món ăn.
+      </Empty.Text>
+    </Empty>
   )
 }
