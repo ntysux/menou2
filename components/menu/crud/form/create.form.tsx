@@ -1,6 +1,6 @@
 'use client'
 import { useRef } from 'react'
-import { ErrorMessage, Field as FormikField, Form, Formik, FormikHelpers } from 'formik'
+import { Field as FormikField, Form, Formik, FormikHelpers } from 'formik'
 import Field from '../field'
 import Items from '../items'
 import Status from '../status'
@@ -10,6 +10,7 @@ import { schema } from '../validate/schema'
 import { useAppDispatch } from '@/redux/hooks'
 import { Init, OpenDialog } from '../types/types'
 import { url } from '@/utils/app.url'
+import ErrorDialog from '@/components/error.dialog'
 
 async function handleApi(values: Init): Promise<Menu | string> {
   const response = await fetch(`${url}/menu/api/create`, {
@@ -23,7 +24,8 @@ async function handleApi(values: Init): Promise<Menu | string> {
 
 export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
   const dispatch = useAppDispatch()
-  const materialsRef = useRef<HTMLInputElement | null>(null),
+  const 
+    materialsRef = useRef<HTMLInputElement | null>(null),
     requiredRef = useRef<HTMLInputElement | null>(null),
     stepsRef = useRef<HTMLInputElement | null>(null)
 
@@ -102,16 +104,19 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
               </div>
             )}
           </div>
-          <div className='absolute bottom-0 inset-x-0 flex items-center space-x-3 p-5 bg-white border-t border-neutral-200'>
+          <div className='absolute bottom-0 inset-x-0 flex items-center justify-between p-5 bg-white'>
             <button 
               type="button" 
               onClick={submitForm}
               disabled={isSubmitting || errors.name || !values.name ? true : false} 
-              className='py-1 px-5 text-sm text-neutral-800 font-bold disabled:opacity-25'
+              className='p-1 w-full bg-neutral-800 rounded-sm flex items-center justify-center text-sm text-white font-medium disabled:opacity-50'
             >
               {isSubmitting ? <Spin /> : 'Tạo'}
             </button>
-            <ErrorMessage name='error' component="div" className='text-xs text-pink-400 font-medium' />
+            <ErrorDialog 
+              state={Boolean(errors.error)} 
+              text={errors.error!}
+            />
           </div>
         </Form>
       )}
@@ -120,5 +125,7 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
 }
 
 function Spin() {
-  return <div className="h-5 w-5 animate-spin rounded-full border-4 border-white border-r-neutral-800" />
+  return <div className='p-0.5'>
+    <div className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-800 border-r-white" />
+  </div> 
 }
