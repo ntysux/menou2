@@ -20,7 +20,16 @@ export default function InitPage() {
               </button>
             }
           </SigninDialog>
-          <SignupDialog />
+          <SignupDialog>
+            {setOpen =>
+              <button 
+                className="outline-none px-5 py-3.5 rounded-lg text-sm text-neutral-800 shadow-custombox hover:shadow transition-all duration-300"
+                onClick={() => setOpen(true)}
+              >
+                Tạo tài khoản
+              </button>
+            }
+          </SignupDialog>
         </div>
       </div>
     </div> 

@@ -1,8 +1,8 @@
 'use client'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import { useRouter } from 'next/navigation'
 import { schema } from './schema'
-import { Fragment, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { url } from '@/utils/app.url'
 
 interface Init {
@@ -25,8 +25,9 @@ const fields: Field[] = [
   {name: 'name', label: 'Tên người dùng', type: 'text'},
 ]
 
-export default function Signup() {
-  const router = useRouter(),
+export default function Signup({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
+  const 
+    router = useRouter(),
     [focus, setFocus] = useState<boolean[]>(Array(4).fill(false))
 
   async function handleForm(
@@ -50,53 +51,67 @@ export default function Signup() {
     }
   }
 
+  function ErrorsMessage({errors}: any) {
+    return (
+      <div className={`
+        ${fields.some(field => errors[`${field.name}`]) ? 'opacity-1' : 'opacity-0'} 
+        absolute z-10 top-3 right-3 py-1 px-3 rounded-md text-xs text-white font-medium bg-neutral-950/25
+      `}
+      >
+        {errors.name || errors.password || errors.passwordConfirm || errors.username}
+      </div>
+    )
+  }
+
   return (
     <Formik
       initialValues={{name: '', username: '', password: '', passwordConfirm: '' }}
       validationSchema={schema}
       onSubmit={(values, {setSubmitting, setFieldError}) => handleForm(values, setSubmitting, setFieldError)}
     >
-      {({values, isSubmitting}) => (
-        <Form className='space-y-3'>
-          {fields.map((field, index) =>
-            <Fragment key={index}>
-              <div className='relative'>
-                <label htmlFor={field.name} className={`
-                  absolute transition-all cursor-text
-                  ${focus[index] ? 'left-3 top-3 text-xs text-neutral-800 font-bold' : 'left-3 top-5 text-sm text-neutral-400 font-medium'} 
-                `}>
-                  {field.label}
-                </label>
-                <Field
-                  type={field.type}
-                  id={field.name}
-                  name={field.name} 
-                  autoComplete={field.name}
-                  className="
-                    p-3 pt-7 w-full outline-none rounded-md text-sm text-neutral-800 font-medium
-                    focus:ring-2 focus:ring-neutral-800 ring-inset
-                  "
-                  onFocus={() => setFocus([...focus.fill(true, index, index + 1)])}
-                  onBlur={() => !values.username.length && setFocus([...focus.fill(false, index, index + 1)])}
-                />
-              </div>
-              <ErrorMessage 
-                name={field.name}
-                component='div' 
-                className='w-fit p-1 px-3 rounded-md text-rose-800 bg-rose-100 text-xs font-bold' 
-              />
-            </Fragment>
-          )}
-          <div className='text-right'>
+      {({values, isSubmitting, errors}) => (
+        <Form className='relative divide-y divide-neutral-600'>
+          <ErrorsMessage errors={errors} />
+          <div className='p-3'>
+            {fields.map((field, index) =>
+              <Fragment key={index}>
+                <div className='relative'>
+                  <label htmlFor={field.name} className={`
+                    absolute transition-all cursor-text
+                    ${focus[index] ? 'left-3 top-3 text-xs text-white font-bold' : 'left-3 top-5 text-sm text-neutral-300 font-medium'} 
+                  `}>
+                    {field.label}
+                  </label>
+                  <Field
+                    type={field.type}
+                    id={field.name}
+                    name={field.name} 
+                    autoComplete={field.name}
+                    className="p-3 pt-7 w-full outline-none text-sm text-white font-medium bg-neutral-950/0"
+                    onFocus={() => setFocus([...focus.fill(true, index, index + 1)])}
+                    onBlur={() => !values.username.length && setFocus([...focus.fill(false, index, index + 1)])}
+                  />
+                </div>
+              </Fragment>
+            )}
+          </div>
+          <div className='grid grid-cols-2 divide-x divide-neutral-600'>
             <button 
-              type='submit' 
-              className='outline-none text-sm text-neutral-950/75 font-bold'
+              type='button'
+              onClick={() => setOpen(false)}
+              className='outline-none p-3 text-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
+            >
+              Đóng
+            </button>
+            <button 
               disabled={isSubmitting}
+              type='submit' 
+              className='outline-none w-full p-3 flex items-center justify-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
             >
               {
                 isSubmitting 
                 ?
-                <div className="h-4 w-4 animate-spin rounded-full border-4 border-neutral-950/20 border-r-neutral-50/0" />
+                <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-r-neutral-50/0" />
                 :
                 <>Tạo tài khoản</>
               }
