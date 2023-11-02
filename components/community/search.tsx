@@ -1,10 +1,27 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
-import { overlay, scale } from "@/utils/transition.props"
 import { Dialog, Transition } from "@headlessui/react"
 import { IconSearch } from "@tabler/icons-react"
 import Link from "next/link"
 import { ChangeEvent, Fragment, useState } from "react"
+
+const overlay = {
+  enter:"ease-out duration-300",
+  enterFrom:"opacity-0",
+  enterTo:"opacity-100",
+  leave:"ease-in duration-200",
+  leaveFrom:"opacity-100",
+  leaveTo:"opacity-0"
+}
+
+const scale = {
+  enter: "ease-out duration-300",
+  enterFrom: "opacity-0 scale-95",
+  enterTo: "opacity-100 scale-100",
+  leave: "ease-in duration-200",
+  leaveFrom: "opacity-100 scale-100",
+  leaveTo: "opacity-0 scale-95"
+}
 
 export default function Search() {
   const menuPublic = useAppSelector(state => state.menuPublic),

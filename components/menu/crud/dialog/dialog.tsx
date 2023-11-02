@@ -4,7 +4,15 @@ import { Dialog, Transition } from '@headlessui/react'
 import Header from './header'
 import Content from './content'
 import { OpenDialog } from '../types/types'
-import { tranlateX } from '@/utils/transition.props'
+
+const tranlateX = {
+  enter: "transform transition ease-in-out duration-700",
+  enterFrom: "translate-x-full opacity-0",
+  enterTo: "translate-x-0 opacity-1",
+  leave: "transform transition ease-in-out duration-700",
+  leaveFrom: "translate-x-0 opacity-1",
+  leaveTo: "translate-x-full opacity-0"
+}
 
 interface Props {
   children: (setState: OpenDialog) => React.ReactNode
