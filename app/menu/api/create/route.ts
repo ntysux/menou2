@@ -103,5 +103,5 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({error: 'Unknown user'})
+  return NextResponse.json({error: 'Lỗi: Người dùng không xác định !'})
 }
