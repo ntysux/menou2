@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="grid grid-cols-1 gap-3 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-3 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
       <div className="shadow shadow-neutral-200 rounded-xl p-3">
         <div className="animate-pulse space-y-7">
           <div className="flex justify-between items-start">
