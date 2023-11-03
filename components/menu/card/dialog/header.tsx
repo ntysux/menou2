@@ -3,6 +3,7 @@ import { Tab } from "@headlessui/react"
 import { IconDots } from "@tabler/icons-react"
 import { motion } from "framer-motion"
 import { Dispatch, SetStateAction } from "react"
+import CardActionMobile from "./action.mobile"
 
 const tabs: string[] = ['Nguyên liệu', 'Chuẩn bị', 'Chế biến']
 
@@ -16,7 +17,7 @@ export default function Header({index, actions, setActions}: Props) {
   const page = useAppSelector(state => state.menu)[index]
 
   return (
-    <Tab.List className={`${page.color ?? 'bg-white'} flex justify-between sticky top-0 p-7 items-center`}>
+    <Tab.List className={`${page.color ?? 'bg-white'} flex items-center justify-between sticky top-0 p-7`}>
       <div className="flex space-x-5">
         {tabs.map(tab => (
           <Tab 
@@ -32,10 +33,11 @@ export default function Header({index, actions, setActions}: Props) {
           </Tab>
         ))}
       </div>
+      <CardActionMobile index={index} />
       <IconDots
         size='20px' 
         strokeWidth='3'
-        className={`text-neutral-400 hover:text-neutral-500 sm:flex ${actions && 'hidden'}`}
+        className='text-neutral-400 hover:text-neutral-500 sm:flex hidden'
         onClick={() => setActions(!actions)}
       />
     </Tab.List>
