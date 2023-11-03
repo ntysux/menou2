@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { Variants, motion } from "framer-motion"
-import { IconColorSwatch, IconMaximize, IconPencil, IconTrash, IconX } from '@tabler/icons-react'
+import { IconColorSwatch, IconMaximize, IconPencil, IconTrash } from '@tabler/icons-react'
 import { changeColor, remove } from "@/redux/menu/slice"
 import CUDialog from "../../crud/dialog/dialog"
 import { Dispatch, SetStateAction } from "react"
@@ -49,29 +49,16 @@ const colors = [
   {color: 'bg-white', name: 'Mặc định', face: 'bg-white'}
 ]
 
-export default function CardActions({index, setActions}: {index: number, setActions: Dispatch<SetStateAction<boolean>>}) {
-  const page = useAppSelector(state => state.menu)[index]
-  const dispatch = useAppDispatch()
-
-  function MobileCloseBtn() {
-    return (
-      <div className="flex justify-end p-2 sm:hidden">
-        <button 
-          className="outline-none p-1 rounded-full bg-neutral-800"
-          onClick={() => setActions(false)}
-        >
-          <IconX size='15px' strokeWidth='2.5' className="text-white" />
-        </button>
-      </div>
-    )
-  }
+export default function CardActions({index}: {index: number}) {
+  const 
+    page = useAppSelector(state => state.menu)[index],
+    dispatch = useAppDispatch()
 
   return (
     <motion.div
       {...main}
       className='absolute inset-y-0 right-0 w-screen max-w-[215px] rounded-2xl bg-neutral-950/75 backdrop-blur-[1px]'
     >
-      <MobileCloseBtn />
       <ul className='list-none grid grid-cols-4 gap-1 p-1'>
         <li className="flex justify-center rounded-xl p-1 bg-neutral-700 text-neutral-400">
           <IconColorSwatch size='18px' strokeWidth='2.5' />

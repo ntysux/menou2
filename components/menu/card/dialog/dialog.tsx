@@ -59,7 +59,7 @@ export default function CardDialog({children, index}: Props) {
                     />
                     <Content index={index} />
                   </Tab.Group>
-                  {actions && <CardActions setActions={setActions} index={index} />}
+                  {actions && <CardActions index={index} />}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
