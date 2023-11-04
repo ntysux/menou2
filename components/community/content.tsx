@@ -31,9 +31,20 @@ export default function Content({pages}: Props) {
         </h2>
       }
       <div className="grid grid-cols-1 sm:grid-cols-5 gap-x-3 gap-y-7">
-        {menuPublic.map((page, index) => 
-          <Card key={index} index={index} />
-        )}
+        {
+          search && 
+          menuPublic.map((page, index) =>
+            page.name.toLowerCase().includes(search.toLowerCase())
+            && 
+            <Card key={index} index={index} />
+          )
+        }
+        {
+          !search && 
+          menuPublic.map((page, index) =>
+            <Card key={index} index={index} />
+          )
+        }
       </div>
     </div>
   )
