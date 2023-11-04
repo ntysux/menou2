@@ -23,7 +23,7 @@ export default function Card({index}: Props) {
           </div>
         </div>
         <i className="text-xs text-neutral-400 font-medium bg-white">
-          10/26/2023
+          {page.lastEditedTime}
         </i>
       </div>
       <div className="mt-1">
