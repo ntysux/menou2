@@ -2,10 +2,9 @@
 import { usePathname } from "next/navigation"
 import Dashboard from "../menu/dashboard/dashboard"
 import Search from "../community/search"
-import NavRouter from "./nav.router"
 
 interface Props {
-  children?: React.ReactNode
+  children: React.ReactNode
 }
 
 export default function Nav({children}: Props) {
@@ -19,7 +18,6 @@ export default function Nav({children}: Props) {
         </h1>
         <div className="flex items-center space-x-7">
           {children}
-          <NavRouter />
         </div>
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}

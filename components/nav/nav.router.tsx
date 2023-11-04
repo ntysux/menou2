@@ -1,3 +1,4 @@
+'use client'
 import { Popover, Transition } from "@headlessui/react"
 import { IconAlignRight } from "@tabler/icons-react"
 import Link from "next/link"
@@ -8,7 +9,8 @@ import { url } from "@/utils/app.url"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init as menuInit } from "@/redux/menu/slice"
 import { init as userInit } from "@/redux/user/slice"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 
 const translateY = {
   enter: "transition ease-out duration-200",
@@ -39,10 +41,13 @@ interface Route {
   command?: number,
 }
 
-export default function NavRouter() {
+interface Props {
+  cookie: RequestCookie | undefined
+}
+
+export default function NavRouter({cookie}: Props) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
-  const user = useAppSelector(state => state.user)
   const router = useRouter()
 
   const menuDeletedCount = menu.filter(page => page.deleted).length
@@ -116,7 +121,7 @@ export default function NavRouter() {
                       }
                     </Premium>
                   :
-                    user.id &&
+                    cookie?.value &&
                     <motion.li 
                       key={route.name} 
                       variants={item}
