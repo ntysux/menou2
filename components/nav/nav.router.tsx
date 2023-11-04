@@ -42,6 +42,7 @@ interface Route {
 export default function NavRouter() {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
+  const user = useAppSelector(state => state.user)
   const router = useRouter()
 
   const menuDeletedCount = menu.filter(page => page.deleted).length
@@ -115,6 +116,7 @@ export default function NavRouter() {
                       }
                     </Premium>
                   :
+                    user.id &&
                     <motion.li 
                       key={route.name} 
                       variants={item}
