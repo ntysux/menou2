@@ -4,6 +4,7 @@ import Empty from "@/components/empty"
 import { MenuPublic } from "@/redux/menu.public/types"
 import { url } from "@/utils/app.url"
 import { IconDiscountCheckFilled } from "@tabler/icons-react"
+import { cookies } from "next/headers"
 
 async function getMenuPublicPage(pid: string): Promise<MenuPublic> {
   const response = await fetch(`${url}/community/${pid}/api`, {cache: 'no-store'})
@@ -13,6 +14,7 @@ async function getMenuPublicPage(pid: string): Promise<MenuPublic> {
 
 export default async function Page({params: {id}}: {params: {id: string}}) {
   const {uid, name, lastEditedTime, description, materials, required, steps, author, comments} = await getMenuPublicPage(id)
+  const cookie = cookies().get('token')
 
   const fields = [
     {name: 'Nguyên liệu', data: materials}, 
@@ -68,7 +70,8 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
         )}
       </div>
       <div className="my-9 space-y-3">
-        <Comment 
+        <Comment
+          cookie={cookie}
           uid={uid}
           comments={comments.reverse()} 
         />
