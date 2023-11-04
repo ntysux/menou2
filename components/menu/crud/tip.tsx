@@ -16,7 +16,7 @@ export default function Tip() {
     <Popover className="relative flex z-10">
       {({ open }) => (
         <>
-          <Popover.Button className={`${open ? 'text-neutral-500' : 'text-neutral-300'} outline-none p-1 rounded-md hover:text-neutral-400`}>
+          <Popover.Button className={`${open ? 'text-neutral-500' : 'text-neutral-200'} outline-none p-1 rounded-md hover:text-neutral-300`}>
             <IconBulb size='20px' />
           </Popover.Button>
           <Transition as={Fragment} {...translateY}>
