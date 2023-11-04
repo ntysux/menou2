@@ -6,6 +6,7 @@ import { url } from "@/utils/app.url"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { changeColor, remove } from "@/redux/menu/slice"
 import CUDialog from "../../crud/dialog/dialog"
+import FullMenuPage from "../../full.page"
 
 async function handleChangeColor(id: string, color: string) {
   await fetch(`${url}/menu/api/update/single/color`, {
@@ -91,9 +92,16 @@ export default function CardActionMobile({index}: Props) {
               >
                 <IconTrash size='17px' strokeWidth='2.3' />
               </li>
-              <li className="p-3 flex justify-center text-neutral-400 hover:bg-neutral-700">
-                <IconMaximize size='17px' strokeWidth='2.3' />
-              </li>
+              <FullMenuPage index={index}>
+                {setOpen =>
+                  <li 
+                    onClick={() => setOpen(true)}
+                    className="p-3 flex justify-center text-neutral-400 hover:bg-neutral-700"
+                  >
+                    <IconMaximize size='17px' strokeWidth='2.3' />
+                  </li>
+                }
+              </FullMenuPage>
             </ul>
             <motion.ul
               variants={container}

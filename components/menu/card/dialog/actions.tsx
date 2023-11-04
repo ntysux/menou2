@@ -1,12 +1,11 @@
 'use client'
-import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { Variants, motion } from "framer-motion"
 import { IconColorSwatch, IconMaximize, IconPencil, IconTrash } from '@tabler/icons-react'
 import { changeColor, remove } from "@/redux/menu/slice"
 import CUDialog from "../../crud/dialog/dialog"
-import { Dispatch, SetStateAction } from "react"
 import { url } from "@/utils/app.url"
+import FullMenuPage from "../../full.page"
 
 const container: Variants = {
   visible: {
@@ -82,11 +81,16 @@ export default function CardActions({index}: {index: number}) {
         >
           <IconTrash size='18px' strokeWidth='2.5' />
         </li>
-        <Link href={`/menu/${page.id}`}>
-          <li className="flex justify-center rounded-xl p-1 text-neutral-600 hover:bg-neutral-700 hover:text-neutral-400">
-            <IconMaximize size='18px' strokeWidth='2.5' />
-          </li>
-        </Link>
+        <FullMenuPage index={index}>
+          {setOpen =>
+            <li
+              onClick={() => setOpen(true)} 
+              className="flex justify-center rounded-xl p-1 text-neutral-600 hover:bg-neutral-700 hover:text-neutral-400"
+            >
+              <IconMaximize size='18px' strokeWidth='2.5' />
+            </li>
+          }
+        </FullMenuPage>
       </ul>
 
       <motion.ul
