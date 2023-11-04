@@ -20,7 +20,7 @@ export default function Card({index, onClick}: {index: number, onClick?: () => v
             {status ? 'Riêng tư' : 'Công khai'}
           </div>
           :
-          <div className={`${status ? 'bg-violet-100 text-violet-900' : 'bg-stone-200 text-stone-900'} px-3 py-1 text-xs font-medium w-fit rounded-md`}>
+          <div className={`${status ? 'bg-violet-100 text-violet-900' : 'bg-cyan-100 text-cyan-900'} px-3 py-1 text-xs font-medium w-fit rounded-md`}>
             {status ? 'Riêng tư' : 'Công khai'}
           </div>
         }

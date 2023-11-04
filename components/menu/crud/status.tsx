@@ -15,7 +15,7 @@ export default function Status({values, setFieldValue}: Props) {
       layoutId='btn' 
       className={`
         absolute inset-0 rounded-md
-        ${values.status ? 'bg-violet-100' : 'bg-stone-200'}
+        ${values.status ? 'bg-violet-100' : 'bg-cyan-100'}
       `}
     />
   }
@@ -33,7 +33,7 @@ export default function Status({values, setFieldValue}: Props) {
                 values.status === Boolean(index) && values.status 
                 ? 'text-violet-900' 
                 : values.status === Boolean(index) && !values.status
-                ? 'text-stone-900'
+                ? 'text-cyan-900'
                 : 'text-neutral-400'
               }
             `}
