@@ -46,9 +46,10 @@ const translateY = {
 }
 
 const colors = [
-  {color: 'bg-rose-100', face: 'bg-rose-400'}, 
-  {color: 'bg-teal-100', face: 'bg-teal-400'}, 
-  {color: 'bg-purple-100', face: 'bg-purple-400'},
+  {color: 'bg-rose-100', face: 'bg-rose-300'}, 
+  {color: 'bg-teal-100', face: 'bg-teal-300'}, 
+  {color: 'bg-purple-100', face: 'bg-purple-300'},
+  {color: 'bg-orange-100', face: 'bg-orange-200'},
   {color: 'bg-white', face: 'bg-white'}
 ]
 
@@ -57,8 +58,10 @@ interface Props {
 }
 
 export default function CardActionMobile({index}: Props) {
-  const page = useAppSelector(state => state.menu)[index]
-  const dispatch = useAppDispatch()
+  const 
+    dispatch = useAppDispatch(),
+    page = useAppSelector(state => state.menu)[index],
+    user = useAppSelector(state => state.user)
 
   return (
     <>
@@ -109,19 +112,25 @@ export default function CardActionMobile({index}: Props) {
               animate="visible"
               className="p-2 flex space-x-1"
             >
-              {colors.map((colorOption, colorIndex) =>
-                <motion.li 
-                  key={colorIndex}
-                  variants={item}
-                  onClick={() => {
-                    dispatch(changeColor({color: colorOption.color, index}))
-                    handleChangeColor(page.id, colorOption.color)
-                  }}
-                  className="rounded-full p-1 hover:bg-neutral-950/10"
-                >
-                  <div className={`p-2 rounded-full ${colorOption.face}`}/>
-                </motion.li>
-              )}
+              {colors.map((colorOption, colorIndex) => {
+                if (!user.premium && colorIndex === 3) {
+                  return null
+                }
+
+                return (
+                  <motion.li 
+                    key={colorIndex}
+                    variants={item}
+                    onClick={() => {
+                      dispatch(changeColor({color: colorOption.color, index}))
+                      handleChangeColor(page.id, colorOption.color)
+                    }}
+                    className="rounded-full p-1 hover:bg-neutral-950/10"
+                  >
+                    <div className={`p-2 rounded-full ${colorOption.face}`}/>
+                  </motion.li>
+                )
+              })}
             </motion.ul>
           </Popover.Panel>
         </Transition>

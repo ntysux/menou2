@@ -42,15 +42,17 @@ async function handleDelete(id: string) {
 }
 
 const colors = [
-  {color: 'bg-rose-100', name: 'Nóng hổi', face: 'bg-rose-400'}, 
-  {color: 'bg-teal-100', name: 'Giải nhiệt', face: 'bg-teal-400'}, 
-  {color: 'bg-purple-100', name: 'Chill', face: 'bg-purple-400'},
+  {color: 'bg-rose-100', name: 'Nóng hổi', face: 'bg-rose-300'}, 
+  {color: 'bg-teal-100', name: 'Giải nhiệt', face: 'bg-teal-300'}, 
+  {color: 'bg-purple-100', name: 'Chill', face: 'bg-purple-300'},
+  {color: 'bg-orange-100', name: 'Royal', face: 'bg-orange-200'},
   {color: 'bg-white', name: 'Mặc định', face: 'bg-white'}
 ]
 
 export default function CardActions({index}: {index: number}) {
   const 
     page = useAppSelector(state => state.menu)[index],
+    user = useAppSelector(state => state.user),
     dispatch = useAppDispatch()
 
   return (
@@ -99,20 +101,26 @@ export default function CardActions({index}: {index: number}) {
         animate="visible"
         className="p-1 text-white text-sm font-medium"
       >
-        {colors.map((colorOption, colorIndex) =>
-          <motion.li 
-            key={colorIndex}
-            variants={item}
-            onClick={() => {
-              dispatch(changeColor({color: colorOption.color, index}))
-              handleChangeColor(page.id, colorOption.color)
-            }}
-            className="flex items-center rounded-md cursor-pointer p-3 space-x-5 hover:bg-neutral-950/10"
-          >
-            <div className={`p-1.5 rounded-full ${colorOption.face}`}/>
-            <p>{colorOption.name}</p>
-          </motion.li>
-        )}
+        {colors.map((colorOption, colorIndex) => {
+          if (!user.premium && colorIndex === 3) {
+            return null
+          }
+
+          return (
+            <motion.li 
+              key={colorIndex}
+              variants={item}
+              onClick={() => {
+                dispatch(changeColor({color: colorOption.color, index}))
+                handleChangeColor(page.id, colorOption.color)
+              }}
+              className="flex items-center rounded-md cursor-pointer p-3 space-x-5 hover:bg-neutral-950/10"
+            >
+              <div className={`p-1.5 rounded-full ${colorOption.face}`}/>
+              <p>{colorOption.name}</p>
+            </motion.li>
+          )
+        })}
       </motion.ul>
     </motion.div>
   )
