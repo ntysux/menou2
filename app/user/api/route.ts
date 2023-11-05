@@ -16,12 +16,13 @@ export async function GET(request: NextRequest) {
     if (typeof tokenDecoded !== 'string' && tokenDecoded) {
       const 
         uid: string = tokenDecoded['id'],
-        {properties: {name, verified}}: any = await notion.pages.retrieve({page_id: uid})
+        {properties: {name, verified, premium}}: any = await notion.pages.retrieve({page_id: uid})
 
       const user: User = {
         id: uid,
         name: name.rich_text[0].plain_text, 
-        verified: verified.checkbox
+        verified: verified.checkbox,
+        premium: premium.checkbox
       }
 
       return NextResponse.json({user})
