@@ -34,8 +34,7 @@ export default function Card({index}: Props) {
           </div>
         }
       </div>
-
-      <div className="mt-1 flex items-center space-x-1">
+      <div className="mt-1">
         <h2 className="text-sm text-neutral-800 font-bold truncate max-w-[150px]">
           {name}
         </h2>
