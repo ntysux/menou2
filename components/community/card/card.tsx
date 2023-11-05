@@ -1,6 +1,6 @@
 'use client'
 import { useAppSelector } from "@/redux/hooks"
-import { IconDiscountCheckFilled } from "@tabler/icons-react"
+import { IconDiscountCheckFilled, IconKeyframe } from "@tabler/icons-react"
 import Link from "next/link"
 
 interface Props {
@@ -8,27 +8,36 @@ interface Props {
 }
 
 export default function Card({index}: Props) {
-  const page = useAppSelector(state => state.menuPublic)[index]
+  const {
+    id, name, lastEditedTime, author: {name: authorName, premium, verified}
+  } = useAppSelector(state => state.menuPublic)[index]
 
   return (
-    <Link href={`/community/${page.id}`}>
-      <div className="p-3 pb-11 bg-hero-pattern rounded-lg">
+    <Link href={`/community/${id}`}>
+      <div className="relative p-3 pb-11 bg-hero-pattern rounded-lg">
         <div className="flex items-end space-x-3 bg-white w-fit">
           <i className="text-xs text-neutral-600 font-medium">bởi</i>
           <div className="flex items-center space-x-1">
             <span className="text-sm text-neutral-800 font-bold truncate max-w-[100px]">
-              {page?.author.name}
+              {authorName}
             </span>
-            {page?.author.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
+            {verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
           </div>
         </div>
         <i className="text-xs text-neutral-400 font-medium bg-white">
-          {page.lastEditedTime}
+          {lastEditedTime}
         </i>
+        {
+          premium && 
+          <div className="absolute top-3 right-0 p-1 bg-white rounded-l-md">
+            <IconKeyframe size='17px' strokeWidth='2.7' className="text-stone-400" />
+          </div>
+        }
       </div>
-      <div className="mt-1">
+
+      <div className="mt-1 flex items-center space-x-1">
         <h2 className="text-sm text-neutral-800 font-bold truncate max-w-[150px]">
-          {page?.name}
+          {name}
         </h2>
       </div>
     </Link>
