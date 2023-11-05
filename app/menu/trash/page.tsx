@@ -4,25 +4,28 @@ import MenuTrashContent from "@/components/trash/content"
 import { Menu } from "@/redux/menu/types"
 import ErrorMessage from "@/components/error.message"
 import { url } from "@/utils/app.url"
+import { User } from "@/redux/user/types"
 
 interface Result {
-  pages?: Menu[]
+  results?: {
+    pages: Menu[]
+    user: User
+  }
   error?: string
 }
 
-async function allMenuPagesById(cookie: RequestCookie | undefined): Promise<Result> {
+async function getMenuPagesAndUser(cookie: RequestCookie | undefined): Promise<Result> {
   const response = await fetch(`${url}/menu/api`, {
     headers: {cookie: `token=${cookie?.value}`}
   })
-  const result = await response.json()
-  return result
+  return response.json()
 }
 
 export default async function MenuPage() {
   const cookie = cookies().get('token')
-  const result = await allMenuPagesById(cookie)
+  const {results, error} = await getMenuPagesAndUser(cookie)
 
-  return result.pages 
-    ? <MenuTrashContent pages={result.pages} /> 
-    : <ErrorMessage>{result.error!}</ErrorMessage>
+  return results
+    ? <MenuTrashContent results={results} />
+    : <ErrorMessage>{error!}</ErrorMessage>
 }

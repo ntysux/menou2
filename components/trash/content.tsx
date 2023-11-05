@@ -1,18 +1,33 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { init } from '@/redux/menu/slice'
+import { init as menuInit } from '@/redux/menu/slice'
+import { init as userInit } from '@/redux/user/slice'
 import Card from '@/components/menu/card/card'
 import { Menu } from '@/redux/menu/types'
 import { IconTrashX } from '@tabler/icons-react'
 import Empty from '../empty'
+import { User } from '@/redux/user/types'
 
-export default function MenuTrashContent({pages}: {pages: Menu[]}) {
-  const dispatch = useAppDispatch()
-  const menu = useAppSelector(state => state.menu)
+interface Props {
+  results: {
+    pages: Menu[]
+    user: User
+  }
+}
+
+export default function MenuTrashContent({results: {pages, user: userPage}}: Props) {
+  const 
+    dispatch = useAppDispatch(),
+    menu = useAppSelector(state => state.menu),
+    user = useAppSelector(state => state.user)
+
   useEffect(() => {
     if (!menu.length && pages.length) {
-      dispatch(init(pages))
+      dispatch(menuInit(pages))
+    }
+    if (!user.id) {
+      dispatch(userInit(userPage))
     }
   }, [])
 
