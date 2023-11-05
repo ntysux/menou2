@@ -4,7 +4,8 @@ import { User } from "./types"
 const initialState: User = {
   id: '',
   name: '',
-  verified: false
+  verified: false,
+  premium: false
 }
 
 export const userSlice = createSlice({

@@ -64,7 +64,7 @@ export default function NavRouter({cookie}: Props) {
     const response = await fetch(`${url}/auth/api/signout`, {method: 'POST'})
     if (response.status === 200) {
       dispatch(menuInit([]))
-      dispatch(userInit({id: '', name: '', verified: false}))
+      dispatch(userInit({id: '', name: '', verified: false, premium: false}))
       router.replace('/')
       router.refresh()
     }
