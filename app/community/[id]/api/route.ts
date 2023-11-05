@@ -10,23 +10,25 @@ const notion = new Client({auth: process.env.NOTION_KEY})
 const notionCommentId = process.env.NOTION_COMMENT
 
 async function getUser(uid: string): Promise<User> {
-  const {id, properties: {name, verified}}: any = await notion.pages.retrieve({
+  const {id, properties: {name, verified, premium}}: any = await notion.pages.retrieve({
     page_id: uid
   })
   return {
     id,
     name: name.rich_text[0].plain_text,
-    verified: verified.checkbox
+    verified: verified.checkbox,
+    premium: premium.checkbox
   }
 }
 
 async function getAuthor(uid: string): Promise<Author> {
-  const {properties: {name, verified}}: any = await notion.pages.retrieve({
+  const {properties: {name, verified, premium}}: any = await notion.pages.retrieve({
     page_id: uid
   })
   return {
     name: name.rich_text[0].plain_text,
-    verified: verified.checkbox
+    verified: verified.checkbox,
+    premium: premium.checkbox
   }
 }
 

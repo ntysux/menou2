@@ -32,12 +32,13 @@ async function getAllMenu() {
 }
 
 async function getAuthor(uid: string): Promise<Author> {
-  const {properties: {name, verified}}: any = await notion.pages.retrieve({
+  const {properties: {name, verified, premium}}: any = await notion.pages.retrieve({
     page_id: uid
   })
   return {
     name: name.rich_text[0].plain_text,
-    verified: verified.checkbox
+    verified: verified.checkbox,
+    premium: premium.checkbox
   }
 }
 
