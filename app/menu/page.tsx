@@ -1,28 +1,31 @@
 import ErrorMessage from "@/components/error.message"
 import MenuContent from "@/components/menu/content"
 import { Menu } from "@/redux/menu/types"
+import { User } from "@/redux/user/types"
 import { url } from "@/utils/app.url"
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 import { cookies } from "next/headers"
 
 interface Result {
-  pages?: Menu[]
+  results?: {
+    pages: Menu[]
+    user: User
+  }
   error?: string
 }
 
-async function allMenuPagesById(cookie: RequestCookie | undefined): Promise<Result> {
+async function getMenuPagesAndUser(cookie: RequestCookie | undefined): Promise<Result> {
   const response = await fetch(`${url}/menu/api`, {
     headers: {cookie: `token=${cookie?.value}`}
   })
-  const result = await response.json()
-  return result
+  return response.json()
 }
 
 export default async function MenuPage() {
   const cookie = cookies().get('token')
-  const result = await allMenuPagesById(cookie)
+  const {results, error} = await getMenuPagesAndUser(cookie)
 
-  return result.pages
-    ? <MenuContent pages={result.pages} />
-    : <ErrorMessage>{result.error!}</ErrorMessage>
+  return results
+    ? <MenuContent results={results} />
+    : <ErrorMessage>{error!}</ErrorMessage>
 }

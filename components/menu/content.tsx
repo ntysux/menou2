@@ -1,21 +1,34 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useEffect } from 'react'
-import { init } from '@/redux/menu/slice'
+import { init as menuInit } from '@/redux/menu/slice'
 import { IconChefHat } from '@tabler/icons-react'
 import { Menu } from '@/redux/menu/types'
 import Card from './card/card'
 import CardDialog from './card/dialog/dialog'
 import Empty from '../empty'
+import { User } from '@/redux/user/types'
+import { init as userInit } from '@/redux/user/slice'
 
-export default function MenuContent({pages}: {pages: Menu[]}) {
+interface Props {
+  results: {
+    pages: Menu[]
+    user: User
+  }
+}
+
+export default function MenuContent({results: {pages, user: userPage}}: Props) {
   const 
     dispatch = useAppDispatch(),
-    menu = useAppSelector(state => state.menu)
+    menu = useAppSelector(state => state.menu),
+    user = useAppSelector(state => state.user)
 
   useEffect(() => {
     if (!menu.length && pages.length) {
-      dispatch(init(pages))
+      dispatch(menuInit(pages))
+    }
+    if (!user.id) {
+      dispatch(userInit(userPage))
     }
   }, [])
 
