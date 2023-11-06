@@ -1,6 +1,6 @@
 'use client'
 import { Popover, Transition } from "@headlessui/react"
-import { IconAlignRight } from "@tabler/icons-react"
+import { IconAlignRight, IconDots } from "@tabler/icons-react"
 import Link from "next/link"
 import { Fragment } from "react"
 import { motion } from 'framer-motion'
@@ -72,11 +72,21 @@ export default function NavRouter({cookie}: Props) {
 
   return (
     <Popover className="flex relative">
-      <Popover.Button className='outline-none text-neutral-800'>
-        <IconAlignRight 
-          size='20px' 
-          strokeWidth='2.5' 
-        />
+      <Popover.Button className='outline-none'>
+        {({open}) =>
+          <>
+            <IconAlignRight 
+              size='20px' 
+              strokeWidth='2.5' 
+              className="text-neutral-800 sm:hidden"
+            />
+            <IconDots 
+              size='20px' 
+              strokeWidth='3' 
+              className={`${open ? 'text-neutral-400' : 'text-neutral-300'} hidden sm:block`}
+            />
+          </>
+        }
       </Popover.Button>
       <Transition as={Fragment} {...translateY}>
         <Popover.Panel className="absolute right-0 z-50 mt-9 rounded-xl p-1 overflow-hidden w-screen max-w-[270px] bg-neutral-950/75 backdrop-blur-[1px]">
