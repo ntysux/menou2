@@ -24,15 +24,18 @@ async function handleChangeColorMulti(idList: string[], color: string) {
 }
 
 const colors: {color: string, face: string}[] = [
-  {color: 'bg-rose-100', face: 'bg-rose-400'}, 
-  {color: 'bg-teal-100', face: 'bg-teal-400'}, 
-  {color: 'bg-purple-100', face: 'bg-purple-400'},
+  {color: 'bg-rose-100', face: 'bg-rose-300'}, 
+  {color: 'bg-teal-100', face: 'bg-teal-300'}, 
+  {color: 'bg-purple-100', face: 'bg-purple-300'},
+  {color: 'bg-orange-100', face: 'bg-orange-200'},
   {color: 'bg-white', face: 'bg-white'}
 ]
 
 export default function Colors() {
-  const dispatch = useAppDispatch(),
+  const 
+    dispatch = useAppDispatch(),
     menu = useAppSelector(state => state.menu),
+    user = useAppSelector(state => state.user),
     idList = menu.filter(menu => menu.checked).map(menu => menu.id)
 
   async function changeColorAndDispatch(color: string) {
@@ -48,15 +51,20 @@ export default function Colors() {
       <Transition as={Fragment} {...translateY}>
         <Popover.Panel className="absolute top-7 z-10 right-0 sm:left-0">
           <div className='flex space-x-1 p-1 w-fit rounded-sm bg-neutral-950/75'>
-            {colors.map((colorTheme, index) =>
-              <button 
-                key={index} 
-                onClick={() => changeColorAndDispatch(colorTheme.color)}
-                className='hover:bg-neutral-600 rounded-full p-1'
-              >
-                <div className={`p-2 rounded-full ${colorTheme.face}`} />  
-              </button>
-            )}
+            {colors.map((colorTheme, index) => {
+              if (!user.premium && index === 3) {
+                return null
+              }
+              return (
+                <button 
+                  key={index} 
+                  onClick={() => changeColorAndDispatch(colorTheme.color)}
+                  className='hover:bg-neutral-600 rounded-full p-1'
+                >
+                  <div className={`p-2 rounded-full ${colorTheme.face}`} />  
+                </button>
+              )
+            })}
           </div>
         </Popover.Panel>
       </Transition>
