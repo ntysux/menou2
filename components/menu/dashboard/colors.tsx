@@ -4,6 +4,20 @@ import { url } from '@/utils/app.url'
 import { Popover, Transition } from '@headlessui/react'
 import { IconColorSwatch } from '@tabler/icons-react'
 import { Fragment } from 'react'
+import { motion } from 'framer-motion'
+
+const container = {
+  visible: {
+    transition: {
+      delayChildren: 0.2,
+      staggerChildren: 0.1
+    }
+  }
+}
+const item = {
+  hidden: {y: 10, opacity: 0},
+  visible: {y: 0, opacity: 1}
+}
 
 const translateY = {
   enter: "transition ease-out duration-200",
@@ -50,22 +64,28 @@ export default function Colors() {
       </Popover.Button>
       <Transition as={Fragment} {...translateY}>
         <Popover.Panel className="absolute top-7 z-10 right-0 sm:left-0">
-          <div className='flex space-x-1 p-1 w-fit rounded-sm bg-neutral-950/75'>
+          <motion.ul 
+            variants={container}
+            initial="hidden"
+            animate="visible"
+            className='flex space-x-1 p-1 w-fit rounded-sm bg-neutral-950/75'
+          >
             {colors.map((colorTheme, index) => {
               if (!user.premium && index === 3) {
                 return null
               }
               return (
-                <button 
-                  key={index} 
+                <motion.li
+                  key={index}
+                  variants={item} 
                   onClick={() => changeColorAndDispatch(colorTheme.color)}
                   className='hover:bg-neutral-600 rounded-full p-1'
                 >
                   <div className={`p-2 rounded-full ${colorTheme.face}`} />  
-                </button>
+                </motion.li>
               )
             })}
-          </div>
+          </motion.ul>
         </Popover.Panel>
       </Transition>
     </Popover>
