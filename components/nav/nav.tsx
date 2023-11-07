@@ -16,7 +16,7 @@ export default function Nav({children}: Props) {
         <h1 className='text-lg text-neutral-800 font-medium tracking-widest'>
           Menoú
         </h1>
-        <div className="flex items-center space-x-7">
+        <div className="flex items-center space-x-5">
           {children}
         </div>
       </nav>
