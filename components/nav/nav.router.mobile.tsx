@@ -1,6 +1,6 @@
 'use client'
 import { Popover, Transition } from "@headlessui/react"
-import { IconAlignRight, IconDots } from "@tabler/icons-react"
+import { IconAlignRight } from "@tabler/icons-react"
 import Link from "next/link"
 import { Fragment } from "react"
 import { motion } from 'framer-motion'
@@ -9,7 +9,7 @@ import { url } from "@/utils/app.url"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init as menuInit } from "@/redux/menu/slice"
 import { init as userInit } from "@/redux/user/slice"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies"
 
 const translateY = {
@@ -45,7 +45,7 @@ interface Props {
   cookie: RequestCookie | undefined
 }
 
-export default function NavRouter({cookie}: Props) {
+export default function NavRouterMobile({cookie}: Props) {
   const dispatch = useAppDispatch()
   const menu = useAppSelector(state => state.menu)
   const router = useRouter()
@@ -60,7 +60,7 @@ export default function NavRouter({cookie}: Props) {
     {name: 'Đăng xuất'}
   ]
 
-  async function handleSignout() {
+  async function handleSignOut() {
     const response = await fetch(`${url}/auth/api/signout`, {method: 'POST'})
     if (response.status === 200) {
       dispatch(menuInit([]))
@@ -71,25 +71,16 @@ export default function NavRouter({cookie}: Props) {
   }
 
   return (
-    <Popover className="flex relative">
+    <Popover className="flex relative sm:hidden">
       <Popover.Button className='outline-none'>
-        {({open}) =>
-          <>
-            <IconAlignRight 
-              size='20px' 
-              strokeWidth='2.5' 
-              className="text-neutral-800 sm:hidden"
-            />
-            <IconDots 
-              size='20px' 
-              strokeWidth='3' 
-              className={`${open ? 'text-neutral-400' : 'text-neutral-300'} hidden sm:block`}
-            />
-          </>
-        }
+        <IconAlignRight 
+          size='20px' 
+          strokeWidth='2.5' 
+          className="text-neutral-800"
+        />
       </Popover.Button>
       <Transition as={Fragment} {...translateY}>
-        <Popover.Panel className="absolute right-0 z-50 mt-9 rounded-xl p-1 overflow-hidden w-screen max-w-[270px] bg-neutral-950/75 backdrop-blur-[1px]">
+        <Popover.Panel className="absolute right-0 z-50 mt-9 rounded-2xl p-1 overflow-hidden w-screen max-w-[270px] bg-neutral-950/75 backdrop-blur-[1px]">
           {({close}) =>
             <motion.ul
               variants={container}
@@ -135,7 +126,7 @@ export default function NavRouter({cookie}: Props) {
                     <motion.li 
                       key={route.name} 
                       variants={item}
-                      onClick={handleSignout}
+                      onClick={handleSignOut}
                       className="cursor-pointer px-7 py-4 text-xs text-neutral-300 font-bold rounded-xl hover:bg-neutral-700 hover:text-white"
                     >
                       {route.name}
