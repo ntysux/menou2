@@ -38,7 +38,7 @@ export default function Premium({children}: {children: (setState: Dispatch<SetSt
       <Transition appear show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={onClose}>
           <Transition.Child as={Fragment} {...overlay}>
-            <div className="fixed inset-0 bg-neutral-950/25 backdrop-blur-[1px]" />
+            <div className="fixed inset-0 backdrop-blur-[1px]" />
           </Transition.Child>
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
