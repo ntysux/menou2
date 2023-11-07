@@ -1,4 +1,5 @@
 import Nav from "@/components/nav/nav"
+import NavRouter from "@/components/nav/nav.router"
 import NavRouterMobile from "@/components/nav/nav.router.mobile"
 import NavCardUser from "@/components/nav/nav.user"
 import { User } from "@/redux/user/types"
@@ -29,6 +30,7 @@ export default async function CommunityLayout({children}: {children: React.React
         {user && <NavCardUser user={user} />}
         {exception && <span className="text-sm text-neutral-800 font-bold">{exception}</span>}
         <NavRouterMobile cookie={cookie} />
+        <NavRouter cookie={cookie} />
       </Nav>
       <div className='m-3 my-9 sm:mx-0'>
         {children}
