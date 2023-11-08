@@ -104,20 +104,21 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
               </div>
             )}
           </div>
-          <div className='absolute bottom-0 inset-x-0 flex items-center justify-between p-5 bg-white'>
+          
+          <div className='flex justify-end pt-3 border-t border-neutral-300'>
             <button 
               type="button" 
               onClick={submitForm}
               disabled={isSubmitting || errors.name || !values.name ? true : false} 
-              className='p-1 w-full bg-neutral-800 rounded-sm flex items-center justify-center text-sm text-white font-medium disabled:opacity-50'
+              className='p-1 px-9 bg-neutral-800 rounded-sm flex items-center justify-center text-sm text-white font-medium disabled:opacity-50'
             >
               {isSubmitting ? <Spin /> : 'Tạo'}
             </button>
-            <ErrorDialog 
-              state={Boolean(errors.error)} 
-              text={errors.error!}
-            />
           </div>
+          <ErrorDialog 
+            state={Boolean(errors.error)} 
+            text={errors.error!}
+          />
         </Form>
       )}
     </Formik>

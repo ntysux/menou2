@@ -1,17 +1,19 @@
-import { IconChevronsRight } from "@tabler/icons-react"
+import { IconArrowNarrowLeft } from "@tabler/icons-react"
 import { OpenDialog } from "../types/types"
 import Tip from "../tip"
 
 export default function Header({setOpen}: {setOpen: OpenDialog}) {
   return (
-    <div className='sticky top-0 z-20 p-1 flex border-b border-neutral-200'>
+    <div className='sticky top-0 z-20 p-3 flex flex-col bg-white'>
       <button 
-        className='outline-none rounded-md p-1 text-neutral-200 hover:text-neutral-300'
+        className='outline-none w-fit text-neutral-800'
         onClick={() => setOpen(false)}
       >
-        <IconChevronsRight size='20px' strokeWidth='3' />
+        <IconArrowNarrowLeft size='20px' />
       </button>
-      <Tip />
+      <div className="absolute -bottom-8 hidden sm:block">
+        <Tip />
+      </div>
     </div>
   )
 }

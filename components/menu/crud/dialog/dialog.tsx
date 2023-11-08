@@ -6,12 +6,12 @@ import Content from './content'
 import { OpenDialog } from '../types/types'
 
 const tranlateX = {
-  enter: "transform transition ease-in-out duration-700",
-  enterFrom: "translate-x-full opacity-0",
-  enterTo: "translate-x-0 opacity-1",
-  leave: "transform transition ease-in-out duration-700",
-  leaveFrom: "translate-x-0 opacity-1",
-  leaveTo: "translate-x-full opacity-0"
+  enter: "ease-out duration-300",
+  enterFrom: "translate-x-5",
+  enterTo: "translate-x-0",
+  leave: "ease-in duration-200",
+  leaveFrom: "opacity-100 translate-x-0",
+  leaveTo: "opacity-0 translate-x-5"
 }
 
 interface Props {
@@ -26,16 +26,14 @@ export default function CUDialog({children, index}: Props) {
     <>
       {children(setOpen)}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10 pointer-events-auto" onClose={() => false}>
-          <div className="fixed inset-0">
-            <div className="absolute inset-y-0 right-0 flex">
-              <Transition.Child as={Fragment} {...tranlateX}>
-                <Dialog.Panel className="relative bg-white rounded-none overflow-hidden w-screen sm:max-w-xl max-w-xs pointer-events-auto shadow shadow-neutral-300">
-                  <Header setOpen={setOpen} />
-                  <Content index={index} setOpen={setOpen} />
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+        <Dialog as="div" className="relative z-10" onClose={() => false}>
+          <div className="fixed inset-0 bg-white overflow-y-auto hidden-scroll">
+            <Transition.Child as={Fragment} {...tranlateX}>
+              <Dialog.Panel className="w-screen h-screen">
+                <Header setOpen={setOpen} />
+                <Content index={index} setOpen={setOpen} />
+              </Dialog.Panel>
+            </Transition.Child>
           </div>
         </Dialog>
       </Transition.Root>
