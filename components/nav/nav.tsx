@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation"
 import Dashboard from "../menu/dashboard/dashboard"
 import Search from "../community/search"
+import Settings from "../community/settings"
 
 interface Props {
   children: React.ReactNode
@@ -21,7 +22,13 @@ export default function Nav({children}: Props) {
         </div>
       </nav>
       {['/menu', '/menu/trash'].some(url => url === pathname) && <Dashboard />}
-      {pathname === '/community' && <Search />}
+      {
+        pathname === '/community' && 
+        <div className="flex items-center space-x-3">
+          <Search />
+          <Settings />
+        </div>
+      }
     </header>
   )
 }
