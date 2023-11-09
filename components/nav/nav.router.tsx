@@ -1,16 +1,17 @@
 'use client'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Disclosure, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useRouter } from 'next/navigation'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import Link from 'next/link'
-import Premium from '../premium'
+import PremiumPreface from '../premium/premium.preface'
 import { url } from '@/utils/app.url'
 import { init as menuInit } from "@/redux/menu/slice"
 import { init as userInit } from "@/redux/user/slice"
-import { IconDots } from '@tabler/icons-react'
+import { IconChevronRight, IconDots } from '@tabler/icons-react'
+import PremiumFeature from '../premium/premium.feature'
 
 const container = {
   visible: {
@@ -131,17 +132,48 @@ export default function NavRouter({cookie}: Props) {
                       :
                         route.name === 'Premium' 
                         ?
-                          <Premium key={route.name}>
-                            {setPremiumOpen => 
-                              <motion.li 
-                                variants={item}
-                                onClick={() => setPremiumOpen(true)}
-                                className="cursor-pointer px-7 py-4 text-xs text-neutral-300 font-bold rounded-xl hover:bg-neutral-600/75 hover:text-white"
-                              >
-                                {route.name}
-                              </motion.li>
-                            }
-                          </Premium>
+                          <Disclosure key={route.name}>
+                            <Disclosure.Button 
+                              as={motion.li}
+                              variants={item}
+                              className="cursor-pointer flex items-center justify-between pl-7 pr-3 py-4 rounded-xl hover:bg-neutral-600/75"
+                            >
+                              {({open}) =>
+                                <>
+                                  <span className='text-xs text-neutral-300 font-bold hover:text-white'>
+                                    Premium
+                                  </span>
+                                  <IconChevronRight 
+                                    size='15px'
+                                    strokeWidth='3'
+                                    className={`${open ? 'rotate-90 text-white' : 'rotate-0 text-neutral-300'} transition-all`} 
+                                  />
+                                </>
+                              }
+                            </Disclosure.Button>
+                            <Disclosure.Panel as='ul'>
+                              <PremiumPreface>
+                                {setPremiumOpen => 
+                                  <li 
+                                    onClick={() => setPremiumOpen(true)}
+                                    className="cursor-pointer ml-9 p-3 text-xs text-neutral-300 font-medium rounded-xl hover:bg-neutral-600/75 hover:text-white"
+                                  >
+                                    Lời mở đầu
+                                  </li>
+                                }
+                              </PremiumPreface>
+                              <PremiumFeature>
+                                {setPremiumOpen =>
+                                  <li
+                                    onClick={() => setPremiumOpen(true)} 
+                                    className="cursor-pointer ml-9 p-3 text-xs text-neutral-300 font-medium rounded-xl hover:bg-neutral-600/75 hover:text-white"
+                                  >
+                                    Tính năng
+                                  </li>
+                                }
+                              </PremiumFeature>
+                            </Disclosure.Panel>
+                          </Disclosure>
                         :
                           cookie?.value &&
                           <motion.li 
