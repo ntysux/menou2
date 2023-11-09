@@ -15,14 +15,11 @@ export default function Card({index}: Props) {
   return (
     <Link href={`/community/${id}`}>
       <div className="relative p-3 pb-11 bg-hero-pattern rounded-lg">
-        <div className="flex items-end space-x-3 bg-white w-fit">
-          <i className="text-xs text-neutral-600 font-medium">bởi</i>
-          <div className="flex items-center space-x-1">
-            <span className="text-sm text-neutral-800 font-bold truncate max-w-[100px]">
-              {authorName}
-            </span>
-            {verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
-          </div>
+        <div className="flex items-center space-x-0.5 bg-white w-fit">
+          {verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
+          <span className="text-sm text-neutral-800 font-bold truncate max-w-[100px]">
+            {authorName}
+          </span>
         </div>
         <i className="text-xs text-neutral-400 font-medium bg-white">
           {lastEditedTime}
