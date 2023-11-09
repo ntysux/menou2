@@ -20,11 +20,14 @@ const scale = {
   leaveTo: "opacity-0 scale-95"
 }
 
-export default function Premium({children}: {children: (setState: Dispatch<SetStateAction<boolean>>) => React.ReactNode}) {
-  const [open, setOpen] = useState<boolean>(false)
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
+interface Props {
+  children: (setState: Dispatch<SetStateAction<boolean>>) => React.ReactNode
+}
 
-  const onClose = () => setOpen(false)
+export default function PremiumPreface({children}: Props) {
+  const 
+    [open, setOpen] = useState(false),
+    buttonRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     if (buttonRef.current) {
@@ -36,39 +39,33 @@ export default function Premium({children}: {children: (setState: Dispatch<SetSt
     <>
       {children(setOpen)}
       <Transition appear show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={onClose}>
+        <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
           <Transition.Child as={Fragment} {...overlay}>
-            <div className="fixed inset-0 backdrop-blur-[1px]" />
+            <div className="fixed inset-0 bg-neutral-950/25 backdrop-blur-[1px]" />
           </Transition.Child>
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...scale}>
-                <Dialog.Panel className="relative isolate w-full max-w-xl overflow-hidden rounded-2xl bg-white p-9 shadow-xl"> 
+                <Dialog.Panel className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-white p-9 shadow-xl"> 
                   <BgGradient />
                   <div className='space-y-3'>
-                    <Dialog.Title
-                      as="h3"
-                      className="text-xl text-neutral-800 font-medium"
-                    >
+                    <Dialog.Title as="h3" className="text-xl text-neutral-800 font-medium">
                       Chào mừng đến với Menoú | Premium
                     </Dialog.Title>
-                    <div className='text-left'>
-                      <p className="text-sm text-neutral-500 font-medium">
-                        Hiện tại, Menoú | Premium là một tính năng đang phát triển, bạn hoàn toàn có thể dùng thử miễn phí 
-                        sau khi tính năng đã hoàn tất.
-                      </p>
-                    </div>
+                    <p className="text-sm text-neutral-500 font-medium">
+                      Hiện tại, Menoú | Premium là một tính năng đang phát triển, bạn hoàn toàn có thể dùng thử miễn phí 
+                      sau khi tính năng đã hoàn tất.
+                    </p>
                   </div>
-
                   <div className='mt-11 text-right'>
                     <button
                       ref={buttonRef}
                       type="button"
+                      onClick={() => setOpen(false)}
                       className="
                         outline-none rounded-md bg-neutral-800 px-5 py-2 text-sm text-white font-medium 
                         focus:ring-2 focus:ring-neutral-800 focus:ring-offset-2
                       "
-                      onClick={onClose}
                     >
                       Đã hiểu
                     </button>
