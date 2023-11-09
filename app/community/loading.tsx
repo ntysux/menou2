@@ -8,7 +8,7 @@ export default function Loading() {
             <div className="w-1/2 p-2 bg-neutral-200 rounded-sm" />
           </div>
         </div>
-        <div className="w-1/2 p-3 mt-1 bg-neutral-200 rounded-sm" />
+        <div className="w-1/2 p-2.5 mt-1 bg-neutral-200 rounded-sm" />
       </div>
       <div className="animate-pulse">
         <div className="p-3 pb-11 rounded-lg shadow shadow-neutral-300/75">
@@ -17,7 +17,7 @@ export default function Loading() {
             <div className="w-1/2 p-2 bg-neutral-200 rounded-sm" />
           </div>
         </div>
-        <div className="w-1/2 p-3 mt-1 bg-neutral-200 rounded-sm" />
+        <div className="w-1/2 p-2.5 mt-1 bg-neutral-200 rounded-sm" />
       </div>
       <div className="animate-pulse">
         <div className="p-3 pb-11 rounded-lg shadow shadow-neutral-300/75">
@@ -26,7 +26,7 @@ export default function Loading() {
             <div className="w-1/2 p-2 bg-neutral-200 rounded-sm" />
           </div>
         </div>
-        <div className="w-1/2 p-3 mt-1 bg-neutral-200 rounded-sm" />
+        <div className="w-1/2 p-2.5 mt-1 bg-neutral-200 rounded-sm" />
       </div>
     </div>
   )
