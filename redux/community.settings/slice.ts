@@ -16,7 +16,10 @@ export const communitySettingsSlice = createSlice({
     setLayout: (state, action: PayloadAction<boolean>) => {
       state.layout = action.payload
     },
+    setDisplay: (state, action: PayloadAction<'global' | 'personal'>) => {
+      state.display = action.payload
+    }
   }
 })
 
-export const { init, setLayout } = communitySettingsSlice.actions
+export const { init, setLayout, setDisplay } = communitySettingsSlice.actions
