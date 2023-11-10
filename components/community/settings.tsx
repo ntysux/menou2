@@ -30,15 +30,15 @@ export default function Settings() {
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
           <div className="fixed inset-0">
-            <div className="flex justify-center p-3">
+            <div className="flex justify-center p-3 sm:min-h-screen sm:items-end">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-500"
-                enterFrom="-translate-y-5"
+                enterFrom="translate-y-5"
                 enterTo="translate-y-0"
                 leave="ease-in duration-300"
                 leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 -translate-y-5"
+                leaveTo="opacity-0 translate-y-5"
               >
                 <Dialog.Panel className="w-full max-w-sm rounded-xl bg-neutral-950/75 backdrop-blur-sm">
                   <div className="grid grid-cols-2 p-1">
