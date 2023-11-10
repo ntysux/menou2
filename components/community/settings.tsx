@@ -2,11 +2,14 @@ import { Dialog, Switch, Transition } from "@headlessui/react"
 import { IconLayoutGrid, IconListDetails, IconSettings2, TablerIconsProps } from "@tabler/icons-react"
 import { Fragment, useState } from "react"
 import { motion } from 'framer-motion'
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { setLayout } from "@/redux/community.settings/slice"
 
 export default function Settings() {
   const [open, setOpen] = useState(false)
-  const [layout, setLayout] = useState(false)
   const [enabled, setEnabled] = useState(false)
+  const dispatch = useAppDispatch()
+  const {layout} = useAppSelector(state => state.communitySettings)
 
   const layoutOptions: ((props: TablerIconsProps) => JSX.Element)[] = [IconLayoutGrid, IconListDetails]
 
@@ -18,7 +21,6 @@ export default function Settings() {
       >
         <IconSettings2 size='17px' strokeWidth='1' />
       </button>
-
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
           <div className="fixed inset-0">
@@ -38,7 +40,7 @@ export default function Settings() {
                       <div 
                         key={index}
                         className="relative p-1 flex items-center justify-center cursor-pointer"
-                        onClick={() => setLayout(Boolean(index))}
+                        onClick={() => dispatch(setLayout(Boolean(index)))}
                       >
                         <Option 
                           size='20px'
