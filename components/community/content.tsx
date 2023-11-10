@@ -23,7 +23,13 @@ export default function Content({pages}: Props) {
       dispatch(menuPublicInit(pages))
     }
     if (layout === null) {
-      dispatch(communitySettingsInit({layout: false, display: null}))
+      const localStorageLayout = localStorage.getItem('layout')
+      if (localStorageLayout) {
+        dispatch(communitySettingsInit({layout: localStorageLayout === 'true' ? true : false, display: null}))
+      } else {
+        dispatch(communitySettingsInit({layout: false, display: null}))
+        localStorage.setItem('layout', 'false')
+      }
     }
   }, [])
 

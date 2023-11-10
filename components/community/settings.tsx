@@ -1,6 +1,6 @@
 import { Dialog, Switch, Transition } from "@headlessui/react"
 import { IconLayoutGrid, IconListDetails, IconSettings2, TablerIconsProps } from "@tabler/icons-react"
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { setLayout } from "@/redux/community.settings/slice"
@@ -13,6 +13,12 @@ export default function Settings() {
 
   const layoutOptions: ((props: TablerIconsProps) => JSX.Element)[] = [IconLayoutGrid, IconListDetails]
 
+  useEffect(() => {
+    if (layout !== null) {
+      localStorage.setItem('layout', `${layout}`)
+    }
+  }, [layout])
+
   return (
     <>
       <button 
@@ -24,17 +30,17 @@ export default function Settings() {
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
           <div className="fixed inset-0">
-            <div className="flex min-h-screen justify-center items-end p-3">
+            <div className="flex justify-center p-3">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-500"
-                enterFrom="translate-y-5"
+                enterFrom="-translate-y-5"
                 enterTo="translate-y-0"
                 leave="ease-in duration-300"
                 leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-5"
+                leaveTo="opacity-0 -translate-y-5"
               >
-                <Dialog.Panel className="w-full max-w-sm pb-11 rounded-xl bg-neutral-950/75 backdrop-blur-sm">
+                <Dialog.Panel className="w-full max-w-xs rounded-xl bg-neutral-950/75 backdrop-blur-sm">
                   <div className="grid grid-cols-2 p-1">
                     {layoutOptions.map((Option, index) =>
                       <div 
