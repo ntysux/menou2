@@ -4,7 +4,6 @@ import { IconAlignRight, IconChevronRight } from "@tabler/icons-react"
 import Link from "next/link"
 import { Fragment } from "react"
 import { motion } from 'framer-motion'
-import Premium from "../premium/premium.preface"
 import { url } from "@/utils/app.url"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { init as menuInit } from "@/redux/menu/slice"
@@ -33,8 +32,8 @@ const container = {
 }
   
 const item = {
-  hidden: {y: 20, opacity: 0},
-  visible: {y: 0, opacity: 1}
+  hidden: {x: 9, opacity: 0},
+  visible: {x: 0, opacity: 1}
 }
 
 interface Route {
