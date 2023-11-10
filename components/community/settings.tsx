@@ -40,7 +40,7 @@ export default function Settings() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 -translate-y-5"
               >
-                <Dialog.Panel className="w-full max-w-xs rounded-xl bg-neutral-950/75 backdrop-blur-sm">
+                <Dialog.Panel className="w-full max-w-sm rounded-xl bg-neutral-950/75 backdrop-blur-sm">
                   <div className="grid grid-cols-2 p-1">
                     {layoutOptions.map((Option, index) =>
                       <div 
