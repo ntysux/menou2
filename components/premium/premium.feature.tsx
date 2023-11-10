@@ -34,12 +34,12 @@ export default function PremiumFeature({children}: Props) {
       <Transition appear show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
           <Transition.Child as={Fragment} {...overlay}>
-            <div className="fixed inset-0 bg-neutral-950/25 backdrop-blur-[1px]" />
+            <div className="fixed inset-0 backdrop-blur-[1px]" />
           </Transition.Child>
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...scale}>
-                <Dialog.Panel className="w-full max-w-xs divide-y divide-neutral-700 overflow-hidden rounded-2xl bg-neutral-950/75 backdrop-blur-[1px]"> 
+                <Dialog.Panel className="w-full max-w-xs divide-y divide-neutral-700 overflow-hidden rounded-2xl bg-neutral-950/75 backdrop-blur-sm"> 
                   <Dialog.Title className='text-sm text-white font-medium text-center p-2.5'>
                     Premium
                   </Dialog.Title>
@@ -59,7 +59,7 @@ export default function PremiumFeature({children}: Props) {
                   </div>
                   <button 
                     onClick={() => setOpen(false)}
-                    className="w-full p-2 text-sm text-neutral-300 font-medium hover:text-white hover:bg-neutral-700/75"
+                    className="outline-none w-full p-2 text-sm text-neutral-300 font-medium hover:text-white hover:bg-neutral-700/75"
                   >
                     Đóng
                   </button>
