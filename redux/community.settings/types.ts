@@ -1,4 +1,4 @@
 export interface CommunitySettings {
-  layout: boolean | null
+  layout: 'grid' | 'list' | null
   display: 'global' | 'personal' | null
 }

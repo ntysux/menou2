@@ -10,7 +10,10 @@ export default function Settings() {
   const dispatch = useAppDispatch()
   const {layout, display} = useAppSelector(state => state.communitySettings)
 
-  const layoutOptions: ((props: TablerIconsProps) => JSX.Element)[] = [IconLayoutGrid, IconListDetails]
+  const layoutOptions: {name: string, icon: (props: TablerIconsProps) => JSX.Element}[] = [
+    {name: 'grid', icon: IconLayoutGrid},
+    {name: 'list', icon: IconListDetails}
+  ]
 
   useEffect(() => {
     if (layout !== null) {
@@ -44,19 +47,19 @@ export default function Settings() {
               >
                 <Dialog.Panel className="w-full max-w-sm rounded-xl bg-neutral-950/75 backdrop-blur-sm">
                   <div className="grid grid-cols-2 p-1">
-                    {layoutOptions.map((Option, index) =>
+                    {layoutOptions.map((option, index) =>
                       <div 
                         key={index}
                         className="relative p-1 flex items-center justify-center cursor-pointer"
-                        onClick={() => dispatch(setLayout(Boolean(index)))}
+                        onClick={() => dispatch(setLayout(index ? 'list' : 'grid'))}
                       >
-                        <Option 
+                        <option.icon
                           size='20px'
                           strokeWidth='2'
-                          className={`${Boolean(index) === layout ? 'text-white' : 'text-neutral-400'}`} 
+                          className={`${option.name === layout ? 'text-white' : 'text-neutral-400'}`} 
                         />
                         {
-                          layout === Boolean(index) && 
+                          option.name === layout && 
                           <motion.div 
                             layoutId='btn' 
                             className='absolute -z-50 inset-0 rounded-lg bg-neutral-600/75'

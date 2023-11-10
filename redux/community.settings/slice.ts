@@ -13,7 +13,7 @@ export const communitySettingsSlice = createSlice({
     init: (state, action: PayloadAction<CommunitySettings>) => {
       return {...action.payload}
     },
-    setLayout: (state, action: PayloadAction<boolean>) => {
+    setLayout: (state, action: PayloadAction<'grid' | 'list'>) => {
       state.layout = action.payload
     },
     setDisplay: (state, action: PayloadAction<'global' | 'personal'>) => {

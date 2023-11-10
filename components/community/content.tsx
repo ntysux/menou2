@@ -23,18 +23,18 @@ export default function Content({pages}: Props) {
     if (!menuPublic.length && pages.length) {
       dispatch(menuPublicInit(pages))
     }
-    if (layout === null || display === null) {
-      const localStorageLayout = localStorage.getItem('layout')
-      const localStorageDisplay = localStorage.getItem('display')
+    if ([layout, display].some(settingOption => settingOption === null)) {
+      const layoutStorage = localStorage.getItem('layout')
+      const displayStorage = localStorage.getItem('display')
 
-      if (localStorageLayout && localStorageDisplay && (localStorageDisplay === 'global' || localStorageDisplay === 'personal')) {
-        dispatch(communitySettingsInit({
-          layout: localStorageLayout === 'true' ? true : false, 
-          display: localStorageDisplay
-        }))
+      if (
+        (layoutStorage === 'grid' || layoutStorage === 'list') &&
+        (displayStorage === 'global' || displayStorage === 'personal')
+      ) {
+        dispatch(communitySettingsInit({layout: layoutStorage, display: displayStorage}))
       } else {
-        dispatch(communitySettingsInit({layout: false, display: 'global'}))
-        localStorage.setItem('layout', 'false')
+        dispatch(communitySettingsInit({layout: 'grid', display: 'global'}))
+        localStorage.setItem('layout', 'grid')
         localStorage.setItem('display', 'global')
       }
     }
@@ -48,13 +48,13 @@ export default function Content({pages}: Props) {
           {menuPublic.filter(page => page.name.toLowerCase().includes(search.toLowerCase())).length} kết quả cho {search}
         </h2>
       }
-      <div className={`grid grid-cols-1 ${!layout && 'sm:grid-cols-5'} gap-x-3 gap-y-5`}>
+      <div className={`grid grid-cols-1 ${layout === 'grid' && 'sm:grid-cols-5'} gap-x-3 gap-y-5`}>
         {
           search && 
           menuPublic.map((page, index) =>
             page.name.toLowerCase().includes(search.toLowerCase())
             && (
-              !layout
+              layout === 'grid'
               ?
               <Card.Grid key={index} index={index} />
               :
@@ -69,7 +69,7 @@ export default function Content({pages}: Props) {
             ?
               page.uid === user.id &&
               (
-                !layout
+                layout === 'grid'
                 ?
                 <Card.Grid key={index} index={index} />
                 :
@@ -77,7 +77,7 @@ export default function Content({pages}: Props) {
               )
             :
               (
-                !layout
+                layout === 'grid'
                 ?
                 <Card.Grid key={index} index={index} />
                 :
