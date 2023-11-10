@@ -15,20 +15,27 @@ export default function Content({pages}: Props) {
   const 
     dispatch = useAppDispatch(),
     menuPublic = useAppSelector(state => state.menuPublic),
-    {layout} = useAppSelector(state => state.communitySettings),
+    user = useAppSelector(state => state.user),
+    {layout, display} = useAppSelector(state => state.communitySettings),
     search = useSearchParams().get('search')
 
   useEffect(() => {
     if (!menuPublic.length && pages.length) {
       dispatch(menuPublicInit(pages))
     }
-    if (layout === null) {
+    if (layout === null || display === null) {
       const localStorageLayout = localStorage.getItem('layout')
-      if (localStorageLayout) {
-        dispatch(communitySettingsInit({layout: localStorageLayout === 'true' ? true : false, display: null}))
+      const localStorageDisplay = localStorage.getItem('display')
+
+      if (localStorageLayout && localStorageDisplay && (localStorageDisplay === 'global' || localStorageDisplay === 'personal')) {
+        dispatch(communitySettingsInit({
+          layout: localStorageLayout === 'true' ? true : false, 
+          display: localStorageDisplay
+        }))
       } else {
-        dispatch(communitySettingsInit({layout: false, display: null}))
+        dispatch(communitySettingsInit({layout: false, display: 'global'}))
         localStorage.setItem('layout', 'false')
+        localStorage.setItem('display', 'global')
       }
     }
   }, [])
@@ -58,11 +65,24 @@ export default function Content({pages}: Props) {
         {
           !search && 
           menuPublic.map((page, index) =>
-            !layout 
+            display === 'personal'
             ?
-            <Card.Grid key={index} index={index} />
+              page.uid === user.id &&
+              (
+                !layout
+                ?
+                <Card.Grid key={index} index={index} />
+                :
+                <Card.List key={index} index={index} />  
+              )
             :
-            <Card.List key={index} index={index} />
+              (
+                !layout
+                ?
+                <Card.Grid key={index} index={index} />
+                :
+                <Card.List key={index} index={index} />
+              )
           )
         }
       </div>
