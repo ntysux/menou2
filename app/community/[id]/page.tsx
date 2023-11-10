@@ -8,8 +8,7 @@ import { cookies } from "next/headers"
 
 async function getMenuPublicPage(pid: string): Promise<MenuPublic> {
   const response = await fetch(`${url}/community/${pid}/api`, {cache: 'no-store'})
-  const result = await response.json()
-  return result
+  return response.json()
 }
 
 export default async function Page({params: {id}}: {params: {id: string}}) {
@@ -37,11 +36,11 @@ export default async function Page({params: {id}}: {params: {id: string}}) {
         <i className="text-xs text-neutral-500 font-medium">
           bởi
         </i>
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center space-x-0.5">
+          {author.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
           <span className="text-sm text-neutral-800 font-bold">
             {author.name}
           </span>
-          {author.verified && <IconDiscountCheckFilled size='17px' className="text-cyan-400" />}
         </div>
       </div>
       <div className="mt-9 space-y-5">
