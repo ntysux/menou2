@@ -12,8 +12,11 @@ export const communitySettingsSlice = createSlice({
   reducers: {
     init: (state, action: PayloadAction<CommunitySettings>) => {
       return {...action.payload}
-    }
+    },
+    setLayout: (state, action: PayloadAction<boolean>) => {
+      state.layout = action.payload
+    },
   }
 })
 
-export const { init } = communitySettingsSlice.actions
+export const { init, setLayout } = communitySettingsSlice.actions
