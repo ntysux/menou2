@@ -39,30 +39,32 @@ export default function PremiumFeature({children}: Props) {
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...scale}>
-                <Dialog.Panel className="w-full max-w-xs divide-y divide-neutral-700 overflow-hidden rounded-2xl bg-neutral-950/75 backdrop-blur-sm"> 
+                <Dialog.Panel className="w-full max-w-xs overflow-hidden rounded-2xl bg-neutral-950/75 backdrop-blur-sm"> 
                   <Dialog.Title className='text-sm text-white font-medium text-center p-2.5'>
                     Premium
                   </Dialog.Title>
-                  <div className="p-3 pb-9 space-y-1">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-1.5 m-1 rounded-full bg-orange-200" />
-                      <p className="text-xs text-white font-medium">
-                        Màu Royal
-                      </p>
+                  <div className="divide-y divide-neutral-600">
+                    <div className="p-3 pb-9 space-y-1">
+                      <div className="flex items-center space-x-3">
+                        <div className="p-1.5 m-1 rounded-full bg-orange-200" />
+                        <p className="text-xs text-white font-medium">
+                          Màu Royal
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <IconKeyframe size='20px' className="text-stone-500" />
+                        <p className="text-xs text-white font-medium">
+                          Các bài viết công khai được làm nổi bật
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <IconKeyframe size='20px' className="text-stone-500" />
-                      <p className="text-xs text-white font-medium">
-                        Các bài viết công khai được làm nổi bật
-                      </p>
-                    </div>
+                    <button 
+                      onClick={() => setOpen(false)}
+                      className="outline-none w-full p-2 text-sm text-neutral-300 font-medium hover:text-white hover:bg-neutral-700/75"
+                    >
+                      Đóng
+                    </button>
                   </div>
-                  <button 
-                    onClick={() => setOpen(false)}
-                    className="outline-none w-full p-2 text-sm text-neutral-300 font-medium hover:text-white hover:bg-neutral-700/75"
-                  >
-                    Đóng
-                  </button>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
