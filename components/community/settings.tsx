@@ -3,13 +3,12 @@ import { IconLayoutGrid, IconListDetails, IconSettings2, TablerIconsProps } from
 import { Fragment, useEffect, useState } from "react"
 import { motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setLayout } from "@/redux/community.settings/slice"
+import { setDisplay, setLayout } from "@/redux/community.settings/slice"
 
 export default function Settings() {
   const [open, setOpen] = useState(false)
-  const [enabled, setEnabled] = useState(false)
   const dispatch = useAppDispatch()
-  const {layout} = useAppSelector(state => state.communitySettings)
+  const {layout, display} = useAppSelector(state => state.communitySettings)
 
   const layoutOptions: ((props: TablerIconsProps) => JSX.Element)[] = [IconLayoutGrid, IconListDetails]
 
@@ -17,7 +16,10 @@ export default function Settings() {
     if (layout !== null) {
       localStorage.setItem('layout', `${layout}`)
     }
-  }, [layout])
+    if (display !== null) {
+      localStorage.setItem('display', `${display}`)
+    }
+  }, [layout, display])
 
   return (
     <>
@@ -70,16 +72,16 @@ export default function Settings() {
                         Hiển thị tất cả các món ăn
                       </span>
                       <Switch
-                        checked={!enabled}
-                        onChange={() => setEnabled(!enabled)}
+                        checked={display === 'global' ? true : false}
+                        onChange={() => display === 'global' ? dispatch(setDisplay('personal')) : dispatch(setDisplay('global'))}
                         className={`
-                          ${!enabled ? 'bg-neutral-600' : 'bg-neutral-700'} 
+                          ${display === 'global' ? 'bg-neutral-600' : 'bg-neutral-700'} 
                           outline-none relative inline-flex py-0.5 px-2.5 items-center rounded-full
                         `}
                       >
                         <span
                           className={`
-                            ${!enabled ? 'translate-x-2' : '-translate-x-2'} 
+                            ${display === 'global' ? 'translate-x-2' : '-translate-x-2'} 
                             inline-block p-2 transform rounded-full bg-white transition duration-200
                           `}
                         />
@@ -90,16 +92,16 @@ export default function Settings() {
                         Chỉ hiển thị các món ăn bởi tôi
                       </span>
                       <Switch
-                        checked={enabled}
-                        onChange={() => setEnabled(!enabled)}
+                        checked={display === 'personal' ? true : false}
+                        onChange={() => display === 'global' ? dispatch(setDisplay('personal')) : dispatch(setDisplay('global'))}
                         className={`
-                          ${enabled ? 'bg-neutral-600' : 'bg-neutral-700'} 
+                          ${display === 'personal' ? 'bg-neutral-600' : 'bg-neutral-700'} 
                           outline-none relative inline-flex py-0.5 px-2.5 items-center rounded-full
                         `}
                       >
                         <span
                           className={`
-                            ${enabled ? 'translate-x-2' : '-translate-x-2'} 
+                            ${display === 'personal' ? 'translate-x-2' : '-translate-x-2'} 
                             inline-block p-2 transform rounded-full bg-white transition duration-200
                           `}
                         />
