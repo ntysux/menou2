@@ -32,7 +32,7 @@ const container = {
   }
 }
 const item = {
-  hidden: {y: 10, opacity: 0},
+  hidden: {y: 7, opacity: 0},
   visible: {y: 0, opacity: 1}
 }
 

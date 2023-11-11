@@ -32,8 +32,8 @@ const container = {
 }
   
 const item = {
-  hidden: {x: 9, opacity: 0},
-  visible: {x: 0, opacity: 1}
+  hidden: {y: 7, opacity: 0},
+  visible: {y: 0, opacity: 1}
 }
 
 interface Route {
