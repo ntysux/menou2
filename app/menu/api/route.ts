@@ -5,9 +5,33 @@ import { JwtPayload, decode } from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { User } from '@/redux/user/types'
 import { Menu } from '@/redux/menu/types'
+import { MenuGroup } from '@/redux/menu.group/types'
 
 const notion = new Client({auth: process.env.NOTION_KEY})
 const notionMenouId = process.env.NOTION_MENOU
+const notionMenouGroupId = process.env.NOTION_GROUP
+
+async function renderMenuGroup(uid: string): Promise<MenuGroup[]> {
+  const {results} = await notion.databases.query({
+    database_id: notionMenouGroupId!,
+    filter: {
+      property: 'uid',
+      rich_text: {
+        contains: uid
+      }
+    } 
+  })
+  return [...results.map((page: any) => {
+    const {id, properties: {name, list, deleted}} = page
+    return {
+      id,
+      uid,
+      name: name.rich_text[0].plain_text,
+      list: list.rich_text[0]?.plain_text,
+      deleted: deleted.checkbox
+    }
+  })]
+}
 
 async function renderUser(uid: string): Promise<User> {
   const {properties: {name, verified, premium}}: any = await notion.pages.retrieve({
@@ -58,8 +82,9 @@ export async function GET(request: NextRequest) {
       const uid: string = tokenDecoded['id']
       const user = await renderUser(uid)      
       const pages = await renderMenu(uid)
+      const groupPages = await renderMenuGroup(uid)
 
-      return NextResponse.json({results: {pages, user}})
+      return NextResponse.json({results: {pages, user, groupPages}})
     }
   }
 

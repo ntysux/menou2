@@ -1,5 +1,6 @@
 import ErrorMessage from "@/components/error.message"
 import MenuContent from "@/components/menu/content"
+import { MenuGroup } from "@/redux/menu.group/types"
 import { Menu } from "@/redux/menu/types"
 import { User } from "@/redux/user/types"
 import { url } from "@/utils/app.url"
@@ -10,6 +11,7 @@ interface Result {
   results?: {
     pages: Menu[]
     user: User
+    groupPages: MenuGroup[]
   }
   error?: string
 }
