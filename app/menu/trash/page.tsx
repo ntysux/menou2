@@ -5,11 +5,13 @@ import { Menu } from "@/redux/menu/types"
 import ErrorMessage from "@/components/error.message"
 import { url } from "@/utils/app.url"
 import { User } from "@/redux/user/types"
+import { MenuGroup } from "@/redux/menu.group/types"
 
 interface Result {
   results?: {
     pages: Menu[]
-    user: User
+    user: User,
+    menuGroup: MenuGroup[]
   }
   error?: string
 }
