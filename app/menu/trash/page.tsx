@@ -11,7 +11,7 @@ interface Result {
   results?: {
     pages: Menu[]
     user: User,
-    menuGroup: MenuGroup[]
+    groupPages: MenuGroup[]
   }
   error?: string
 }
