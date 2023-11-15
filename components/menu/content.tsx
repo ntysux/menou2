@@ -10,9 +10,9 @@ import { init as userInit } from '@/redux/user/slice'
 import { init as menuInit } from '@/redux/menu/slice'
 import { init as menuGroupInit } from '@/redux/menu.group/slice'
 import MenuCard from './card/card'
-import MenuCardDialog from './card/dialog/dialog'
+import MenuDialog from './card/dialog/dialog'
 import MenuGroupCard from '../menu.group/card/card'
-import MenuGroupCardDialog from '../menu.group/card/dialog/dialog'
+import MenuGroupDialog from '../menu.group/card/dialog/dialog'
 
 interface Props {
   results: {
@@ -53,9 +53,9 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
             <div className='grid grid-cols-1 gap-3 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2'>
               {menu.map((page, index) =>
                 !page.deleted &&
-                <MenuCardDialog key={index} index={index}>
+                <MenuDialog key={index} index={index}>
                   {setOpen => <MenuCard index={index} onClick={() => setOpen(true)} />}
-                </MenuCardDialog>
+                </MenuDialog>
               )}
             </div>
           ) : (
@@ -83,9 +83,9 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
               {menuGroup.map((page, index) =>
                 !page.deleted &&
-                <MenuGroupCardDialog key={index} index={index}>
+                <MenuGroupDialog key={index} index={index}>
                   {setOpen => <MenuGroupCard index={index} onClick={() => setOpen(true)} />}
-                </MenuGroupCardDialog>
+                </MenuGroupDialog>
               )}
             </div>
           ) : (
