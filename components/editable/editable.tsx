@@ -32,12 +32,12 @@ export default function Editable({children, value, className}: EditableProps) {
 
 function EditablePreview({value, editing, setEditing, className}: EditableChildrenProps) {
   return !editing && 
-    <span
+    <div
       onClick={() => setEditing && setEditing(true)}
       className={className}
     >
       {value}
-    </span>
+    </div>
 }
 
 function EditableInput({value, editing, setEditing, onChange, className}: EditableInputProps) {
