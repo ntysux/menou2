@@ -7,8 +7,11 @@ export const menuGroupSlice = createSlice({
   name: 'menuGroup',
   initialState,
   reducers: {
-    init: (state, action: PayloadAction<MenuGroup[]>) => [...action.payload]
+    init: (state, action: PayloadAction<MenuGroup[]>) => [...action.payload],
+    rename: (state, action: PayloadAction<{name: string, index: number}>) => {
+      state[action.payload.index].name = action.payload.name
+    }
   }
 })
 
-export const { init } = menuGroupSlice.actions
+export const { init, rename } = menuGroupSlice.actions
