@@ -2,6 +2,7 @@ import Editable from "@/components/editable/editable"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { rename } from "@/redux/menu.group/slice"
 import { Dialog, Transition } from "@headlessui/react"
+import { IconMinus } from "@tabler/icons-react"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
 
 interface Props {
@@ -13,7 +14,7 @@ export default function CardDialog({index, children}: Props) {
   const 
     [open, setOpen] = useState(false),
     dispatch = useAppDispatch(),
-    {name} = useAppSelector(state => state.menuGroup)[index]
+    {name, list} = useAppSelector(state => state.menuGroup)[index]
 
   return (
     <>
@@ -43,10 +44,10 @@ export default function CardDialog({index, children}: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full h-96 max-w-sm rounded-2xl bg-white overflow-hidden">
+                <Dialog.Panel className="w-full h-96 max-w-sm rounded-2xl bg-white overflow-y-scroll hidden-scroll">
                   <Editable 
                     value={name} 
-                    className="w-full p-3 flex justify-center"
+                    className="w-full p-3 flex justify-center sticky top-0 z-10 bg-white"
                   >
                     <Editable.Preview className="text-sm text-neutral-800 font-bold max-w-[100px] truncate" />
                     <Editable.Input 
@@ -54,7 +55,20 @@ export default function CardDialog({index, children}: Props) {
                       className="outline-neutral-800 text-sm text-neutral-800 font-medium selection:bg-neutral-300"
                     />
                   </Editable>
-                  
+                  <ul className="mt-3 p-3">
+                    {list.split('|').map((item, index) => 
+                      <li key={index} className="p-1 flex items-center justify-between">
+                        <span className="text-sm text-neutral-800 font-medium">
+                          {item}
+                        </span>
+                        <IconMinus 
+                          size='16px' 
+                          strokeWidth='3'
+                          className="text-neutral-300 cursor-pointer hover:text-neutral-400" 
+                        />
+                      </li>
+                    )}
+                  </ul>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
