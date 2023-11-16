@@ -52,7 +52,8 @@ function EditableInput({value, editing, setEditing, onChange, className}: Editab
       ref={inputRef}
       type="text"
       value={value}
-      onChange={onChange} 
+      onChange={onChange}
+      onKeyDown={e => e.key === 'Enter' && setEditing && setEditing(false)}
       onBlur={() => setEditing && setEditing(false)}
       className={className}
     />
