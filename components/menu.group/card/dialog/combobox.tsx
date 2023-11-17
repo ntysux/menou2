@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { useAppSelector } from '@/redux/hooks'
+import { IconMinus } from '@tabler/icons-react'
 
 export default function ComboBox() {
   const 
@@ -18,14 +19,22 @@ export default function ComboBox() {
           {({open, close}) => 
             <>
               {open && inputRef.current?.focus()}
-              <input 
-                ref={inputRef}
-                value={query}
-                type="text"
-                placeholder='Tên món ăn'
-                onChange={e => setQuery(e.target.value)}
-                className='w-full outline-none p-3 bg-neutral-950/0 text-sm text-white font-medium placeholder:text-neutral-400'
-              />
+              <div className='flex items-center'>
+                <input 
+                  ref={inputRef}
+                  value={query}
+                  type="text"
+                  placeholder='Tên món ăn'
+                  onChange={e => setQuery(e.target.value)}
+                  className='w-full outline-none p-3 bg-neutral-950/0 text-sm text-white font-medium placeholder:text-neutral-400'
+                />
+                <IconMinus 
+                  size='16px' 
+                  strokeWidth='3' 
+                  className='mx-3 text-white cursor-pointer' 
+                  onClick={() => close()}
+                />
+              </div>
               <ul className='h-fit max-h-36 overflow-y-scroll hidden-scroll'>
                 {
                   query &&
