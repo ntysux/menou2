@@ -14,7 +14,8 @@ interface EditableChildrenProps {
 }
 
 interface EditableInputProps extends EditableChildrenProps {
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  blur?: () => void
 }
 
 export default function Editable({children, value, className}: EditableProps) {
@@ -40,7 +41,7 @@ function EditablePreview({value, editing, setEditing, className}: EditableChildr
     </div>
 }
 
-function EditableInput({value, editing, setEditing, onChange, className}: EditableInputProps) {
+function EditableInput({value, editing, setEditing, onChange, blur, className}: EditableInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -54,7 +55,10 @@ function EditableInput({value, editing, setEditing, onChange, className}: Editab
       value={value}
       onChange={onChange}
       onKeyDown={e => e.key === 'Enter' && setEditing && setEditing(false)}
-      onBlur={() => setEditing && setEditing(false)}
+      onBlur={() => {
+        setEditing && setEditing(false)
+        blur && blur()
+      }}
       className={className}
     />
 }

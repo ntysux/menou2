@@ -52,7 +52,8 @@ export default function CardDialog({index, children}: Props) {
                       className="w-full p-3 flex justify-center"
                     >
                       <Editable.Preview className="text-sm text-neutral-800 font-bold max-w-[100px] truncate" />
-                      <Editable.Input 
+                      <Editable.Input
+                        blur={() => !name.trim() && dispatch(rename({name: 'Không tiêu đề', index}))} 
                         onChange={e => dispatch(rename({name: e.target.value, index}))} 
                         className="outline-neutral-800 text-sm text-neutral-800 font-medium selection:bg-neutral-300"
                       />
