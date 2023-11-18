@@ -1,7 +1,7 @@
 import ComboBox from "@/components/menu.group/card/dialog/combobox"
 import Editable from "@/components/editable/editable"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { rename } from "@/redux/menu.group/slice"
+import { listRemove, rename } from "@/redux/menu.group/slice"
 import { Dialog, Transition } from "@headlessui/react"
 import { IconMinus } from "@tabler/icons-react"
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
@@ -62,12 +62,15 @@ export default function CardDialog({index, children}: Props) {
                   </div>
 
                   <ul className="m-3">
-                    {list.map((item, index) => 
-                      <li key={index} className="p-1 flex items-center justify-between">
+                    {list.map((item, itemIndex) => 
+                      <li key={itemIndex} className="p-1 flex items-center justify-between">
                         <span className="text-sm text-neutral-800 font-medium">
                           {item}
                         </span>
-                        <button className="text-neutral-300 hover:text-neutral-400">
+                        <button 
+                          onClick={() => dispatch(listRemove({pageIndex: index, itemIndex}))}
+                          className="text-neutral-300 hover:text-neutral-400 bg-sky-200"
+                        >
                           <IconMinus 
                             size='16px' 
                             strokeWidth='3' 

@@ -14,8 +14,10 @@ export const menuGroupSlice = createSlice({
     listAdd: (state, action: PayloadAction<{item: string, index: number}>) => {
       state[action.payload.index].list.unshift(action.payload.item)
     },
-
+    listRemove: (state, action: PayloadAction<{pageIndex: number, itemIndex: number}>) => {
+      state[action.payload.pageIndex].list.splice(action.payload.itemIndex, 1)
+    }
   }
 })
 
-export const { init, rename, listAdd } = menuGroupSlice.actions
+export const { init, rename, listAdd, listRemove } = menuGroupSlice.actions
