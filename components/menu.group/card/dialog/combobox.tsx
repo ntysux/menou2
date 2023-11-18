@@ -1,13 +1,15 @@
 import { useState, useRef } from 'react'
 import { Disclosure } from '@headlessui/react'
-import { useAppSelector } from '@/redux/hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { IconMinus } from '@tabler/icons-react'
+import { addList } from '@/redux/menu.group/slice'
 
-export default function ComboBox() {
+export default function ComboBox({index}: {index: number}) {
   const 
     menu = useAppSelector(state => state.menu),
     [query, setQuery] = useState(''),
-    inputRef = useRef<HTMLInputElement | null>(null)
+    inputRef = useRef<HTMLInputElement | null>(null),
+    dispatch = useAppDispatch()
 
   return (
     <div className='relative mx-3'>
@@ -41,6 +43,7 @@ export default function ComboBox() {
                   <li
                     onClick={() => {
                       close()
+                      dispatch(addList({item: query, index}))
                       setQuery('')
                     }} 
                     className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
@@ -49,11 +52,12 @@ export default function ComboBox() {
                   </li>
                 }
                 {
-                  menu.filter(page => page.name.toLowerCase().includes(query.toLowerCase()) && !page.deleted).map((page, index) => 
+                  menu.filter(page => page.name.toLowerCase().includes(query.toLowerCase()) && !page.deleted).map((page, pageIndex) => 
                     <li
-                      key={index}
+                      key={pageIndex}
                       onClick={() => {
                         close()
+                        dispatch(addList({item: `${page.id}|${page.name}`, index}))
                         setQuery('')
                       }}
                       className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
