@@ -17,7 +17,7 @@ export default function Card({index, onClick}: Props) {
         {name}
       </h3>
       <ul className="w-fit grid grid-cols-5 gap-1">
-        {list.split('|').map((item, index) => 
+        {list.map((item, index) => 
           <li key={index} className="p-1 rounded-full bg-neutral-300" />
         )}
       </ul>

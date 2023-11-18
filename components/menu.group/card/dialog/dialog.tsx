@@ -58,11 +58,11 @@ export default function CardDialog({index, children}: Props) {
                         className="outline-neutral-800 text-sm text-neutral-800 font-medium selection:bg-neutral-300"
                       />
                     </Editable>
-                    <ComboBox />
+                    <ComboBox index={index} />
                   </div>
 
                   <ul className="m-3">
-                    {list.split('|').map((item, index) => 
+                    {list.map((item, index) => 
                       <li key={index} className="p-1 flex items-center justify-between">
                         <span className="text-sm text-neutral-800 font-medium">
                           {item}
