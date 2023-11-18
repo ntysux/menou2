@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { IconMinus } from '@tabler/icons-react'
-import { addList } from '@/redux/menu.group/slice'
+import { listAdd } from '@/redux/menu.group/slice'
 
 export default function ComboBox({index}: {index: number}) {
   const 
@@ -43,7 +43,7 @@ export default function ComboBox({index}: {index: number}) {
                   <li
                     onClick={() => {
                       close()
-                      dispatch(addList({item: query, index}))
+                      dispatch(listAdd({item: query, index}))
                       setQuery('')
                     }} 
                     className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
@@ -57,7 +57,7 @@ export default function ComboBox({index}: {index: number}) {
                       key={pageIndex}
                       onClick={() => {
                         close()
-                        dispatch(addList({item: `${page.id}|${page.name}`, index}))
+                        dispatch(listAdd({item: `${page.id}|${page.name}`, index}))
                         setQuery('')
                       }}
                       className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
