@@ -4,6 +4,7 @@ import { menuPublicSlice } from './menu.public/slice'
 import { userSlice } from './user/slice'
 import { communitySettingsSlice } from './community.settings/slice'
 import { menuGroupSlice } from './menu.group/slice'
+import { updatingSlice } from './updating/slice'
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     menuGroup: menuGroupSlice.reducer,
     menuPublic: menuPublicSlice.reducer,
     user: userSlice.reducer,
-    communitySettings: communitySettingsSlice.reducer
+    communitySettings: communitySettingsSlice.reducer,
+    updating: updatingSlice.reducer
   }
 })
 
