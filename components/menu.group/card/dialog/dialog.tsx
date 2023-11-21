@@ -4,7 +4,18 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import { listRemove, rename } from "@/redux/menu.group/slice"
 import { Dialog, Transition } from "@headlessui/react"
 import { IconMinus } from "@tabler/icons-react"
-import { Dispatch, Fragment, SetStateAction, useState } from "react"
+import { ChangeEvent, Dispatch, Fragment, SetStateAction, useEffect, useState } from "react"
+import { url } from "@/utils/app.url"
+import { setUpdating } from "@/redux/updating/slice"
+
+async function renameApi(name: string, id: string): Promise<{id: string}> {
+  const response = await fetch(`${url}/menugroup/api/update/rename`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, id})
+  })
+  return response.json()
+}
 
 interface Props {
   index: number
@@ -13,9 +24,41 @@ interface Props {
 
 export default function CardDialog({index, children}: Props) {
   const 
-    [open, setOpen] = useState(false),
     dispatch = useAppDispatch(),
-    {name, list} = useAppSelector(state => state.menuGroup)[index]
+    updating = useAppSelector(state => state.updating),
+    [open, setOpen] = useState(false),
+    [time, setTime] = useState<any>(null),
+    {id: pageId, name, list} = useAppSelector(state => state.menuGroup)[index]
+
+  function handleRename(event: ChangeEvent<HTMLInputElement>) {
+    const name = event.target.value
+    dispatch(setUpdating(true))
+    dispatch(rename({name, index}))
+
+    if (time) {
+      clearTimeout(time)
+      setTime(null)
+    }
+    const timeout = setTimeout(async() => {
+      const {id} = await renameApi(name.trim() ? name : 'Không tiêu đề', pageId)
+      id && dispatch(setUpdating(false))
+    }, 3000)
+    setTime(timeout)
+  }
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (updating) {
+        const mess = 'Dữ liệu đang cập nhập, rời khỏi trang ?'
+        event.returnValue = mess
+        return mess
+      }
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [updating])
 
   return (
     <>
@@ -45,7 +88,7 @@ export default function CardDialog({index, children}: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full h-96 max-w-sm rounded-2xl bg-white overflow-y-scroll hidden-scroll">
+                <Dialog.Panel className="w-full h-96 max-w-sm rounded-2xl bg-white overflow-auto hidden-scroll">
                   <div className="sticky top-0 z-10">
                     <Editable 
                       value={name} 
@@ -54,7 +97,7 @@ export default function CardDialog({index, children}: Props) {
                       <Editable.Preview className="text-sm text-neutral-800 font-bold max-w-[100px] truncate" />
                       <Editable.Input
                         blur={() => !name.trim() && dispatch(rename({name: 'Không tiêu đề', index}))} 
-                        onChange={e => dispatch(rename({name: e.target.value, index}))} 
+                        onChange={handleRename} 
                         className="outline-neutral-800 text-sm text-neutral-800 font-medium selection:bg-neutral-300"
                       />
                     </Editable>
@@ -69,7 +112,7 @@ export default function CardDialog({index, children}: Props) {
                         </span>
                         <button 
                           onClick={() => dispatch(listRemove({pageIndex: index, itemIndex}))}
-                          className="text-neutral-300 hover:text-neutral-400 bg-sky-200"
+                          className="text-neutral-300 hover:text-neutral-400"
                         >
                           <IconMinus 
                             size='16px' 
