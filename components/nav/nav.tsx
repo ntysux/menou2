@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation"
 import Dashboard from "../menu/dashboard/dashboard"
 import Search from "../community/search"
 import Settings from "../community/settings"
+import Updating from "../updating"
 
 interface Props {
   children: React.ReactNode
@@ -18,6 +19,7 @@ export default function Nav({children}: Props) {
           Menoú
         </h1>
         <div className="flex items-center space-x-5">
+          <Updating />
           {children}
         </div>
       </nav>
