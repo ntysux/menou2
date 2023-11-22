@@ -8,7 +8,7 @@ import { ChangeEvent, Dispatch, Fragment, SetStateAction, useEffect, useState } 
 import { url } from "@/utils/app.url"
 import { setUpdating } from "@/redux/updating/slice"
 
-async function renameApi(name: string, id: string): Promise<{id: string}> {
+async function handleRenameApi(name: string, id: string): Promise<{id: string}> {
   const response = await fetch(`${url}/menugroup/api/update/rename`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -40,7 +40,7 @@ export default function CardDialog({index, children}: Props) {
       setTime(null)
     }
     const timeout = setTimeout(async() => {
-      const {id} = await renameApi(name.trim() ? name : 'Không tiêu đề', pageId)
+      const {id} = await handleRenameApi(name.trim() ? name : 'Không tiêu đề', pageId)
       id && dispatch(setUpdating(false))
     }, 3000)
     setTime(timeout)
