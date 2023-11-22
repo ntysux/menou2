@@ -1,15 +1,35 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { IconMinus } from '@tabler/icons-react'
 import { listAdd } from '@/redux/menu.group/slice'
+import { url } from '@/utils/app.url'
+
+async function handleUpdateListApi(list: string[], id: string): Promise<{id: string}> {
+  const response = await fetch(`${url}/menugroup/api/update/list`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({list, id})
+  })
+  return response.json()
+}
 
 export default function ComboBox({index}: {index: number}) {
   const 
     menu = useAppSelector(state => state.menu),
+    {list, id} = useAppSelector(state => state.menuGroup)[index],
     [query, setQuery] = useState(''),
     inputRef = useRef<HTMLInputElement | null>(null),
-    dispatch = useAppDispatch()
+    dispatch = useAppDispatch(),
+    hasMounted = useRef(false)
+
+  useEffect(() => {
+    if (hasMounted.current) {
+      handleUpdateListApi(list, id)
+    } else {
+      hasMounted.current = true
+    }
+  }, [list])
 
   return (
     <div className='relative mx-3'>
