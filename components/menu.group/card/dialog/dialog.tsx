@@ -107,8 +107,8 @@ export default function CardDialog({index, children}: Props) {
                   <ul className="m-3">
                     {list.map((item, itemIndex) => 
                       <li key={itemIndex} className="p-1 flex items-center justify-between">
-                        <span className="text-sm text-neutral-800 font-medium">
-                          {item}
+                        <span className={`${item.includes('+') ? 'font-bold' : 'font-medium'} text-sm text-neutral-800`}>
+                          {item.includes('-') ? item.split('+')[1] : item}
                         </span>
                         <button 
                           onClick={() => dispatch(listRemove({pageIndex: index, itemIndex}))}

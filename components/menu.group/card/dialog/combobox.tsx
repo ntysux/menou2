@@ -77,7 +77,7 @@ export default function ComboBox({index}: {index: number}) {
                       key={pageIndex}
                       onClick={() => {
                         close()
-                        dispatch(listAdd({item: `${page.id}|${page.name}`, index}))
+                        dispatch(listAdd({item: `${page.id}+${page.name}`, index}))
                         setQuery('')
                       }}
                       className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
