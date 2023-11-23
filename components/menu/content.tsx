@@ -64,7 +64,7 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
                 <IconChefHat size='35px' className="text-neutral-300" />
               </Empty.Icon>
               <Empty.Text className='mt-3 text-sm text-neutral-500 font-medium'>
-                Các công thức món ăn sẽ được hiển thị tại đây.
+                Các công thức sẽ được hiển thị tại đây.
               </Empty.Text>
               <Empty.Text className='text-sm text-neutral-400'>
                 Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm công thức mới.
@@ -94,10 +94,10 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
                 <IconClipboardList size='35px' className="text-neutral-300" />
               </Empty.Icon>
               <Empty.Text className='mt-3 text-sm text-neutral-500 font-medium'>
-                Các thực đơn sẽ được hiển thị tại đây.
+                Các nhóm sẽ được hiển thị tại đây.
               </Empty.Text>
               <Empty.Text className='text-sm text-neutral-400'>
-                Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm mới các thực đơn.
+                Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm nhóm mới.
               </Empty.Text>
             </Empty>
           )

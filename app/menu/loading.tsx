@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="space-y-9">
       <div className="space-y-2.5">
         <h2 className='text-xs text-neutral-400 font-bold tracking-wider'>
-          Công thức
+          Menu
         </h2>
         <div className="grid grid-cols-1 gap-3 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
           <div className="shadow shadow-neutral-200 rounded-xl p-3">
@@ -37,7 +37,7 @@ export default function Loading() {
       </div>
       <div className="space-y-2.5">
         <h2 className='text-xs text-neutral-400 font-bold tracking-wider'>
-          Thực đơn
+          Nhóm
         </h2>
         <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
           <div className="p-3 rounded-xl shadow shadow-neutral-200">

@@ -52,7 +52,7 @@ export default function TrashContent({results: {pages, user: userPage, groupPage
           <IconTrashX size='35px' className="text-neutral-300" />
         </Empty.Icon>
         <Empty.Text className='mt-3 text-sm text-neutral-500 font-medium'>
-          Công thức đã xóa sẽ được hiển thị tại đây.
+          Các công thức đã xóa sẽ được hiển thị tại đây.
         </Empty.Text>
         <Empty.Text className='text-sm text-neutral-400'>
           Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm công thức mới.
@@ -74,10 +74,10 @@ export default function TrashContent({results: {pages, user: userPage, groupPage
           <IconTrashX size='35px' className="text-neutral-300" />
         </Empty.Icon>
         <Empty.Text className='mt-3 text-sm text-neutral-500 font-medium'>
-          Thực đơn đã xóa sẽ được hiển thị tại đây.
+          Các nhóm đã xóa sẽ được hiển thị tại đây.
         </Empty.Text>
         <Empty.Text className='text-sm text-neutral-400'>
-          Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm mới các thực đơn.
+          Nhấn vào <span className="text-neutral-500 font-bold">Mới</span> để thêm nhóm mới.
         </Empty.Text>
       </Empty>
     )
@@ -87,13 +87,13 @@ export default function TrashContent({results: {pages, user: userPage, groupPage
     <div className='space-y-9'>
       <div className='space-y-2.5'>
         <h2 className='text-xs text-neutral-400 font-bold tracking-wider'>
-          Công thức
+          Menu
         </h2>
         <MenuTrashContent />
       </div>
       <div className='space-y-2.5'>
         <h2 className='text-xs text-neutral-400 font-bold tracking-wider'>
-          Thực đơn
+          Nhóm
         </h2>
         <MenuGroupTrashContent />
       </div>
