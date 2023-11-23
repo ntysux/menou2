@@ -89,8 +89,8 @@ export default function CardDialog({index, children}: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full h-96 max-w-sm rounded-2xl bg-white overflow-auto hidden-scroll">
-                  <div className="sticky top-0 z-10">
+                <Dialog.Panel className="w-full h-96 max-w-lg rounded-2xl bg-white overflow-auto hidden-scroll">
+                  <div className="sticky top-0 z-10 bg-white">
                     <Editable 
                       value={name} 
                       className="w-full p-3 flex justify-center"

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { Disclosure } from '@headlessui/react'
+import { Popover } from '@headlessui/react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { IconMinus } from '@tabler/icons-react'
 import { listAdd } from '@/redux/menu.group/slice'
 import { url } from '@/utils/app.url'
 
@@ -32,65 +31,55 @@ export default function ComboBox({index}: {index: number}) {
   }, [list])
 
   return (
-    <div className='relative mx-3'>
-      <Disclosure>
-        <Disclosure.Button className="outline-none cursor-text p-3 w-full text-left text-sm text-neutral-300 font-medium">
-          Tên món ăn
-        </Disclosure.Button>
-        <Disclosure.Panel className="absolute top-0 bg-neutral-950/75 backdrop-blur-sm w-full rounded-xl overflow-hidden">
-          {({open, close}) => 
-            <>
-              {open && inputRef.current?.focus()}
-              <div className='flex items-center'>
-                <input 
-                  ref={inputRef}
-                  value={query}
-                  type="text"
-                  placeholder='Tên món ăn'
-                  onChange={e => setQuery(e.target.value)}
-                  className='w-full outline-none p-3 bg-neutral-950/0 text-sm text-white font-medium placeholder:text-neutral-400'
-                />
-                <IconMinus 
-                  size='16px' 
-                  strokeWidth='3' 
-                  className='mx-3 text-white cursor-pointer' 
-                  onClick={() => close()}
-                />
-              </div>
-              <ul className='h-fit max-h-36 overflow-y-scroll hidden-scroll'>
-                {
-                  query &&
+    <Popover className="relative mx-3">
+      <Popover.Button className='outline-none cursor-text p-2.5 bg-neutral-200 w-full rounded-lg text-left text-sm text-neutral-600 font-medium'>
+        Tên món ăn
+      </Popover.Button>
+      <Popover.Panel className="absolute top-0 z-10 bg-neutral-200 backdrop-blur-sm w-full rounded-lg overflow-hidden">
+        {({open, close}) =>
+          <>
+            {open && inputRef.current?.focus()}
+            <input 
+              ref={inputRef}
+              value={query}
+              type="text"
+              placeholder='Tên món ăn'
+              onChange={e => setQuery(e.target.value)}
+              className='p-2.5 w-full outline-none bg-neutral-200/0 text-sm text-neutral-700 font-medium placeholder:text-neutral-500/50'
+            />
+            <ul className='h-fit max-h-36 overflow-y-auto hidden-scroll divide-y divide-white'>
+              {
+                query &&
+                <li
+                  onClick={() => {
+                    close()
+                    dispatch(listAdd({item: query, index}))
+                    setQuery('')
+                  }} 
+                  className='p-2.5 cursor-pointer text-sm text-neutral-800 font-medium hover:bg-white/25'
+                >
+                  {query}
+                </li>
+              }
+              {
+                menu.filter(page => page.name.toLowerCase().includes(query.toLowerCase()) && !page.deleted).map((page, pageIndex) => 
                   <li
+                    key={pageIndex}
                     onClick={() => {
                       close()
-                      dispatch(listAdd({item: query, index}))
+                      dispatch(listAdd({item: `${pageIndex}+${page.name}`, index}))
                       setQuery('')
-                    }} 
-                    className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
+                    }}
+                    className='p-2.5 cursor-pointer text-sm text-neutral-800 font-medium hover:bg-white/25'
                   >
-                    {query}
+                    {page.name}
                   </li>
-                }
-                {
-                  menu.filter(page => page.name.toLowerCase().includes(query.toLowerCase()) && !page.deleted).map((page, pageIndex) => 
-                    <li
-                      key={pageIndex}
-                      onClick={() => {
-                        close()
-                        dispatch(listAdd({item: `${pageIndex}+${page.name}`, index}))
-                        setQuery('')
-                      }}
-                      className='p-3 cursor-pointer text-xs text-white font-bold hover:bg-neutral-700/75'
-                    >
-                      {page.name}
-                    </li>
-                  )
-                }
-              </ul>
-            </>
-          }
-        </Disclosure.Panel>
-      </Disclosure>
-    </div>
+                )
+              }
+            </ul>
+          </>
+        }
+      </Popover.Panel>
+    </Popover>
   )
 }
