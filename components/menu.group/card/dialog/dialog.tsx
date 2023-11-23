@@ -7,6 +7,7 @@ import { IconMinus } from "@tabler/icons-react"
 import { ChangeEvent, Dispatch, Fragment, SetStateAction, useEffect, useState } from "react"
 import { url } from "@/utils/app.url"
 import { setUpdating } from "@/redux/updating/slice"
+import FullMenuPage from "@/components/menu/full.page"
 
 async function handleRenameApi(name: string, id: string): Promise<{id: string}> {
   const response = await fetch(`${url}/menugroup/api/update/rename`, {
@@ -107,9 +108,25 @@ export default function CardDialog({index, children}: Props) {
                   <ul className="m-3">
                     {list.map((item, itemIndex) => 
                       <li key={itemIndex} className="p-1 flex items-center justify-between">
-                        <span className={`${item.includes('+') ? 'font-bold' : 'font-medium'} text-sm text-neutral-800`}>
-                          {item.includes('+') ? item.split('+')[1] : item}
-                        </span>
+                        {
+                          item.includes('+') &&
+                          <FullMenuPage index={Number(item.split('+')[0])}>
+                            {setOpen => (
+                              <span 
+                                className='cursor-pointer font-bold text-sm text-neutral-800'
+                                onClick={() => setOpen(true)}
+                              >
+                                {item.split('+')[1]}
+                              </span>
+                            )}
+                          </FullMenuPage>
+                        }
+                        {
+                          !item.includes('+') &&
+                          <span className='font-medium text-sm text-neutral-800'>
+                            {item}
+                          </span>
+                        }
                         <button 
                           onClick={() => dispatch(listRemove({pageIndex: index, itemIndex}))}
                           className="text-neutral-300 hover:text-neutral-400"
