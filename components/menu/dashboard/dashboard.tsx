@@ -1,5 +1,5 @@
 'use client'
-import { IconRecycle, IconTrash } from '@tabler/icons-react'
+import { IconClipboardList, IconGripHorizontal, IconRecycle, IconSwipe, IconTrash } from '@tabler/icons-react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { checkAllDeleted, checkAll, removeMulti, restoreMulti } from '@/redux/menu/slice'
 import Colors from './colors'
@@ -7,6 +7,9 @@ import Checkbox from '../../checkbox'
 import CUDialog from '../crud/dialog/dialog'
 import { usePathname } from 'next/navigation'
 import { url } from '@/utils/app.url'
+import { Popover, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
+import CreateMenuGroup from '@/components/menu.group/crud/create.dialog'
 
 async function handleDeleteMulti(idList: string[]) {
   if (idList.length) {
@@ -51,19 +54,51 @@ export default function Dashboard() {
 
   return (
     <div className='flex space-x-3'>
-      <CUDialog>
-        {setOpen => 
-          <button
-            onClick={() => setOpen(true)}
-            className='
-              p-3 px-9 outline-none rounded-lg shadow-custombox hover:shadow hover:shadow-neutral-200 transition-all duration-300
-              text-sm text-neutral-400 font-medium hover:text-neutral-600
-            '
-          >
-            Mới
-          </button>
-        }
-      </CUDialog>
+      <Popover className="relative">
+        <Popover.Button 
+          className='
+            p-3 px-9 outline-none rounded-lg shadow-custombox hover:shadow hover:shadow-neutral-200 transition-all duration-300
+            text-sm text-neutral-400 font-medium hover:text-neutral-600
+          '
+        >
+          Mới
+        </Popover.Button>
+        
+        <Transition
+          as={Fragment}
+          enter="ease-out duration-200"
+          enterFrom="translate-y-1"
+          enterTo="translate-y-0"
+          leave="ease-in duration-150"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-1"
+        >
+          <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-[210px] flex flex-col bg-neutral-950/75 backdrop-blur-sm rounded-sm overflow-hidden divide-y divide-neutral-600">
+            <CUDialog>
+              {setOpen => 
+                <button 
+                  onClick={() => setOpen(true)}
+                  className='p-2.5 flex justify-between items-center text-sm text-white hover:bg-neutral-600'
+                >
+                  <IconSwipe size='17px' className='text-neutral-400' />
+                  <span>Menu</span>
+                </button>
+              }
+            </CUDialog>
+            <CreateMenuGroup>
+              {setOpen =>
+                <button
+                  onClick={() => setOpen(true)}
+                  className='p-2.5 flex justify-between items-center text-sm text-white hover:bg-neutral-600'
+                >
+                  <IconGripHorizontal size='17px' className='text-neutral-400' />
+                  <span>Nhóm</span>
+                </button>
+              }
+            </CreateMenuGroup>
+          </Popover.Panel>
+        </Transition>
+      </Popover>
       {pathname === '/menu' 
         ?
         <div className='flex items-center space-x-7 px-7 rounded-lg shadow shadow-neutral-200'>
