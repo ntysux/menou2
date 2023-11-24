@@ -8,6 +8,9 @@ export const menuGroupSlice = createSlice({
   initialState,
   reducers: {
     init: (state, action: PayloadAction<MenuGroup[]>) => [...action.payload],
+    create: (state, action: PayloadAction<MenuGroup>) => {
+      state.unshift(action.payload)
+    },
     rename: (state, action: PayloadAction<{name: string, index: number}>) => {
       state[action.payload.index].name = action.payload.name
     },
@@ -20,4 +23,4 @@ export const menuGroupSlice = createSlice({
   }
 })
 
-export const { init, rename, listAdd, listRemove } = menuGroupSlice.actions
+export const { init, create, rename, listAdd, listRemove } = menuGroupSlice.actions
