@@ -30,7 +30,11 @@ export default function CreateMenuGroup({children}: Props) {
 
   async function handleCreate() {
     setSubmiting(true)
-    const newMenuGroupPage = await createMenuGroupPage(name.trim().length ? name : 'Không tiêu đề')
+    const newMenuGroupPage = await createMenuGroupPage(
+      name.trim().length 
+      ? name.trim().replace(/ {2,}/g, ' ') 
+      : 'Không tiêu đề'
+    )
     if (newMenuGroupPage) {
       dispatch(create(newMenuGroupPage))
       setOpen(false)

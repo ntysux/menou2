@@ -41,7 +41,7 @@ export default function CardDialog({index, children}: Props) {
       setTime(null)
     }
     const timeout = setTimeout(async() => {
-      const {id} = await handleRenameApi(name.trim() ? name : 'Không tiêu đề', pageId)
+      const {id} = await handleRenameApi(name.trim() ? name.trim().replace(/ {2,}/g, ' ') : 'Không tiêu đề', pageId)
       id && dispatch(setUpdating(false))
     }, 3000)
     setTime(timeout)

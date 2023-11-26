@@ -53,7 +53,7 @@ export default function ComboBox({index}: {index: number}) {
                 <li
                   onClick={() => {
                     close()
-                    dispatch(listAdd({item: query, index}))
+                    dispatch(listAdd({item: query.trim().replace(/ {2,}/g, ' '), index}))
                     setQuery('')
                   }} 
                   className='p-2.5 cursor-pointer text-sm text-neutral-800 font-medium hover:bg-white/25'
