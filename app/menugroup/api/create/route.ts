@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         uid,
         name,
         list: [],
-        deleteed: false
+        deleted: false
       })
     }
   }
