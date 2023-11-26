@@ -28,7 +28,7 @@ async function renderMenuGroup(uid: string): Promise<MenuGroup[]> {
       id,
       uid: uid.title[0].plain_text,
       name: name.rich_text[0].plain_text,
-      list: list.rich_text[0]?.plain_text.split('|') ?? [],
+      list: [],
       deleted: deleted.checkbox
     }
   })]
