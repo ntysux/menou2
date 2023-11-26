@@ -7,16 +7,7 @@ import { MenuGroup } from '@/redux/menu.group/types'
 import { useAppDispatch } from '@/redux/hooks'
 import { create } from '@/redux/menu.group/slice'
 
-const tranlateX = {
-  enter: "ease-out duration-300",
-  enterFrom: "translate-x-5",
-  enterTo: "translate-x-0",
-  leave: "ease-in duration-200",
-  leaveFrom: "opacity-100 translate-x-0",
-  leaveTo: "opacity-0 translate-x-5"
-}
-
-async function handleCreateApi(name: string): Promise<MenuGroup> {
+async function createMenuGroupPage(name: string): Promise<MenuGroup> {
   const response = await fetch(`${url}/menugroup/api/create`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -31,26 +22,34 @@ interface Props {
 }
 
 export default function CreateMenuGroup({children}: Props) {
-  const [open, setOpen] = useState<boolean>(false)
-  const [name, setName] = useState('')
-  const [submiting, setSubmiting] = useState(false)
-  const dispatch = useAppDispatch()
+  const 
+    dispatch = useAppDispatch(),
+    [open, setOpen] = useState<boolean>(false),
+    [name, setName] = useState(''),
+    [submiting, setSubmiting] = useState(false)
 
   async function handleCreate() {
     setSubmiting(true)
-    const newMenuGroupPage = await handleCreateApi(name)
+    const newMenuGroupPage = await createMenuGroupPage(name.trim().length ? name : 'Không tiêu đề')
     if (newMenuGroupPage) {
       dispatch(create(newMenuGroupPage))
-      setSubmiting(false)
       setOpen(false)
+      setSubmiting(false)
     }
   }
 
   return (
     <>
       {children(setOpen)}
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => false}>
+      <Transition.Root 
+        show={open} 
+        as={Fragment}
+      >
+        <Dialog 
+          as="div" 
+          className="relative z-10" 
+          onClose={() => false}
+        >
           <div className="fixed inset-0 bg-white flex items-center justify-center">
             <button 
               onClick={() => setOpen(false)}
@@ -58,20 +57,28 @@ export default function CreateMenuGroup({children}: Props) {
             >
               <IconArrowNarrowLeft size='20px' className='text-neutral-800' />
             </button>
-            <Transition.Child as={Fragment} {...tranlateX}>
+            <Transition.Child 
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="translate-x-5"
+              enterTo="translate-x-0"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-x-0"
+              leaveTo="opacity-0 translate-x-5"
+            >
               <Dialog.Panel className='flex flex-col'>
-                <input 
+                <input
                   value={name}
                   type="text"
                   placeholder='Tiêu đề'
                   onChange={e => setName(e.target.value)}
-                  className='bg-neutral-200 p-2.5 w-screen max-w-xs rounded-lg text-sm text-neutral-800 font-bold focus:bg-white placeholder:font-medium'
+                  className='outline-none border-2 border-neutral-800 p-2.5 w-screen max-w-xs rounded-lg text-sm text-neutral-800 font-bold placeholder:font-medium'
                 />
                 <div className='text-right'>
                   <button 
                     disabled={submiting}
                     onClick={handleCreate}
-                    className='w-fit mt-3 text-sm text-neutral-800 font-bold disabled:opacity-50'
+                    className='w-fit mt-3 text-sm text-neutral-800 font-bold'
                   >
                     {!submiting ? 'Tạo' : <Spin />}
                   </button>
@@ -87,6 +94,6 @@ export default function CreateMenuGroup({children}: Props) {
 
 function Spin() {
   return <div className='p-0.5'>
-    <div className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-800 border-r-white" />
+    <div className="h-3 w-3 animate-spin rounded-full border-2 border-neutral-800 border-r-white" />
   </div> 
 }
