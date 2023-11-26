@@ -22,12 +22,13 @@ async function renderMenuGroup(uid: string): Promise<MenuGroup[]> {
     } 
   })
   return [...results.map((page: any) => {
-    const {id, properties: {name, list, deleted}} = page
+    const {id, properties: {uid, name, list, deleted}} = page
+
     return {
       id,
-      uid,
+      uid: uid.title[0].plain_text,
       name: name.rich_text[0].plain_text,
-      list: list.rich_text[0]?.plain_text.length ? list.rich_text[0].plain_text.split('|') : [],
+      list: list.rich_text[0]?.plain_text.split('|') ?? [],
       deleted: deleted.checkbox
     }
   })]
@@ -82,9 +83,9 @@ export async function GET(request: NextRequest) {
       const uid: string = tokenDecoded['id']
       const user = await renderUser(uid)      
       const pages = await renderMenu(uid)
-      // const groupPages = await renderMenuGroup(uid)
+      const groupPages = await renderMenuGroup(uid)
 
-      return NextResponse.json({results: {pages, user, groupPages: []}})
+      return NextResponse.json({results: {pages, user, groupPages}})
     }
   }
 
