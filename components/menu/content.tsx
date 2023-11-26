@@ -11,7 +11,7 @@ import { init as menuInit } from '@/redux/menu/slice'
 import { init as menuGroupInit } from '@/redux/menu.group/slice'
 import MenuCard from './card/card'
 import MenuDialog from './card/dialog/dialog'
-// import MenuGroupCard from '../menu.group/card/card'
+import MenuGroupCard from '../menu.group/card/card'
 // import MenuGroupDialog from '../menu.group/card/dialog/dialog'
 
 interface Props {
@@ -26,8 +26,8 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
   const 
     dispatch = useAppDispatch(),
     menu = useAppSelector(state => state.menu),
-    user = useAppSelector(state => state.user)
-    // menuGroup = useAppSelector(state => state.menuGroup)
+    user = useAppSelector(state => state.user),
+    menuGroup = useAppSelector(state => state.menuGroup)
 
   useEffect(() => {
     if (!menu.length && pages.length) {
@@ -36,9 +36,9 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
     if (!user.id) {
       dispatch(userInit(userPage))
     }
-    // if (!menuGroup.length && groupPages.length) {
-    //   dispatch(menuGroupInit(groupPages))
-    // }
+    if (!menuGroup.length && groupPages.length) {
+      dispatch(menuGroupInit(groupPages))
+    }
   }, [])
 
   return (
@@ -77,12 +77,12 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
         <h2 className='text-xs text-neutral-400 font-bold tracking-wider'>
           Nhóm
         </h2>
-        {/* {
+        {
           [menuGroup, groupPages].some(array => array.filter(page => !page.deleted).length) 
           ? (
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
               {menuGroup.map((page, index) =>
-                !page.deleted && <div key={index}>{page.name}</div>
+                !page.deleted && <MenuGroupCard key={index} index={index} />
                 // <MenuGroupDialog key={index} index={index}>
                 //   {setOpen => <MenuGroupCard index={index} onClick={() => setOpen(true)} />}
                 // </MenuGroupDialog>
@@ -101,7 +101,7 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
               </Empty.Text>
             </Empty>
           )
-        } */}
+        }
       </div>
     </div>
   )
