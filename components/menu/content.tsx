@@ -26,8 +26,8 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
   const 
     dispatch = useAppDispatch(),
     menu = useAppSelector(state => state.menu),
-    user = useAppSelector(state => state.user),
-    menuGroup = useAppSelector(state => state.menuGroup)
+    user = useAppSelector(state => state.user)
+    // menuGroup = useAppSelector(state => state.menuGroup)
 
   useEffect(() => {
     if (!menu.length && pages.length) {
@@ -36,9 +36,9 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
     if (!user.id) {
       dispatch(userInit(userPage))
     }
-    if (!menuGroup.length && groupPages.length) {
-      dispatch(menuGroupInit(groupPages))
-    }
+    // if (!menuGroup.length && groupPages.length) {
+    //   dispatch(menuGroupInit(groupPages))
+    // }
   }, [])
 
   return (
@@ -77,7 +77,7 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
         <h2 className='text-xs text-neutral-400 font-bold tracking-wider'>
           Nhóm
         </h2>
-        {
+        {/* {
           [menuGroup, groupPages].some(array => array.filter(page => !page.deleted).length) 
           ? (
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
@@ -101,7 +101,7 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
               </Empty.Text>
             </Empty>
           )
-        }
+        } */}
       </div>
     </div>
   )
