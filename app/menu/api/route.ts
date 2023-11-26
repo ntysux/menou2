@@ -83,7 +83,8 @@ export async function GET(request: NextRequest) {
       const uid: string = tokenDecoded['id']
       const user = await renderUser(uid)      
       const pages = await renderMenu(uid)
-      const groupPages = await renderMenuGroup(uid)
+      // const groupPages = await renderMenuGroup(uid)
+      const groupPages: MenuGroup[] = []
 
       return NextResponse.json({results: {pages, user, groupPages}})
     }
