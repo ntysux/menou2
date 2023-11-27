@@ -12,7 +12,7 @@ import { init as menuGroupInit } from '@/redux/menu.group/slice'
 import MenuCard from './card/card'
 import MenuDialog from './card/dialog/dialog'
 import MenuGroupCard from '../menu.group/card/card'
-// import MenuGroupDialog from '../menu.group/card/dialog/dialog'
+import MenuGroupDialog from '../menu.group/card/dialog/dialog'
 
 interface Props {
   results: {
@@ -82,10 +82,10 @@ export default function Content({results: {pages, user: userPage, groupPages}}: 
           ? (
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
               {menuGroup.map((page, index) =>
-                !page.deleted && <MenuGroupCard key={index} index={index} />
-                // <MenuGroupDialog key={index} index={index}>
-                //   {setOpen => <MenuGroupCard index={index} onClick={() => setOpen(true)} />}
-                // </MenuGroupDialog>
+                !page.deleted &&
+                <MenuGroupDialog key={index} index={index}>
+                  {setOpen => <MenuGroupCard index={index} onClick={() => setOpen(true)} />}
+                </MenuGroupDialog>
               )}
             </div>
           ) : (

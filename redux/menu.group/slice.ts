@@ -14,12 +14,12 @@ export const menuGroupSlice = createSlice({
     rename: (state, action: PayloadAction<{name: string, index: number}>) => {
       state[action.payload.index].name = action.payload.name
     },
-    // listAdd: (state, action: PayloadAction<{item: string, index: number}>) => {
-    //   state[action.payload.index].list.unshift(action.payload.item)
-    // },
-    // listRemove: (state, action: PayloadAction<{pageIndex: number, itemIndex: number}>) => {
-    //   state[action.payload.pageIndex].list.splice(action.payload.itemIndex, 1)
-    // }
+    listAdd: (state, action: PayloadAction<{item: string, index: number}>) => {
+      state[action.payload.index].list.unshift(action.payload.item)
+    },
+    listRemove: (state, action: PayloadAction<{pageIndex: number, itemIndex: number}>) => {
+      state[action.payload.pageIndex].list.splice(action.payload.itemIndex, 1)
+    }
   }
 })
 
@@ -27,6 +27,6 @@ export const {
   init, 
   create, 
   rename, 
-  // listAdd, 
-  // listRemove 
+  listAdd, 
+  listRemove 
 } = menuGroupSlice.actions
