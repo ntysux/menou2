@@ -14,18 +14,10 @@ const container = {
     }
   }
 }
-const item = {
-  hidden: {y: 7, opacity: 0},
-  visible: {y: 0, opacity: 1}
-}
 
-const translateY = {
-  enter: "transition ease-out duration-200",
-  enterFrom: "opacity-0 translate-y-1",
-  enterTo: "opacity-100 translate-y-0",
-  leave: "transition ease-in duration-150",
-  leaveFrom: "opacity-100 translate-y-0",
-  leaveTo: "opacity-0 translate-y-1"
+const item = {
+  hidden: {y: 5, opacity: 0},
+  visible: {y: 0, opacity: 1}
 }
 
 async function handleChangeColorMulti(idList: string[], color: string) {
@@ -62,8 +54,16 @@ export default function Colors() {
       <Popover.Button className='outline-none text-neutral-300 hover:text-neutral-400'>
         <IconColorSwatch size='17px' strokeWidth='2.7' />
       </Popover.Button>
-      <Transition as={Fragment} {...translateY}>
-        <Popover.Panel className="absolute top-7 z-10 right-0 sm:left-0">
+      <Transition 
+        as={Fragment}
+        enter="transition ease-out duration-200"
+        enterFrom="opacity-0 translate-y-1"
+        enterTo="opacity-100 translate-y-0"
+        leave="transition ease-in duration-150"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-1"
+      >
+        <Popover.Panel className="absolute top-9 z-10 left-0">
           <motion.ul 
             variants={container}
             initial="hidden"
