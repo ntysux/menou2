@@ -89,11 +89,11 @@ export default function CreateMenuGroup({children}: Props) {
                       onChange={e => setName(e.target.value)}
                       className='outline-none border-2 border-neutral-800 p-2.5 w-screen max-w-xs rounded-lg text-sm text-neutral-800 font-bold placeholder:font-medium'
                     />
-                    <div className='text-right'>
+                    <div className='flex items-center justify-end mt-3'>
                       <button 
                         disabled={submiting}
                         onClick={handleCreate}
-                        className='w-fit mt-3 text-sm text-neutral-800 font-bold'
+                        className='w-fit text-sm text-neutral-800 font-bold'
                       >
                         {!submiting ? 'Tạo' : <Spin />}
                       </button>
@@ -110,7 +110,9 @@ export default function CreateMenuGroup({children}: Props) {
 }
 
 function Spin() {
-  return <div className='p-0.5'>
-    <div className="h-3 w-3 animate-spin rounded-full border-2 border-neutral-800 border-r-white" />
-  </div> 
+  return (
+    <div className='p-1'>
+      <div className="h-3 w-3 animate-spin rounded-full border-2 border-neutral-800 border-r-white/0" />
+    </div>
+  )
 }
