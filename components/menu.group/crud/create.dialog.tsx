@@ -1,5 +1,5 @@
 'use client'
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IconArrowNarrowLeft } from '@tabler/icons-react'
 import { url } from '@/utils/app.url'
@@ -26,7 +26,12 @@ export default function CreateMenuGroup({children}: Props) {
     dispatch = useAppDispatch(),
     [open, setOpen] = useState<boolean>(false),
     [name, setName] = useState(''),
-    [submiting, setSubmiting] = useState(false)
+    [submiting, setSubmiting] = useState(false),
+    inputRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    open && setTimeout(() => inputRef.current?.focus(), 100)
+  }, [open])
 
   async function handleCreate() {
     setSubmiting(true)
@@ -54,41 +59,49 @@ export default function CreateMenuGroup({children}: Props) {
           className="relative z-10" 
           onClose={() => false}
         >
-          <div className="fixed inset-0 bg-white flex items-center justify-center">
-            <button 
-              onClick={() => setOpen(false)}
-              className='absolute top-3 left-3'
-            >
-              <IconArrowNarrowLeft size='20px' className='text-neutral-800' />
-            </button>
-            <Transition.Child 
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="translate-x-5"
-              enterTo="translate-x-0"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-x-0"
-              leaveTo="opacity-0 translate-x-5"
-            >
-              <Dialog.Panel className='flex flex-col'>
-                <input
-                  value={name}
-                  type="text"
-                  placeholder='Tiêu đề'
-                  onChange={e => setName(e.target.value)}
-                  className='outline-none border-2 border-neutral-800 p-2.5 w-screen max-w-xs rounded-lg text-sm text-neutral-800 font-bold placeholder:font-medium'
+          <div className="fixed inset-0">
+            <div className='min-h-screen flex items-center justify-center bg-white'>
+              <button 
+                onClick={() => setOpen(false)}
+                className='absolute top-3 left-3 z-10'
+              >
+                <IconArrowNarrowLeft 
+                  size='20px' 
+                  className='text-neutral-800' 
                 />
-                <div className='text-right'>
-                  <button 
-                    disabled={submiting}
-                    onClick={handleCreate}
-                    className='w-fit mt-3 text-sm text-neutral-800 font-bold'
-                  >
-                    {!submiting ? 'Tạo' : <Spin />}
-                  </button>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </button>
+              <Transition.Child 
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="translate-x-5"
+                enterTo="translate-x-0"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 translate-x-5"
+              >
+                <Dialog.Panel className='w-full flex items-center justify-center min-h-screen bg-white'>
+                  <div>
+                    <input
+                      ref={inputRef}
+                      value={name}
+                      type="text"
+                      placeholder='Tiêu đề'
+                      onChange={e => setName(e.target.value)}
+                      className='outline-none border-2 border-neutral-800 p-2.5 w-screen max-w-xs rounded-lg text-sm text-neutral-800 font-bold placeholder:font-medium'
+                    />
+                    <div className='text-right'>
+                      <button 
+                        disabled={submiting}
+                        onClick={handleCreate}
+                        className='w-fit mt-3 text-sm text-neutral-800 font-bold'
+                      >
+                        {!submiting ? 'Tạo' : <Spin />}
+                      </button>
+                    </div>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
         </Dialog>
       </Transition.Root>
