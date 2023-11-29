@@ -33,17 +33,18 @@ export default function CreateMenuGroup({children}: Props) {
     open && setTimeout(() => inputRef.current?.focus(), 100)
   }, [open])
 
-  async function handleCreate() {
+  async function handleCreateNewMenuGroupPage() {
     setSubmiting(true)
     const newMenuGroupPage = await createMenuGroupPage(
-      name.trim().length 
-      ? name.trim().replace(/ {2,}/g, ' ') 
+      name.trim()
+      ? name.trim().replace(/ {2,}/g, ' ')
       : 'Không tiêu đề'
     )
     if (newMenuGroupPage) {
       dispatch(create(newMenuGroupPage))
       setOpen(false)
       setSubmiting(false)
+      setName('')
     }
   }
 
@@ -92,7 +93,7 @@ export default function CreateMenuGroup({children}: Props) {
                     <div className='flex items-center justify-end mt-3'>
                       <button 
                         disabled={submiting}
-                        onClick={handleCreate}
+                        onClick={handleCreateNewMenuGroupPage}
                         className='w-fit text-sm text-neutral-800 font-bold'
                       >
                         {!submiting ? 'Tạo' : <Spin />}
