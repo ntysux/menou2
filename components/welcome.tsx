@@ -42,8 +42,9 @@ const steps: Step[] = [
 ]
 
 export default function Welcome() {
-  const [open, setOpen] = useState(false)
-  const [keyIndex, setKeyIndex] = useState(0)
+  const 
+    [open, setOpen] = useState(false),
+    [keyIndex, setKeyIndex] = useState(0)
 
   useEffect(() => {
     const welcome = localStorage.getItem('welcome')
@@ -54,94 +55,99 @@ export default function Welcome() {
   }, [])
 
   return (
-    <>
-      <Transition appear show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => false}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-neutral-950/25" />
-          </Transition.Child>
+    <Transition 
+      as={Fragment}
+      show={open} 
+    >
+      <Dialog 
+        as="div" 
+        onClose={() => false}
+        className="relative z-10" 
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-neutral-950/25 backdrop-blur-sm" />
+        </Transition.Child>
 
-          <div className="fixed inset-0">
-            <div className="flex min-h-full items-center justify-center p-3">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white p-9 shadow-xl shadow-neutral-300">
-                  <BgGradient />
-                  <Tab.Group>
-                    <Tab.Panels>
-                      {steps.map((step, index) => 
-                        <Tab.Panel 
-                          key={index} 
-                          className='outline-none'
+        <div className="fixed inset-0">
+          <div className="flex min-h-full items-center justify-center p-3">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white p-9 shadow-xl shadow-neutral-300">
+                <BgGradient />
+                <Tab.Group>
+                  <Tab.Panels>
+                    {steps.map((step, index) => 
+                      <Tab.Panel 
+                        key={index} 
+                        className='outline-none'
+                      >
+                        <motion.div
+                          variants={container}
+                          initial="hidden"
+                          animate='visible'
                         >
-                          <motion.div
-                            variants={container}
-                            initial="hidden"
-                            animate='visible'
+                          <motion.div 
+                            variants={item}
+                            className="p-3"
                           >
-                            <motion.div 
-                              variants={item}
-                              className="p-3"
-                            >
-                              <h2 className="text-neutral-800 font-bold">
-                                {step.title}
-                              </h2>
-                            </motion.div>
-                            <motion.div 
-                              variants={item}
-                              className="p-5"
-                            >
-                              <p className="text-sm text-neutral-800 font-medium">
-                                {step.content}
-                              </p>
-                            </motion.div>
+                            <h2 className="text-neutral-800 font-bold">
+                              {step.title}
+                            </h2>
                           </motion.div>
-                        </Tab.Panel>
-                      )}
-                    </Tab.Panels>
-                    <Tab.List>
-                      <Tab className='hidden' />
-                      <div className="p-3 flex items-center justify-center">
-                        {Array(3).fill('Tiếp').map((btnText, index) =>
-                          <Tab 
-                            key={index}
-                            onClick={() => setKeyIndex(keyIndex + 1)}
-                            className={`${keyIndex === index ? 'flex' : 'hidden'} text-sm text-neutral-800 font-bold`}
+                          <motion.div 
+                            variants={item}
+                            className="p-5"
                           >
-                            {btnText}
-                          </Tab>
-                        )}
-                        <button 
-                          onClick={() => setOpen(false)}
-                          className={`${keyIndex === 3 ? 'flex' : 'hidden'} outline-none text-sm text-neutral-800 font-bold`}
+                            <p className="text-sm text-neutral-800 font-medium">
+                              {step.content}
+                            </p>
+                          </motion.div>
+                        </motion.div>
+                      </Tab.Panel>
+                    )}
+                  </Tab.Panels>
+                  <Tab.List>
+                    <Tab className='hidden' />
+                    <div className="p-3 flex items-center justify-center">
+                      {Array(3).fill('Tiếp').map((btnText, index) =>
+                        <Tab 
+                          key={index}
+                          onClick={() => setKeyIndex(keyIndex + 1)}
+                          className={`${keyIndex === index ? 'flex' : 'hidden'} text-sm text-neutral-800 font-bold`}
                         >
-                          {`Let's go`}
-                        </button>
-                      </div>
-                    </Tab.List>
-                  </Tab.Group>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+                          {btnText}
+                        </Tab>
+                      )}
+                      <button 
+                        onClick={() => setOpen(false)}
+                        className={`${keyIndex === 3 ? 'flex' : 'hidden'} outline-none text-sm text-neutral-800 font-bold`}
+                      >
+                        {`Let's go`}
+                      </button>
+                    </div>
+                  </Tab.List>
+                </Tab.Group>
+              </Dialog.Panel>
+            </Transition.Child>
           </div>
-        </Dialog>
-      </Transition>
-    </>
+        </div>
+      </Dialog>
+    </Transition>
   )
 }
 
