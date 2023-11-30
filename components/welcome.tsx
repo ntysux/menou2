@@ -1,6 +1,20 @@
 'use client'
 import { Dialog, Tab, Transition } from "@headlessui/react"
 import { Fragment, useEffect, useState } from "react"
+import { motion } from "framer-motion"
+
+const container = {
+  visible: {
+    transition: {
+      delayChildren: 0.2,
+      staggerChildren: 0.1
+    }
+  }
+}
+const item = {
+  hidden: {x: 7, opacity: 0},
+  visible: {x: 0, opacity: 1}
+}
 
 interface Step {
   title: string
@@ -74,16 +88,28 @@ export default function Welcome() {
                           key={index} 
                           className='outline-none'
                         >
-                          <div className="p-3">
-                            <h2 className="text-neutral-800 font-bold">
-                              {step.title}
-                            </h2>
-                          </div>
-                          <div className="p-5">
-                            <p className="text-sm text-neutral-800 font-medium">
-                              {step.content}
-                            </p>
-                          </div>
+                          <motion.div
+                            variants={container}
+                            initial="hidden"
+                            animate='visible'
+                          >
+                            <motion.div 
+                              variants={item}
+                              className="p-3"
+                            >
+                              <h2 className="text-neutral-800 font-bold">
+                                {step.title}
+                              </h2>
+                            </motion.div>
+                            <motion.div 
+                              variants={item}
+                              className="p-5"
+                            >
+                              <p className="text-sm text-neutral-800 font-medium">
+                                {step.content}
+                              </p>
+                            </motion.div>
+                          </motion.div>
                         </Tab.Panel>
                       )}
                     </Tab.Panels>
@@ -101,7 +127,7 @@ export default function Welcome() {
                         )}
                         <button 
                           onClick={() => setOpen(false)}
-                          className={`${keyIndex === 3 ? 'flex' : 'hidden'} text-sm text-neutral-800 font-bold`}
+                          className={`${keyIndex === 3 ? 'flex' : 'hidden'} outline-none text-sm text-neutral-800 font-bold`}
                         >
                           {`Let's go`}
                         </button>
