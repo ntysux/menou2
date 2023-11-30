@@ -2,6 +2,7 @@ import SigninDialog from "@/components/auth/signin/signin.dialog"
 import Nav from "@/components/nav/nav"
 import NavRouter from "@/components/nav/nav.router"
 import NavRouterMobile from "@/components/nav/nav.router.mobile"
+import Welcome from "@/components/welcome"
 import { cookies } from "next/headers"
 
 export default function MenuLayout({children}: {children: React.ReactNode}) {
@@ -9,6 +10,7 @@ export default function MenuLayout({children}: {children: React.ReactNode}) {
 
   return (
     <>
+      <Welcome />
       {!cookie && <SigninDialog />}
       <div className='sm:w-screen sm:max-w-5xl sm:mx-auto'>
         <Nav>
