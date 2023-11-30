@@ -9,6 +9,7 @@ import { update } from '@/redux/menu/slice'
 import { schema } from '../validate/schema'
 import { Init, OpenDialog } from '../types/types'
 import { url } from '@/utils/app.url'
+import { IconInfoSquareRounded } from '@tabler/icons-react'
 
 async function handleApi(name: string, status: boolean, description: string | undefined, library: string[][], id: string) {
   const response = await fetch(`${url}/menu/api/update`, {
@@ -77,29 +78,48 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
     >
       {({values, submitForm, setFieldValue, isSubmitting, errors}) => (
         <Form className='space-y-5'>
-          <FormikField 
-            name='name' 
-            type="text" 
-            placeholder='Tên món ăn'
-            className='w-full outline-none text-xl text-neutral-600 font-bold placeholder:text-neutral-300'
-            onBlur={() => setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))}
-          />
-          <Status
-            values={values} 
-            setFieldValue={setFieldValue} 
-          />
-          <FormikField 
-            as='textarea'
-            rows='3'
-            name='description' 
-            type="text"
-            placeholder='Mô tả'
-            className='
-              outline-none p-3 pl-0 w-full text-sm text-neutral-600 font-medium resize-none rounded-sm min-h-full hidden-scroll
-              focus:pl-3 focus:ring-2 focus:ring-neutral-800 transition-all
-            '
-            onBlur={() => setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))}
-          />
+          <div className='grid grid-cols-5 gap-3'>
+            <div className='flex flex-col col-span-3'>
+              <label htmlFor="name" className='text-xs text-neutral-800 font-bold'>
+                Tên món ăn
+              </label>
+              <FormikField 
+                name='name' 
+                type="text" 
+                placeholder='Tên món ăn'
+                onBlur={() => setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))}
+                className='max-w-md p-2.5 border-2 border-neutral-800 rounded-lg outline-none text-sm text-neutral-800 font-bold placeholder:text-neutral-300 placeholder:font-medium'
+              />
+            </div>
+            <div className='col-span-2 flex flex-col'>
+              <div className='flex items-center space-x-1'>
+                <label className='text-xs text-neutral-800 font-bold'>
+                  Trạng thái
+                </label>
+                <button type='button'>
+                  <IconInfoSquareRounded size='16px' />
+                </button>
+              </div>
+              <Status 
+                values={values} 
+                setFieldValue={setFieldValue} 
+              />
+            </div>
+          </div>
+          <div className='flex flex-col gap-1 flex-1'>
+            <label htmlFor="description" className='text-xs text-neutral-800 font-bold'>
+              Mô tả
+            </label>
+            <FormikField 
+              as='textarea'
+              rows='3'
+              name='description' 
+              type="text"
+              placeholder='Mô tả'
+              onBlur={() => setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))}
+              className='w-full p-2.5 outline-none border-2 border-neutral-800 text-sm text-neutral-600 font-medium resize-none rounded-lg hidden-scroll'
+            />
+          </div>
           <div className='space-y-3'>
             {fields.map((field, index) => 
               <div key={index} className='space-y-1'>
@@ -117,7 +137,7 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
               </div>
             )}
           </div>
-          <div className='flex justify-end pt-3 border-t border-neutral-300'>
+          <div className='flex justify-end pt-3'>
             <button 
               type="button" 
               onClick={submitForm}

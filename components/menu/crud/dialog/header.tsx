@@ -4,7 +4,7 @@ import Tip from "../tip"
 
 export default function Header({setOpen}: {setOpen: OpenDialog}) {
   return (
-    <div className='sticky top-0 z-20 p-3 flex flex-col bg-white'>
+    <div className='sticky top-0 z-20 p-3 flex flex-col bg-white/75'>
       <button 
         className='outline-none w-fit text-neutral-800'
         onClick={() => setOpen(false)}
