@@ -127,12 +127,12 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
             )}
           </div>
           
-          <div className='flex justify-end pt-3'>
+          <div className='flex justify-end'>
             <button 
               type="button" 
               onClick={submitForm}
               disabled={isSubmitting || errors.name || !values.name ? true : false} 
-              className='p-1 px-9 bg-neutral-800 rounded-sm flex items-center justify-center text-sm text-white font-medium disabled:opacity-50'
+              className='flex items-center justify-center text-sm text-neutral-800 font-bold disabled:opacity-50'
             >
               {isSubmitting ? <Spin /> : 'Tạo'}
             </button>
@@ -148,7 +148,9 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
 }
 
 function Spin() {
-  return <div className='p-0.5'>
-    <div className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-800 border-r-white" />
-  </div> 
+  return (
+    <div className='p-0.5'>
+      <div className="h-3 w-3 animate-spin rounded-full border-2 border-neutral-800 border-r-white" />
+    </div> 
+  ) 
 }
