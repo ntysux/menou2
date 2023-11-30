@@ -16,14 +16,14 @@ import PremiumFeature from '../premium/premium.feature'
 const container = {
   visible: {
     transition: {
-      delayChildren: 0.7,
+      delayChildren: 0.59,
       staggerChildren: 0.1
     }
   }
 }
   
 const item = {
-  hidden: {x: 20, opacity: 0},
+  hidden: {x: 7, opacity: 0},
   visible: {x: 0, opacity: 1}
 }
 
@@ -77,29 +77,18 @@ export default function NavRouter({cookie}: Props) {
       </button>
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0" />
-          </Transition.Child>
           <div className="fixed inset-0">
-            <div className='absolute inset-y-0 right-0 flex'>
+            <div className='absolute inset-y-16 right-3 flex'>
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-700"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
+                enterFrom="opacity-0 translate-x-full"
+                enterTo="opacity-100 translate-x-0"
                 leave="ease-in duration-500"
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-full"
               >
-                <Dialog.Panel className='w-screen max-w-xs p-1 bg-neutral-950/75 backdrop-blur-[1px]'>
+                <Dialog.Panel className='w-screen max-w-xs rounded-xl p-1 bg-neutral-950/75 backdrop-blur-[1px]'>
                   <motion.ul
                     variants={container}
                     initial="hidden"
