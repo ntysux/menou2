@@ -1,9 +1,9 @@
 'use client'
 import { Dialog, Tab, Transition } from "@headlessui/react"
 import { Fragment, useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { Variants, motion } from "framer-motion"
 
-const container = {
+const container: Variants = {
   visible: {
     transition: {
       delayChildren: 0.2,
@@ -11,7 +11,8 @@ const container = {
     }
   }
 }
-const item = {
+
+const item: Variants = {
   hidden: {x: 7, opacity: 0},
   visible: {x: 0, opacity: 1}
 }
