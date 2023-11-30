@@ -11,7 +11,6 @@ import { useAppDispatch } from '@/redux/hooks'
 import { Init, OpenDialog } from '../types/types'
 import { url } from '@/utils/app.url'
 import ErrorDialog from '@/components/error.dialog'
-import { IconInfoSquareRounded } from '@tabler/icons-react'
 
 async function handleApi(values: Init): Promise<Menu | string> {
   const response = await fetch(`${url}/menu/api/create`, {
@@ -80,14 +79,9 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
               />
             </div>
             <div className='col-span-2 flex flex-col'>
-              <div className='flex items-center space-x-1'>
-                <label className='text-xs text-neutral-800 font-bold'>
-                  Trạng thái
-                </label>
-                <button type='button'>
-                  <IconInfoSquareRounded size='16px' />
-                </button>
-              </div>
+              <label className='text-xs text-neutral-800 font-bold'>
+                Trạng thái
+              </label>
               <Status 
                 values={values} 
                 setFieldValue={setFieldValue} 
