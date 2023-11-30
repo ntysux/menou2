@@ -103,7 +103,7 @@ export default function Welcome() {
                           onClick={() => setOpen(false)}
                           className={`${keyIndex === 3 ? 'flex' : 'hidden'} text-sm text-neutral-800 font-bold`}
                         >
-                          Let's go
+                          {`Let's go`}
                         </button>
                       </div>
                     </Tab.List>
