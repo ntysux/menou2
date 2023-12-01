@@ -78,7 +78,7 @@ export default function NavRouter({cookie}: Props) {
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
           <div className="fixed inset-0">
-            <div className='absolute inset-y-16 right-3 flex'>
+            <div className='absolute top-16 bottom-3 right-3 flex'>
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-700"
