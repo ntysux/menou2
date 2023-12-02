@@ -1,14 +1,16 @@
 'use client'
-import { useRef } from 'react'
+import { useRef, useState, KeyboardEvent } from 'react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { Field as FormikField, Form, Formik, FormikHelpers } from 'formik'
-import Field from '../field'
 import Items from '../items'
 import Status from '../status'
 import { update } from '@/redux/menu/slice'
 import { schema } from '../validate/schema'
 import { Init, OpenDialog } from '../types/types'
 import { url } from '@/utils/app.url'
+import { handleKeyDownAdd } from '../handle/add.key'
+import { handleClickAdd } from '../handle/add.click'
+import { IconPlus } from '@tabler/icons-react'
 
 async function handleApi(name: string, status: boolean, description: string | undefined, library: string[][], id: string) {
   const response = await fetch(`${url}/menu/api/update`, {
@@ -26,7 +28,8 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
     {name, status, description, materials, required, steps, ...rest} = useAppSelector(state => state.menu)[pageIndex], 
     materialsRef = useRef<HTMLInputElement | null>(null),
     requiredRef = useRef<HTMLInputElement | null>(null),
-    stepsRef = useRef<HTMLInputElement | null>(null)
+    stepsRef = useRef<HTMLInputElement | null>(null),
+    [focus, setFocus] = useState([true, Boolean(description), ...Array(3).fill(false)])
 
   const fields = [
     {name: 'Nguyên liệu', ref: materialsRef},
@@ -76,61 +79,96 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
       onSubmit={handleSubmit}
     >
       {({values, submitForm, setFieldValue, isSubmitting, errors}) => (
-        <Form className='space-y-5'>
-          <div className='grid grid-cols-5 gap-3'>
-            <div className='flex flex-col col-span-3'>
-              <label htmlFor="name" className='text-xs text-neutral-800 font-bold'>
-                Tên món ăn
-              </label>
-              <FormikField 
-                name='name' 
-                type="text" 
-                placeholder='Tên món ăn'
-                onBlur={() => setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))}
-                className='max-w-md p-2.5 border-2 border-neutral-800 rounded-lg outline-none text-sm text-neutral-800 font-bold placeholder:text-neutral-300 placeholder:font-medium'
-              />
-            </div>
-            <div className='col-span-2 flex flex-col'>
-              <label className='text-xs text-neutral-800 font-bold'>
-                Trạng thái
-              </label>
-              <Status 
-                values={values} 
-                setFieldValue={setFieldValue} 
-              />
-            </div>
+        <Form className='space-y-9'>
+          <div className='relative'>
+            <label 
+              htmlFor="name" 
+              className={`absolute ${focus[0] ? '-top-1.5 text-xs font-bold text-neutral-800' : 'top-3 text-sm font-medium text-neutral-300'} transition-all`}
+            >
+              Tên món ăn
+            </label>
+            <FormikField 
+              id='name'
+              name='name' 
+              type="text" 
+              onFocus={() => setFocus([...focus.fill(true, 0, 1)])}
+              onBlur={() => {
+                !values.name && setFocus([...focus.fill(false, 0, 1)])
+                setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))
+              }}
+              className='w-full py-3 border-b-2 border-neutral-800 outline-none text-sm text-neutral-800 font-bold'
+            />
           </div>
-          <div className='flex flex-col gap-1 flex-1'>
-            <label htmlFor="description" className='text-xs text-neutral-800 font-bold'>
+
+          <Status 
+            values={values} 
+            setFieldValue={setFieldValue} 
+          />
+
+          <div className='relative'>
+            <label 
+              htmlFor="description" 
+              className={`absolute ${focus[1] ? '-top-5 text-xs font-bold text-neutral-800' : 'top-0 text-sm font-medium text-neutral-300'} transition-all`}
+            >
               Mô tả
             </label>
             <FormikField 
               as='textarea'
               rows='3'
+              id='description'
               name='description' 
               type="text"
-              placeholder='Mô tả'
-              onBlur={() => setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))}
-              className='w-full p-2.5 outline-none border-2 border-neutral-800 text-sm text-neutral-600 font-medium resize-none rounded-lg hidden-scroll'
+              onFocus={() => setFocus([...focus.fill(true, 1, 2)])}
+              onBlur={() => {
+                !values.description && setFocus([...focus.fill(false, 1, 2)])
+                setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))
+              }}
+              className='w-full outline-none border-b-2 border-neutral-800 text-sm text-neutral-600 font-medium resize-none hidden-scroll'
             />
           </div>
-          <div className='space-y-3'>
-            {fields.map((field, index) => 
-              <div key={index} className='space-y-1'>
-                <Field
-                  field={field} 
-                  index={index} 
-                  values={values} 
-                  setFieldValue={setFieldValue} 
+          {fields.map((field, index) => 
+            <div 
+              key={index} 
+              className='relative'
+            >
+              <label 
+                htmlFor={field.name} 
+                className={`absolute z-10 transition-all ${focus[index + 2] ? '-top-1.5 text-xs font-bold text-neutral-800' : 'top-3 text-sm font-medium text-neutral-300'}`}
+              >
+                {field.name}
+              </label>
+              <div className='relative'>
+                <FormikField
+                  id={field.name}
+                  type="text"
+                  name={`currents[${index}]`}
+                  innerRef={field.ref}
+                  onFocus={() => setFocus([...focus.fill(true, index + 2, index + 3)])}
+                  onBlur={() => !values.currents[index] && setFocus([...focus.fill(false, index + 2, index + 3)]) }
+                  onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownAdd(e, index, values, setFieldValue)}
+                  className='w-full outline-none border-b-2 border-neutral-800 py-3 pr-9 text-sm text-neutral-800 font-medium'
                 />
-                <Items
-                  values={values} 
-                  index={index} 
-                  setFieldValue={setFieldValue} 
-                />
+                {
+                  values.currents[index].trim() && 
+                  <button
+                    type="button" 
+                    onClick={() => {
+                      field.ref.current?.focus()
+                      handleClickAdd(index, values, setFieldValue)
+                    }}
+                    className='absolute right-2 inset-y-2.5 text-neutral-800'
+                  >
+                    <IconPlus size='16px' strokeWidth='2.7' />
+                  </button>
+                }
               </div>
-            )}
-          </div>
+              <Items 
+                values={values} 
+                index={index} 
+                setFieldValue={setFieldValue} 
+              />
+            </div>
+          )}
           <div className='flex justify-end'>
             <button 
               type="button" 

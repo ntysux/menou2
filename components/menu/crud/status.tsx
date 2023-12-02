@@ -36,7 +36,7 @@ export default function Status({values, setFieldValue}: Props) {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="absolute z-10 top-7 sm:left-0 right-0">
+        <Popover.Panel className="absolute z-10 top-7 left-0">
           <div className="bg-neutral-950/75 backdrop-blur-sm rounded-xl p-1 w-screen max-w-[210px]">
             {options.map((option, index) =>
               <div key={index} className='relative min-w-fit'>
