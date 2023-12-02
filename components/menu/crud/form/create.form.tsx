@@ -83,7 +83,7 @@ export default function CreateForm({setOpen}: {setOpen: OpenDialog}) {
                 !values.name && setFocus([...focus.fill(false, 0, 1)])
                 setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))
               }}
-              className='w-full py-3 border-b-2 border-neutral-800 outline-none text-sm text-neutral-800 font-bold'
+              className='w-full py-3 rounded-none border-b-2 border-neutral-800 outline-none text-sm text-neutral-800 font-bold'
             />
           </div>
           <Status 
