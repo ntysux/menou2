@@ -96,7 +96,7 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
                 !values.name && setFocus([...focus.fill(false, 0, 1)])
                 setFieldValue('name', values.name.trim().replace(/ {2,}/g, ' '))
               }}
-              className='w-full py-3 border-b-2 border-neutral-800 outline-none text-sm text-neutral-800 font-bold'
+              className='w-full py-3 rounded-none border-b-2 border-neutral-800 outline-none text-sm text-neutral-800 font-bold'
             />
           </div>
 
@@ -123,7 +123,7 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
                 !values.description && setFocus([...focus.fill(false, 1, 2)])
                 setFieldValue('description', values.description?.trim().replace(/ {2,}/g, ' '))
               }}
-              className='w-full outline-none border-b-2 border-neutral-800 text-sm text-neutral-600 font-medium resize-none hidden-scroll'
+              className='w-full rounded-none outline-none border-b-2 border-neutral-800 text-sm text-neutral-600 font-medium resize-none hidden-scroll'
             />
           </div>
           {fields.map((field, index) => 
@@ -146,7 +146,7 @@ export default function UpdateForm({pageIndex, setOpen}: {pageIndex: number, set
                   onFocus={() => setFocus([...focus.fill(true, index + 2, index + 3)])}
                   onBlur={() => !values.currents[index] && setFocus([...focus.fill(false, index + 2, index + 3)]) }
                   onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownAdd(e, index, values, setFieldValue)}
-                  className='w-full outline-none border-b-2 border-neutral-800 py-3 pr-9 text-sm text-neutral-800 font-medium'
+                  className='w-full rounded-none outline-none border-b-2 border-neutral-800 py-3 pr-9 text-sm text-neutral-800 font-medium'
                 />
                 {
                   values.currents[index].trim() && 
