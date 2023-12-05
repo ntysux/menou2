@@ -2,6 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import Signin from './signin'
+import GoogleSignInBtn from '../authorization.btn'
 
 export const overlay = {
   enter:"ease-out duration-300",
@@ -42,7 +43,9 @@ export default function SigninDialog({children}: Props) {
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...scale}>
-                <Dialog.Panel className="w-full max-w-sm rounded-2xl overflow-hidden bg-neutral-950/75 backdrop-blur-[1px]">
+                <Dialog.Panel className="w-full max-w-sm flex flex-col justify-center space-y-3 rounded-2xl overflow-hidden bg-neutral-950/75 backdrop-blur-sm">
+                  <GoogleSignInBtn />
+                  <div className='text-sm text-white font-medium text-center'>hoặc</div>
                   <Signin setOpen={children && setOpen} />
                 </Dialog.Panel>
               </Transition.Child>
