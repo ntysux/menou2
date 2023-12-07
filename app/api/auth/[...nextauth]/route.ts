@@ -36,15 +36,25 @@ const handler = NextAuth({
   callbacks: {
     async session({ session, token }: any) {
       session.user.id = token.sub
-      session.user.verified = token.verified
-      session.user.premium = token.premium
-
       return session
     },
-    async jwt({token, user}: any) {
-      if (user) {
-        token.verified = user.verified
-        token.premium = user.premium
+    async jwt({token, user, account}) {
+      if (account) {
+        if (account.provider === 'google') {
+          const response = await fetch(`${url}/auth/api/signup`, {
+            method: 'POST',
+            body: JSON.stringify({name: user.name, email: user.email}),
+            headers: {"Content-Type": "application/json"}
+          })
+
+          const result = await response.json()
+          
+          if (result.id) {
+            token.sub = result.id
+          } else {
+            console.log(result.error)
+          }
+        }
       }
 
       return token
