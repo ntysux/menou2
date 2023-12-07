@@ -29,9 +29,7 @@ export async function POST(request: NextRequest) {
         id,
         properties: {
           password: passwordReturned,
-          name,
-          verified,
-          premium
+          name
         } 
       } = results[0]
 
@@ -43,9 +41,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           user: {
             id, 
-            name: name.rich_text[0].plain_text, 
-            verified: verified.checkbox,
-            premium: premium.checkbox
+            name: name.rich_text[0].plain_text
           }
         })
       }
