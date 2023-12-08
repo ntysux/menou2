@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
           }
         })
 
-        return NextResponse.json({id})
+        return NextResponse.json({user: {id, name}})
       }
     }
   } catch (error: any) {
