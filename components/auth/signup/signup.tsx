@@ -64,7 +64,7 @@ export default function Signup({setOpen}: Props) {
 
   return (
     <Formik
-      initialValues={{name: '', username: '', password: '', passwordConfirm: '' } as Init}
+      initialValues={{name: '', username: '', password: '', passwordConfirm: ''} as Init}
       validationSchema={schema}
       onSubmit={(values, formikHelpers) => handleForm(values, formikHelpers)}
     >
@@ -79,7 +79,7 @@ export default function Signup({setOpen}: Props) {
             {Object.values(errors).find(Boolean)}
           </div>
           <Form className='divide-y divide-neutral-600'>
-            <div className='p-3'>
+            <div className='p-7'>
               {fields.map((field, index) =>
                 <div key={index} className='relative'>
                   <label 
