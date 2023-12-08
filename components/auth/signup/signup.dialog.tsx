@@ -27,7 +27,7 @@ export default function SignupDialog({children}: Props) {
           <div className="fixed inset-0">
             <div className="flex min-h-full items-center justify-center p-3">
               <Transition.Child as={Fragment} {...scale}>
-                <Dialog.Panel className="w-full max-w-sm rounded-2xl overflow-hidden bg-neutral-950/75 backdrop-blur-[1px]">
+                <Dialog.Panel className="w-full max-w-sm rounded-2xl overflow-hidden bg-neutral-950/75 backdrop-blur-sm">
                   <Signup setOpen={setOpen} />
                 </Dialog.Panel>
               </Transition.Child>

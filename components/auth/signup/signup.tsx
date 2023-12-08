@@ -1,9 +1,13 @@
 'use client'
-import { Formik, Form, Field } from 'formik'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { Formik, Form, Field, FormikHelpers } from 'formik'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { schema } from './schema'
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
-import { url } from '@/utils/app.url'
+
+interface Props {
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
 
 interface Init {
   username: string
@@ -22,103 +26,110 @@ const fields: Field[] = [
   {name: 'username', label: 'Tên đăng nhập', type: 'text'},
   {name: 'password', label: 'Mật khẩu', type: 'password'},
   {name: 'passwordConfirm', label: 'Nhập lại mật khẩu', type: 'password'},
-  {name: 'name', label: 'Tên người dùng', type: 'text'},
+  {name: 'name', label: 'Tên người dùng', type: 'text'}
 ]
 
-export default function Signup({setOpen}: {setOpen: Dispatch<SetStateAction<boolean>>}) {
+export default function Signup({setOpen}: Props) {
   const 
     router = useRouter(),
     [focus, setFocus] = useState<boolean[]>(Array(4).fill(false))
 
-  async function handleForm(
-    values: Init,
-    setSubmitting: (isSubmitting: boolean) => void,
-    setFieldError: (field: string, message: string | undefined) => void
-  ) {
-    setSubmitting(true)
-    const response = await fetch(`${url}/auth/api/signup`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({values})
+  const handleForm = async (
+    {username, password, name}: Init,
+    {setFieldError}: FormikHelpers<Init>
+  ) => {
+    const response = await signIn('signup', {
+      redirect: false,
+      username,
+      password,
+      name
     })
-    const result = await response.json()
-    if (result.id) {
+
+    if (response?.ok) {
       router.replace('/menu')
       return
     } else {
-      setFieldError('username', result.username)
-      setSubmitting(false)
+      setFieldError('username', response?.error!)
     }
   }
 
-  function ErrorsMessage({errors}: any) {
-    return (
-      <div className={`
-        ${fields.some(field => errors[`${field.name}`]) ? 'opacity-1' : 'opacity-0'} 
-        absolute z-10 top-3 right-3 py-1 px-3 rounded-md text-xs text-white font-medium bg-neutral-950/25
-      `}
-      >
-        {errors.name || errors.password || errors.passwordConfirm || errors.username}
-      </div>
-    )
+  const handleFieldTouching = (index: number, values?: Init) => {
+    if (!values) {
+      setFocus([...focus.fill(true, index, index + 1)])
+    } else {
+      // @ts-expect-error
+      !values[fields[index].name] && setFocus([...focus.fill(false, index, index + 1)])
+    }
   }
 
   return (
     <Formik
-      initialValues={{name: '', username: '', password: '', passwordConfirm: '' }}
+      initialValues={{name: '', username: '', password: '', passwordConfirm: '' } as Init}
       validationSchema={schema}
-      onSubmit={(values, {setSubmitting, setFieldError}) => handleForm(values, setSubmitting, setFieldError)}
+      onSubmit={(values, formikHelpers) => handleForm(values, formikHelpers)}
     >
-      {({values, isSubmitting, errors}) => (
-        <Form className='relative divide-y divide-neutral-600'>
-          <ErrorsMessage errors={errors} />
-          <div className='p-3'>
-            {fields.map((field, index) =>
-              <Fragment key={index}>
-                <div className='relative'>
-                  <label htmlFor={field.name} className={`
-                    absolute transition-all cursor-text
-                    ${focus[index] ? 'left-3 top-3 text-xs text-white font-bold' : 'left-3 top-5 text-sm text-neutral-300 font-medium'} 
-                  `}>
+      {({values, isSubmitting, errors, touched}) => (
+        <div className='relative'>
+          <div 
+            className={`
+              ${Object.values(errors).some(Boolean) && Object.values(touched).some(Boolean) ? 'flex' : 'hidden'} 
+              absolute z-10 top-3 right-3 py-1 px-3 rounded-md text-xs text-white font-medium bg-neutral-950/25
+            `}
+          >
+            {Object.values(errors).find(Boolean)}
+          </div>
+          <Form className='divide-y divide-neutral-600'>
+            <div className='p-3'>
+              {fields.map((field, index) =>
+                <div key={index} className='relative'>
+                  <label 
+                    htmlFor={field.name} 
+                    className={`
+                      ${focus[index] ? 'top-3 text-xs text-white font-bold' : 'top-5 text-sm text-neutral-300 font-medium'} 
+                      left-3 absolute transition-all cursor-text
+                    `}
+                  >
                     {field.label}
                   </label>
                   <Field
                     type={field.type}
                     id={field.name}
-                    name={field.name} 
-                    autoComplete={field.name}
+                    name={field.name}
+                    autoComplete='off'
+                    onFocus={() => handleFieldTouching(index)}
+                    onBlur={() => handleFieldTouching(index, values)}
                     className="p-3 pt-7 w-full outline-none text-sm text-white font-medium bg-neutral-950/0"
-                    onFocus={() => setFocus([...focus.fill(true, index, index + 1)])}
-                    onBlur={() => !values.username.length && setFocus([...focus.fill(false, index, index + 1)])}
                   />
                 </div>
-              </Fragment>
-            )}
-          </div>
-          <div className='grid grid-cols-2 divide-x divide-neutral-600'>
-            <button 
-              type='button'
-              onClick={() => setOpen(false)}
-              className='outline-none p-3 text-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
-            >
-              Đóng
-            </button>
-            <button 
-              disabled={isSubmitting}
-              type='submit' 
-              className='outline-none w-full p-3 flex items-center justify-center text-sm text-neutral-300 font-medium hover:bg-neutral-700 hover:text-white'
-            >
-              {
-                isSubmitting 
-                ?
-                <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-r-neutral-50/0" />
-                :
-                <>Tạo tài khoản</>
-              }
-            </button>
-          </div>
-        </Form>
+              )}
+            </div>
+            <div className='grid grid-cols-2 divide-x divide-neutral-600'>
+              <button 
+                type='button'
+                onClick={() => setOpen(false)}
+                className='outline-none p-3 text-center text-sm text-neutral-300 font-medium hover:bg-neutral-600 hover:text-white'
+              >
+                Đóng
+              </button>
+              <button 
+                type='submit' 
+                disabled={isSubmitting}
+                className='outline-none w-full p-3 flex items-center justify-center text-sm text-neutral-300 font-medium hover:bg-neutral-600 hover:text-white'
+              >
+                {
+                  isSubmitting 
+                  ? <Spin />
+                  : 'Tạo tài khoản'
+                }
+              </button>
+            </div>
+          </Form>
+        </div>
       )}
     </Formik>
   )
+}
+
+function Spin() {
+  return <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-r-neutral-50/0" />
 }
