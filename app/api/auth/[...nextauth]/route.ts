@@ -3,6 +3,19 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { url } from "@/utils/app.url"
 
+interface CredentialsSignInResult {
+  user?: {
+    id: string
+    name: string
+  }
+  error?: string
+}
+
+interface GoogleSignInResult {
+  id?: string
+  error?: string
+}
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -23,7 +36,7 @@ const handler = NextAuth({
           headers: {"Content-Type": "application/json"}
         })
 
-        const results = await response.json()
+        const results: CredentialsSignInResult = await response.json()
 
         if (results.user) {
           return results.user
@@ -39,21 +52,19 @@ const handler = NextAuth({
       return session
     },
     async jwt({token, user, account}) {
-      if (account) {
-        if (account.provider === 'google') {
-          const response = await fetch(`${url}/auth/api/signup`, {
-            method: 'POST',
-            body: JSON.stringify({name: user.name, email: user.email}),
-            headers: {"Content-Type": "application/json"}
-          })
+      if (account?.provider === 'google') {
+        const response = await fetch(`${url}/auth/api/signup`, {
+          method: 'POST',
+          body: JSON.stringify({name: user.name, email: user.email}),
+          headers: {"Content-Type": "application/json"}
+        })
 
-          const result = await response.json()
-          
-          if (result.id) {
-            token.sub = result.id
-          } else {
-            console.log(result.error)
-          }
+        const results: GoogleSignInResult = await response.json()
+        
+        if (results.id) {
+          token.sub = results.id
+        } else {
+          console.log(results.error)
         }
       }
 
