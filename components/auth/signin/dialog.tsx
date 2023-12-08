@@ -1,7 +1,7 @@
 'use client'
 import { Dialog, Transition } from '@headlessui/react'
 import { Dispatch, Fragment, SetStateAction, useState } from 'react'
-import Signin from './signin'
+import Signin from './form'
 import GoogleSignInBtn from '../authorization.btn'
 
 export const overlay = {

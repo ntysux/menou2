@@ -1,4 +1,4 @@
-import SigninDialog from "@/components/auth/signin/signin.dialog"
+import SigninDialog from "@/components/auth/signin/dialog"
 import Nav from "@/components/nav/nav"
 import NavRouter from "@/components/nav/nav.router"
 import NavRouterMobile from "@/components/nav/nav.router.mobile"

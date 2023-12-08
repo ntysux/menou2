@@ -2,7 +2,7 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState, Dispatch, SetStateAction } from 'react'
-import Signup from './signup'
+import Signup from './form'
 
 interface Props {
   children: (setOpen: Dispatch<SetStateAction<boolean>>) => React.ReactNode

@@ -1,7 +1,7 @@
 'use client'
 
-import SigninDialog from "@/components/auth/signin/signin.dialog"
-import SignupDialog from "@/components/auth/signup/signup.dialog"
+import SigninDialog from "@/components/auth/signin/dialog"
+import SignupDialog from "@/components/auth/signup/dialog"
 import { IconArrowNarrowRight } from "@tabler/icons-react"
 import Link from "next/link"
 

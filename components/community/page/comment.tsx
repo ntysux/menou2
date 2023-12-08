@@ -1,5 +1,5 @@
 'use client'
-import SigninDialog from "@/components/auth/signin/signin.dialog"
+import SigninDialog from "@/components/auth/signin/dialog"
 import Empty from "@/components/empty"
 import { useAppSelector } from "@/redux/hooks"
 import { Comment } from "@/redux/menu.public/types"
