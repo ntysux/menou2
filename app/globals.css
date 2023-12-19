@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 @layer components {
-  .polka {
+  .bg-dots {
     background-image: 
-      radial-gradient(rgb(41, 37, 36, 0.5) 5%, transparent 5%),
-      radial-gradient(rgb(41, 37, 36, 0.5) 5%, transparent 5%);
-    background-position: 0px 0px, 17px 17px;
-    background-size: 17px 17px;
+      radial-gradient(rgb(38, 38, 38) 5%, transparent 5%),
+      radial-gradient(rgb(38, 38, 38) 5%, transparent 5%);
+    background-position: 0px 0px, 15px 15px;
+    background-size: 15px 15px;
     background-color: rgb(255, 255, 255);
   }
 }
