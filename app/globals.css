@@ -5,23 +5,3 @@
 .hidden-scroll::-webkit-scrollbar {
   display: none;
 }
-
-/* width */
-::-webkit-scrollbar {
-  width: 7px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #ffffff; 
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #d4d4d4; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #a3a3a3; 
-}
