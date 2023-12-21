@@ -1,5 +1,6 @@
+'use client'
 import { IconArrowNarrowRight, IconCrown } from "@tabler/icons-react"
-
+import { motion } from 'framer-motion'
 const users = [
   'dqv', 'joe', 
   'doe', 'yasuo',
@@ -13,6 +14,21 @@ export default function Init() {
   return (
     <>
       <div className="space-y-9">
+        
+        <div className="flex items-center justify-center p-9">
+          <div className="space-y-3 max-w-xs">
+            <p className="text-neutral-800 font-medium">
+              <span className="text-xl font-bold">
+                CREATED BY YOU •
+              </span> Tạo công thức nấu ăn đầu tiên của bạn với Menoú
+            </p>
+            <button className="relative text-sm text-neutral-800 font-bold rounded-sm px-5 py-2.5 border-2 border-neutral-800 group hover:text-white">
+              Bắt đầu
+              <motion.div className="absolute -z-10 inset-0 bg-neutral-800 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 gap-y-3 gap-x-7 divide-y divide-neutral-200">
           <div>
             <h2 className="text-xl text-neutral-800 font-light">
